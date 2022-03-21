@@ -1,4 +1,5 @@
 from datetime import datetime
+import connections
 
 
 def convert_timestamps(dictionaries):

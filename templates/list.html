@@ -13,11 +13,15 @@
     
         {% for question in questions %}
             <tr>
-        {% for key, value in question.items() %}
-            {% if not loop.first %}
-                <td>{{ value }}</td>
-            {% elif loop.index == 2 %}
-                <td>{{ timestamps }}</td>
+        {% for key in question.keys() %}
+            {% if loop.index == 2 %}
+            <td>{{ timestamps[question["id"] | int -1] }}</td>
+            {% elif loop.index == 5 %}
+                <td><a href="/question/{{ question["id"] | int  }}">{{ question[key] }}</a></td>
+
+            {% elif not loop.first %}
+                <td>{{ question[key] }}</td>
+
             {% endif %}
         {% endfor %}
             </tr>
