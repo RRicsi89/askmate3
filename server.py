@@ -1,11 +1,14 @@
-from flask import Flask
+from flask import Flask, render_template, request
+import connections, data_manager
+import datetime
 
 app = Flask(__name__)
 
 
 @app.route("/")
 def hello():
-    return "Hello World!"
+    return render_template("index.html")
+
 
 @app.route("/list")
 def list_questions():
