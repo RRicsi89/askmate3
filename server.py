@@ -7,6 +7,17 @@ app = Flask(__name__)
 def hello():
     return "Hello World!"
 
+@app.route("/list")
+def list_questions():
+    questions = connections.read_file(connections.QUESTIONS_PATH)
+    timestamps = data_manager.convert_timestamps(questions)
+    headers = connections.HEADERS
+    return render_template("list.html", questions=questions, headers=headers, timestamps=timestamps)
+
 
 if __name__ == "__main__":
-    app.run()
+    app.run(
+        host="0.0.0.0",
+        port=8000,
+        debug=True
+    )
