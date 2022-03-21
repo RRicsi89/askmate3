@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block title %}List Questions{% endblock %}
+{% block body %}
+<table border="1">
+    <thead>
+        <tr>
+            {% for header in headers %}
+                <th>{{ header }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+    
+        {% for question in questions %}
+            <tr>
+        {% for key, value in question.items() %}
+            {% if not loop.first %}
+                <td>{{ value }}</td>
+            {% elif loop.index == 2 %}
+                <td>{{ timestamps }}</td>
+            {% endif %}
+        {% endfor %}
+            </tr>
+        {% endfor %}
+
+    </tbody>
+</table>
+{% endblock %}
