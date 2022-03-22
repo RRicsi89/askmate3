@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect
 import connections
 import utils
+import os
 
 app = Flask(__name__)
 
@@ -32,10 +33,13 @@ def add_question():
     if request.method == "GET":
         return render_template("add_question.html")
     elif request.method == "POST":
-        new_question = {"id": utils.generate_uuid(), "submission_time": utils.get_time(), "view_number": 0, "vote_number":0 }
+
+        image = request.files["image"]
+        image.save(os.path.join(connections.IMAGE_FOLDER_PATH, image.filename))
+
+        new_question = {"id": utils.generate_uuid(), "submission_time": utils.get_time(), "view_number": 0, "vote_number":0, "image": f"images/{image.filename}"}
         for key, value in request.form.items():
             new_question[key] = value
-        print(new_question)
         connections.write_to_file(connections.QUESTIONS_PATH, new_question, connections.QUESTION_HEADERS_CSV)
         return redirect(f"/question/{new_question['id']}")
 

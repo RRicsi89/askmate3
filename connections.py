@@ -5,6 +5,7 @@ from datetime import datetime
 
 QUESTIONS_PATH = os.getenv('QUESTIONS_PATH') if "QUESTIONS_PATH" in os.environ else "data/questions.csv"
 ANSWERS_PATH = os.getenv('ANSWERS_PATH') if "ANSWERS_PATH" in os.environ else "data/answers.csv"
+IMAGE_FOLDER_PATH = os.getenv('IMAGE_FOLDER_PATH') if "IMAGE_FOLDER_PATH" in os.environ else "images/"
 
 LIST_HEADERS = ["Submission Time", "Number of views", "Number of votes", "Title", "Message", "Image"]
 ANSWER_HEADERS = ["Submission Time", "Vote Number", "Message", "Image"]
