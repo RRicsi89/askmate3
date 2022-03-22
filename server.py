@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request
-import connections, data_manager
+from flask import Flask, render_template, request, redirect
+import connections
+import utils
 
 app = Flask(__name__)
 
@@ -12,17 +13,46 @@ def hello():
 @app.route("/list")
 def list_questions():
     questions = connections.read_data_from_file(connections.QUESTIONS_PATH)
-    timestamps = data_manager.convert_timestamps(questions)
+    timestamps = connections.convert_timestamps(questions)
     headers = connections.LIST_HEADERS
     return render_template("list.html", questions=questions, headers=headers, timestamps=timestamps)
 
 
-@app.route("/question/<int:question_id>")
+@app.route("/question/<question_id>")
 def display_question(question_id=None):
     question = connections.get_data(question_id, connections.QUESTIONS_PATH)
     answers = connections.get_answers_from_file(question_id)
+    timestamps = connections.convert_timestamps(answers)
     answer_headers = connections.ANSWER_HEADERS
-    return render_template("question.html", question=question, answers=answers, answer_headers=answer_headers)
+    return render_template("question.html", question=question, answers=answers, answer_headers=answer_headers, timestamps=timestamps)
+
+
+@app.route("/add-question", methods=["GET", "POST"])
+def add_question():
+    if request.method == "GET":
+        return render_template("add_question.html")
+    elif request.method == "POST":
+        new_question = {"id": utils.generate_uuid(), "submission_time": utils.get_time(), "view_number": 0, "vote_number":0 }
+        for key, value in request.form.items():
+            new_question[key] = value
+        print(new_question)
+        connections.write_to_file(connections.QUESTIONS_PATH, new_question, connections.QUESTION_HEADERS_CSV)
+        return redirect(f"/question/{new_question['id']}")
+
+
+@app.route("/question/<question_id>/new-answer", methods=["GET", "POST"])
+def add_answer(question_id=None):
+    if request.method == "GET":
+        question = connections.get_data(question_id, connections.QUESTIONS_PATH)
+        return render_template("new_answer.html", question=question)
+    if request.method == "POST":
+        message = request.form['message']
+        new_answer = {"id": utils.generate_uuid(),"submission_time": utils.get_time(),"vote_number": 0,"question_id": question_id,"message": message,"image":None}
+        for key, value in request.form.items():
+            new_answer[key] = value
+        connections.write_to_file(connections.ANSWERS_PATH, new_answer, connections.ANSWER_HEADERS_CSV)
+        return redirect(f"/question/{question_id}")
+
 
 
 if __name__ == "__main__":
