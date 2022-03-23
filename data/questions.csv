@@ -15,3 +15,12 @@ This is the code I'm using to draw the image (that works on web/desktop but not 
 1,1648032059,0,0,How to make lists in Python?,I am totally new to this.,
 3,1648032080,0,0,Drawing canvas with an image picked with Cordova Camera Plugin,I'm getting an image from device and drawing a canvas with filters using Pixi JS.,
 1,1648032155,0,0,How to make lists in JS?,"I am totally new to this, any hints?",
+2,1648035128,0,0,Hehe,"I developed a plugin that uses the jquery booklet plugin (http://builtbywill.com/booklet/#/) this plugin binds a function to $ so I cann call $('.myBook').booklet();
+
+I could easy managing the loading order with wp_enqueue_script so first I load jquery then I load booklet so everything is fine.
+
+BUT in my theme i also using jquery via webpack so the loading order is now following:
+
+jquery
+booklet
+app.js (bundled file with webpack, including jquery)",
