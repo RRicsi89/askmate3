@@ -1,7 +1,9 @@
+import os
+
 from flask import Flask, render_template, request, redirect
+
 import connections
 import utils
-import os
 
 app = Flask(__name__)
 
@@ -19,10 +21,7 @@ def list_questions():
         questions[i]["submission_time"] = timestamps[i]
     headers = connections.LIST_HEADERS
     dict_keys = connections.DICT_KEYS
-    print(questions)
-    print(request.args)
-    if ("asc" or "desc") in request.args.values():
-        print("belemegye bazdmeg")
+    if ("order_direction") in request.args.keys():
         args = request.args
         order_direction = args.get("order_direction")
         order_by = args.get("order_by").lower().replace(" ","_")
@@ -96,9 +95,17 @@ def edit(question_id=None):
         for data in all_data:
             if question['id'] == data['id']:
                 data = question
-        connections.write_to_file(connections.QUESTIONS_PATH, all_data, connections.QUESTION_HEADERS_CSV)
-
+        connections.edit_in_file(connections.QUESTIONS_PATH, question, connections.QUESTION_HEADERS_CSV)
         return redirect("/list")
+
+@app.route("/question/<question_id>/delete")
+def delete_question(question_id):
+    all_questions = connections.read_data_from_file(connections.QUESTIONS_PATH)
+    for question in all_questions:
+        if question["id"] == question_id:
+            line_to_delete = question
+    connections.delete_in_file(connections.QUESTIONS_PATH, line_to_delete, connections.QUESTION_HEADERS_CSV)
+    return redirect("/list")
 
 
 if __name__ == "__main__":

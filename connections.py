@@ -1,6 +1,7 @@
 import csv
 import os
 from datetime import datetime
+from operator import itemgetter, attrgetter
 
 
 QUESTIONS_PATH = os.getenv('QUESTIONS_PATH') if "QUESTIONS_PATH" in os.environ else "data/questions.csv"
@@ -56,6 +57,21 @@ def write_to_file(file, new_dictionary, field_name):
         writer.writerow(new_dictionary)
 
 
+def get_all_questions() -> list[dict[str]]:
+    return read_data_from_file(QUESTIONS_PATH)
+
+def delete_in_file(file, line_to_delete, field_name):
+    datas = read_data_from_file(file)
+    with open(file, "w", newline="") as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=field_name)
+        writer.writeheader()
+        for data in datas:
+            if data["id"] == line_to_delete["id"]:
+                pass
+            else:
+                writer.writerow(data)
+
+
 def edit_in_file(file, line_to_be_edited, field_name):
     datas = read_data_from_file(file)
     with open(file, "w", newline="") as csvfile:
@@ -68,10 +84,10 @@ def edit_in_file(file, line_to_be_edited, field_name):
                 writer.writerow(data)
 
 
-def sort_data(list_of_dicts, order_direction, order_by="submission_time"):
+def sort_data(list_of_dicts, order_direction, order_by):
     if order_direction == "asc":
         direction = False
     else:
         direction = True
-    sorted_list = sorted(list_of_dicts, reverse=direction, key=lambda dictionary: dictionary[order_by])
+    sorted_list = sorted(list_of_dicts, key=lambda dicti: dicti[order_by], reverse=direction)
     return sorted_list
