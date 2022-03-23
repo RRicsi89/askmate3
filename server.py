@@ -109,6 +109,16 @@ def delete_question(question_id):
     return redirect("/list")
 
 
+@app.route("/question/<question_id>/<vote>")
+def change_vote_number(question_id=None, vote=None):
+    current_question= connections.get_data(question_id, connections.QUESTIONS_PATH)
+    if vote == "vote_down":
+        connections.edit_in_file(connections.QUESTIONS_PATH,connections.decrease_vote_number(current_question), connections.QUESTION_HEADERS_CSV)
+    elif vote == "vote_up":
+        connections.edit_in_file(connections.QUESTIONS_PATH, connections.increase_vote_number(current_question), connections.QUESTION_HEADERS_CSV)
+    return redirect("/list")
+
+
 if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
