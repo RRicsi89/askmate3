@@ -57,8 +57,8 @@ def write_to_file(file, new_dictionary, field_name):
         writer.writerow(new_dictionary)
 
 
-def get_all_questions() -> list[dict[str]]:
-    return read_data_from_file(QUESTIONS_PATH)
+""" def get_all_questions() -> list[dict[str]]:
+    return read_data_from_file(QUESTIONS_PATH) """
 
 def delete_in_file(file, line_to_delete, field_name):
     datas = read_data_from_file(file)
