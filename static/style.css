@@ -30,12 +30,16 @@ h2 {
     font-size: 2em;
 }
 
-button {
+button, .goback {
     padding: 20px;
     background-color: #FF616D;
     font-family: 'Bungee', cursive;
     color: #FFEAC9;
     margin: 20px;
+}
+
+.goback {
+    padding: 0;
 }
 
 button:hover{
