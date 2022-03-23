@@ -15,8 +15,20 @@ def hello():
 def list_questions():
     questions = connections.read_data_from_file(connections.QUESTIONS_PATH)
     timestamps = connections.convert_timestamps(questions)
+    for i in range(len(questions)):
+        questions[i]["submission_time"] = timestamps[i]
     headers = connections.LIST_HEADERS
-    return render_template("list.html", questions=questions, headers=headers, timestamps=timestamps)
+    dict_keys = connections.DICT_KEYS
+    print(questions)
+    print(request.args)
+    if ("asc" or "desc") in request.args.values():
+        print("belemegye bazdmeg")
+        args = request.args
+        order_direction = args.get("order_direction")
+        order_by = args.get("order_by").lower().replace(" ","_")
+        questions = connections.sort_data(questions, order_direction, order_by)
+        print(order_by, order_direction)
+    return render_template("list.html", questions=questions, headers=headers, timestamps=timestamps, dict_keys=dict_keys)
 
 
 @app.route("/question/<question_id>")
@@ -64,23 +76,24 @@ def add_answer(question_id=None):
         connections.write_to_file(connections.ANSWERS_PATH, new_answer, connections.ANSWER_HEADERS_CSV)
         return redirect(f"/question/{question_id}")
 
+
 @app.route("/question/<question_id>/edit", methods=["GET", "POST"])
 def edit(question_id=None):
     question = connections.get_data(question_id, connections.QUESTIONS_PATH)
-    if request.method =='GET':
+    if request.method == 'GET':
         return render_template("edit_question.html", question=question, question_id=question_id)
     if request.method == "POST":
         edited_title = request.form["title"]
         edited_message = request.form["message"]
 
-        question = {"id": question_id, "submission_time": utils.get_time(), "view_number": 0, "vote_number":0, "title": edited_title, "message": edited_message}
+        question = {"id": question_id, "submission_time": utils.get_time(), "view_number": 0, "vote_number": 0, "title": edited_title, "message": edited_message}
 
         image = request.files["image"]
         if image:
             image.save(os.path.join(connections.IMAGE_FOLDER_PATH, image.filename))
             question["image"] = f"images/{image.filename}"
 
-        connections.write_to_file(connections.QUESTIONS_PATH, question, connections.QUESTION_HEADERS_CSV)
+        connections.edit_in_file(connections.QUESTIONS_PATH, question, connections.QUESTION_HEADERS_CSV)
 
         return redirect("/list")
 

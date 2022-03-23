@@ -1,26 +1,8 @@
 id,submission_time,view_number,vote_number,title,message,image
-1,1493368154,29,7,How to make lists in Python?,"I am totally new to this, any hints?",
-2,1493068124,15,9,Wordpress loading multiple jQuery Versions,"I developed a plugin that uses the jquery booklet plugin (http://builtbywill.com/booklet/#/) this plugin binds a function to $ so I cann call $('.myBook').booklet();
-
-I could easy managing the loading order with wp_enqueue_script so first I load jquery then I load booklet so everything is fine.
-
-BUT in my theme i also using jquery via webpack so the loading order is now following:
-
-jquery
-booklet
-app.js (bundled file with webpack, including jquery)",images/image1.png
-3,1493015432,1364,57,Drawing canvas with an image picked with Cordova Camera Plugin,"I'm getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I'm on IOS, it throws errors such as cross origin issue, or that I'm trying to use an unknown format.
-
-This is the code I'm using to draw the image (that works on web/desktop but not cordova built ios app)",
-1,1648032059,0,0,How to make lists in Python?,I am totally new to this.,
-3,1648032080,0,0,Drawing canvas with an image picked with Cordova Camera Plugin,I'm getting an image from device and drawing a canvas with filters using Pixi JS.,
-1,1648032155,0,0,How to make lists in JS?,"I am totally new to this, any hints?",
-2,1648035128,0,0,Hehe,"I developed a plugin that uses the jquery booklet plugin (http://builtbywill.com/booklet/#/) this plugin binds a function to $ so I cann call $('.myBook').booklet();
-
-I could easy managing the loading order with wp_enqueue_script so first I load jquery then I load booklet so everything is fine.
-
-BUT in my theme i also using jquery via webpack so the loading order is now following:
-
-jquery
-booklet
-app.js (bundled file with webpack, including jquery)",
+4e96f29b-c58b-4d6f-9fb9-b794f0bac7b3,1648038962,0,0,dominik miert luzer,nemertem,
+051b497d-7a80-46cf-83e9-530ee9ebf33e,1648038997,0,0,opij,jjjjjjjjjjjjjjjjjj,
+95d14d05-1e98-47cf-9272-7053c98edf80,1648039017,0,0,aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
+849f4729-d5c0-4dcf-918a-6fc42201cd4a,1648039024,0,0,bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb,bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb,
+fc46922a-60a5-4691-81f7-df58c9912cd8,1648039032,0,0,ccccccccccccccccccccccc,cccccccccccccccccccccccccccccccccccccccccccccc,
+8ee295b9-e386-4775-806c-544df66afd8c,1648039038,0,0,ddddddddddddddddddddd,ddddddddddddddddddddddddddddddddddddddddddd,
+11532ec1-bb91-4d5e-8014-a97cf41e1ec5,1648039046,0,0,eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee,eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee,

@@ -7,14 +7,16 @@
         <thead>
             <tr>
                 {% for header in headers %}
+                    {% set count = loop.index0 %}
                     <th>{{ header }}
+                        {% if count < 5 %}
                             <form action="./list">
                                 <input  type="hidden"
                                         name="order_direction"
                                         value="desc">
                                 <input  type="hidden"
                                         name="order_by"
-                                        value="{{ header }}">
+                                        value="{{ dict_keys[count] }}">
 
                                 <input  type="submit"
                                         value="^">
@@ -26,24 +28,21 @@
                                         value="asc">
                                 <input  type="hidden"
                                         name="order_by"
-                                        value="{{ header }}">
+                                        value="{{ dict_keys[count] }}">
 
                                 <input  type="submit"
                                         value="ˇ">
-
                             </form>
+                        {% endif %}
                     </th>
                 {% endfor %}
             </tr>
         </thead>
         <tbody>
                 {% for question in questions %}
-                    {% set count = loop.index0 %}
                     <tr>
                     {% for key in question.keys() %}
-                    {% if loop.index0 == 1 %}
-                    <td>{{ timestamps[count] }}</td>
-                    {% elif loop.index0 == 4 %}
+                    {% if loop.index0 == 4 %}
                         <td><a href="/question/{{ question["id"] }}">{{ question[key]}}</a></td>
                     {% elif not loop.first %}
                         <td>{{ question[key] }}</td>
