@@ -23,6 +23,9 @@
                         <td>{{ question[key] }}</td>
                     {% endif %}
                 {% endfor %}
+                        <form action="/question/{{ question["id"] }}/edit" method="get">
+                            <td><button><img src="/static/icons/edit.png" class="edit-image"></button></td>
+                        </form>
                     </tr>
                 {% endfor %}
             </tbody>
