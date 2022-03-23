@@ -118,3 +118,11 @@ footer {
     --animate-delay: 2s;
 }
 
+.question_form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px;
+    font-family: 'Roboto', sans-serif;
+}
+
