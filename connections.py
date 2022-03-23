@@ -57,6 +57,21 @@ def write_to_file(file, new_dictionary, field_name):
         writer.writerow(new_dictionary)
 
 
+def get_all_questions() -> list[dict[str]]:
+    return read_data_from_file(QUESTIONS_PATH)
+
+def delete_in_file(file, line_to_delete, field_name):
+    datas = read_data_from_file(file)
+    with open(file, "w", newline="") as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=field_name)
+        writer.writeheader()
+        for data in datas:
+            if data["id"] == line_to_delete["id"]:
+                pass
+            else:
+                writer.writerow(data)
+
+
 def edit_in_file(file, line_to_be_edited, field_name):
     datas = read_data_from_file(file)
     with open(file, "w", newline="") as csvfile:
