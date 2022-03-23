@@ -1,6 +1,7 @@
 import csv
 import os
 from datetime import datetime
+from operator import itemgetter, attrgetter
 
 
 QUESTIONS_PATH = os.getenv('QUESTIONS_PATH') if "QUESTIONS_PATH" in os.environ else "data/questions.csv"
@@ -73,5 +74,5 @@ def sort_data(list_of_dicts, order_direction, order_by="submission_time"):
         direction = False
     else:
         direction = True
-    sorted_list = sorted(list_of_dicts, reverse=direction, key=lambda dictionary: dictionary[order_by])
+    sorted_list = sorted(list_of_dicts, key=attrgetter(order_by), reverse=direction)
     return sorted_list

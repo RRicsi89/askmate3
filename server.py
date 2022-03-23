@@ -22,7 +22,6 @@ def list_questions():
     print(questions)
     print(request.args)
     if ("asc" or "desc") in request.args.values():
-        print("belemegye bazdmeg")
         args = request.args
         order_direction = args.get("order_direction")
         order_by = args.get("order_by").lower().replace(" ","_")
@@ -96,7 +95,7 @@ def edit(question_id=None):
         for data in all_data:
             if question['id'] == data['id']:
                 data = question
-        connections.write_to_file(connections.QUESTIONS_PATH, all_data, connections.QUESTION_HEADERS_CSV)
+        connections.edit_in_file(connections.QUESTIONS_PATH, question, connections.QUESTION_HEADERS_CSV)
 
         return redirect("/list")
 
