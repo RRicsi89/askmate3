@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 import connections, data_manager
 
 app = Flask(__name__)
@@ -23,6 +23,10 @@ def display_question(question_id=None):
     answers = connections.get_answers_from_file(question_id)
     answer_headers = connections.ANSWER_HEADERS
     return render_template("question.html", question=question, answers=answers, answer_headers=answer_headers)
+
+@app.route("/question/<int:question_id>/delete")
+def delete_question(question_id):
+    return redirect("/list")
 
 
 if __name__ == "__main__":
