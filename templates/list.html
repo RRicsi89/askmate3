@@ -60,7 +60,7 @@
                             </td>
                         {% elif loop.index0 == 4 %}
                             <td><a href="/question/{{ question["id"] }}">{{ question[key]}}</a></td>
-                        {% elif not loop.first %}
+                        {% elif not (loop.first or loop.index0 == 6) %}
                             <td>{{ question[key] }}</td>
                         {% endif %}
                     {% endfor %}

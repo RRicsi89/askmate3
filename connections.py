@@ -8,7 +8,7 @@ QUESTIONS_PATH = os.getenv('QUESTIONS_PATH') if "QUESTIONS_PATH" in os.environ e
 ANSWERS_PATH = os.getenv('ANSWERS_PATH') if "ANSWERS_PATH" in os.environ else "data/answers.csv"
 IMAGE_FOLDER_PATH = os.getenv('IMAGE_FOLDER_PATH') if "IMAGE_FOLDER_PATH" in os.environ else "static/images"
 
-LIST_HEADERS = ["Submission Time", "Number of views", "Number of votes", "Title", "Message", "Image"]
+LIST_HEADERS = ["Submission Time", "Number of views", "Number of votes", "Title", "Message"]
 ANSWER_HEADERS = ["Submission Time", "Vote Number", "Message", "Image"]
 
 QUESTION_HEADERS_CSV = ["id", "submission_time", "view_number", "vote_number", "title", "message", "image"]

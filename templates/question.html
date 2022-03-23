@@ -28,6 +28,20 @@
             {% for key in answer.keys() %}
                 {% if loop.index == 2 %}
                     <td>{{ timestamps[count] }}</td>
+                {% elif loop.index == 3 %}
+                    <td>{{ answer[key] }}
+                            <form action="{{ url_for('change_vote_number_answer', answer_id=answer.id, vote="vote_up") }}">
+                                <input  type="submit"
+                                        value="^">
+                            </form>
+                            <form action="{{ url_for('change_vote_number_answer', answer_id=answer.id, vote="vote_down") }}">
+                                <input  type="submit"
+                                        value="v">
+                            </form>
+                            </td>
+
+
+
                 {% elif loop.last %}
                     {% if answer.image %}
                     <td><img src="{{ url_for('static', filename=answer[key]) }}"></td>
