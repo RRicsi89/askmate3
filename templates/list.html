@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block title %}List Questions{% endblock %}
 {% block body %}
+<<<<<<< HEAD
 {% block nav %}
     <nav>
         <a href="/">AskMate</a>
@@ -9,21 +10,51 @@
 <section class="table">
     <table>
         <thead class="table-head">
+=======
+
+    <section class="table">
+    <table border="1">
+        <thead>
+>>>>>>> b6714ea149c3217dc4c711822edda1a576b7286e
             <tr>
                 {% for header in headers %}
-                    <th>{{ header }}</th>
+                    {% set count = loop.index0 %}
+                    <th>{{ header }}
+                        {% if count < 5 %}
+                            <form action="./list">
+                                <input  type="hidden"
+                                        name="order_direction"
+                                        value="desc">
+                                <input  type="hidden"
+                                        name="order_by"
+                                        value="{{ dict_keys[count] }}">
+
+                                <input  type="submit"
+                                        value="^">
+
+                            </form>
+                            <form action="./list">
+                                <input  type="hidden"
+                                        name="order_direction"
+                                        value="asc">
+                                <input  type="hidden"
+                                        name="order_by"
+                                        value="{{ dict_keys[count] }}">
+
+                                <input  type="submit"
+                                        value="ˇ">
+                            </form>
+                        {% endif %}
+                    </th>
                 {% endfor %}
                     <th></th>
             </tr>
         </thead>
         <tbody class="table-content">
                 {% for question in questions %}
-                    {% set count = loop.index0 %}
                     <tr>
                     {% for key in question.keys() %}
-                    {% if loop.index0 == 1 %}
-                    <td>{{ timestamps[count] }}</td>
-                    {% elif loop.index0 == 4 %}
+                    {% if loop.index0 == 4 %}
                         <td><a href="/question/{{ question["id"] }}">{{ question[key]}}</a></td>
                     {% elif not loop.first %}
                         <td>{{ question[key] }}</td>

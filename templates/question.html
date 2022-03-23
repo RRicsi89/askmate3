@@ -29,10 +29,11 @@
                 {% if loop.index == 2 %}
                     <td>{{ timestamps[count] }}</td>
                 {% elif loop.last %}
-                    <td><img src="{{ url_for("static", filename=answer[key]) }}"></td>
+                    {% if answer.image %}
+                    <td><img src="{{ url_for('static', filename=answer[key]) }}"></td>
+                    {% endif %}
                 {% elif not (loop.index0 == 0 or loop.index0 == 3) %}
                     <td>{{answer[key]}}</td>
-
                 {% endif %}
             {% endfor %}
         </tr>

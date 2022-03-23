@@ -8,4 +8,3 @@ def generate_uuid():
 
 def get_time():
     return int(time.time())
-
