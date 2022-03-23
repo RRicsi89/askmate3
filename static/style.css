@@ -99,7 +99,8 @@ a {
 }
 
 .edit-image {
-    width: 10%;
+    width: 30px;
+    padding: 10px;
 }
 
 footer {
