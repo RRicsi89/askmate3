@@ -19,9 +19,7 @@ def list_questions():
         questions[i]["submission_time"] = timestamps[i]
     headers = connections.LIST_HEADERS
     dict_keys = connections.DICT_KEYS
-    print(questions)
-    print(request.args)
-    if ("asc" or "desc") in request.args.values():
+    if ("order_direction") in request.args.keys():
         args = request.args
         order_direction = args.get("order_direction")
         order_by = args.get("order_by").lower().replace(" ","_")

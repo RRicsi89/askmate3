@@ -69,10 +69,10 @@ def edit_in_file(file, line_to_be_edited, field_name):
                 writer.writerow(data)
 
 
-def sort_data(list_of_dicts, order_direction, order_by="submission_time"):
+def sort_data(list_of_dicts, order_direction, order_by):
     if order_direction == "asc":
         direction = False
     else:
         direction = True
-    sorted_list = sorted(list_of_dicts, key=attrgetter(order_by), reverse=direction)
+    sorted_list = sorted(list_of_dicts, key=lambda dicti: dicti[order_by], reverse=direction)
     return sorted_list
