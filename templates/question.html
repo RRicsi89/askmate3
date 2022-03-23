@@ -1,17 +1,15 @@
 {% extends "layout.html" %}
-
-
-
-{% block title %}
-{% endblock %}
+{% block title %}Ask{% endblock %}
 
 {% block body %}
-<h1>Current Question:</h1>
+<section class="question">
 <h3>{{ question["title"] }}</h3>
 <p>
   {{ question["message"] }}
 </p>
-<h1>Anwsers to the question:</h1>
+</section>
+
+<section class="table">
 <table border="1">
     <thead>
         {%for header in answer_headers%}
@@ -31,16 +29,11 @@
             {% endfor %}
         </tr>
         {% endfor %}
-
-
-    <form action="/question/{{ question["id"] }}/new-answer"><button type="submit">New answer</button>
-
-    </form>
-
     </tbody>
+</table>
+</section>
 
-    
-</table
+<form action="/question/{{ question["id"] }}/new-answer"><button type="submit">New answer</button></form>
 
 {% endblock %}
 

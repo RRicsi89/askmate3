@@ -16,7 +16,7 @@ body {
     background-color: #FFEAC9;
 }
 
-h1 {
+#main-title {
     font-size: 5em;
     font-family: 'Bungee', cursive;
     color: #D83A56;
@@ -58,12 +58,26 @@ button:hover{
     font-size: 1.5em;
 }
 
-table {
+.table {
+    display: flex;
     font-family: 'Exo', sans-serif;
     text-align: center;
+    justify-content: center;
+    height: 80vh;
+    padding: 20px;
+}
+
+table {
+    width: 90vw;
 }
 
 a {
     text-decoration: none;
     color: #D83A56;
+}
+
+.question {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.5em;
 }

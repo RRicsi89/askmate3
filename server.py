@@ -57,6 +57,13 @@ def add_answer(question_id=None):
         connections.write_to_file(connections.ANSWERS_PATH, new_answer, connections.ANSWER_HEADERS_CSV)
         return redirect(f"/question/{question_id}")
 
+@app.route("/question/<question_id>/edit", methods=["GET", "POST"])
+def edit(question_id=None):
+    question = connections.get_data(question_id, connections.QUESTIONS_PATH)
+    time=utils.get_time()
+    return render_template(add_question.html, question=question[5], titles=question[4])
+
+
 
 
 if __name__ == "__main__":
