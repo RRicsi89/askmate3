@@ -68,11 +68,12 @@ button:hover{
 
 .table {
     display: flex;
+    flex-direction: column;
     font-family: 'Exo', sans-serif;
     text-align: center;
     justify-content: center;
-    height: 80vh;
     padding: 20px;
+    align-items: center;
 }
 
 table {
@@ -98,7 +99,7 @@ a {
 }
 
 .edit-image {
-    width: 30%;
+    width: 10%;
 }
 
 footer {

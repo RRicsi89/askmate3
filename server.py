@@ -80,12 +80,8 @@ def add_answer(question_id=None):
 @app.route("/question/<question_id>/edit", methods=["GET", "POST"])
 def edit(question_id=None):
     question = connections.get_data(question_id, connections.QUESTIONS_PATH)
-<<<<<<< HEAD
     all_data = connections.read_data_from_file(connections.QUESTIONS_PATH)
-    if request.method =='GET':
-=======
     if request.method == 'GET':
->>>>>>> b6714ea149c3217dc4c711822edda1a576b7286e
         return render_template("edit_question.html", question=question, question_id=question_id)
     if request.method == "POST":
         edited_title = request.form["title"]
@@ -97,15 +93,10 @@ def edit(question_id=None):
         if image:
             image.save(os.path.join(connections.IMAGE_FOLDER_PATH, image.filename))
             question["image"] = f"images/{image.filename}"
-<<<<<<< HEAD
         for data in all_data:
             if question['id'] == data['id']:
                 data = question
         connections.write_to_file(connections.QUESTIONS_PATH, all_data, connections.QUESTION_HEADERS_CSV)
-=======
-
-        connections.edit_in_file(connections.QUESTIONS_PATH, question, connections.QUESTION_HEADERS_CSV)
->>>>>>> b6714ea149c3217dc4c711822edda1a576b7286e
 
         return redirect("/list")
 

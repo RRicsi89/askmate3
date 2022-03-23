@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 {% block title %}List Questions{% endblock %}
 {% block body %}
-<<<<<<< HEAD
 {% block nav %}
     <nav>
         <a href="/">AskMate</a>
@@ -10,14 +9,11 @@
 <section class="table">
     <table>
         <thead class="table-head">
-=======
-
     <section class="table">
-    <table border="1">
-        <thead>
->>>>>>> b6714ea149c3217dc4c711822edda1a576b7286e
-            <tr>
-                {% for header in headers %}
+        <table>
+            <thead>
+                <tr>
+                    {% for header in headers %}
                     {% set count = loop.index0 %}
                     <th>{{ header }}
                         {% if count < 5 %}
@@ -28,10 +24,8 @@
                                 <input  type="hidden"
                                         name="order_by"
                                         value="{{ dict_keys[count] }}">
-
                                 <input  type="submit"
                                         value="^">
-
                             </form>
                             <form action="./list">
                                 <input  type="hidden"
@@ -46,25 +40,25 @@
                             </form>
                         {% endif %}
                     </th>
-                {% endfor %}
+                    {% endfor %}
                     <th></th>
-            </tr>
-        </thead>
-        <tbody class="table-content">
-                {% for question in questions %}
-                    <tr>
-                    {% for key in question.keys() %}
-                    {% if loop.index0 == 4 %}
-                        <td><a href="/question/{{ question["id"] }}">{{ question[key]}}</a></td>
-                    {% elif not loop.first %}
-                        <td>{{ question[key] }}</td>
-                    {% endif %}
-                {% endfor %}
-                        <td><a href="/question/{{ question["id"] }}/edit"><img src="/static/icons/edit.png" class="edit-image"></a></td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-    </table>
+                </tr>
+            </thead>
+            <tbody class="table-content">
+                    {% for question in questions %}
+                        <tr>
+                        {% for key in question.keys() %}
+                        {% if loop.index0 == 4 %}
+                            <td><a href="/question/{{ question["id"] }}">{{ question[key]}}</a></td>
+                        {% elif not loop.first %}
+                            <td>{{ question[key] }}</td>
+                        {% endif %}
+                    {% endfor %}
+                            <td><a href="/question/{{ question["id"] }}/edit"><img src="/static/icons/edit.png" class="edit-image"></a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+        </table>
 </section>
 
 <a href="/add-question">
@@ -72,5 +66,3 @@
 </a>
 <form action="/"><button type="submit">Back to the main page</button></form>
 {% endblock %}
-
-
