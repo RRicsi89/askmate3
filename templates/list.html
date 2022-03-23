@@ -1,16 +1,22 @@
 {% extends "layout.html" %}
 {% block title %}List Questions{% endblock %}
 {% block body %}
+{% block nav %}
+    <nav>
+        <a href="/">AskMate</a>
+    </nav>
+{% endblock %}
 <section class="table">
-    <table border="1">
-        <thead>
+    <table>
+        <thead class="table-head">
             <tr>
                 {% for header in headers %}
                     <th>{{ header }}</th>
                 {% endfor %}
+                    <th></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="table-content">
                 {% for question in questions %}
                     {% set count = loop.index0 %}
                     <tr>
@@ -23,9 +29,7 @@
                         <td>{{ question[key] }}</td>
                     {% endif %}
                 {% endfor %}
-                        <form action="/question/{{ question["id"] }}/edit" method="get">
-                            <td><button><img src="/static/icons/edit.png" class="edit-image"></button></td>
-                        </form>
+                        <td><a href="/question/{{ question["id"] }}/edit"><img src="/static/icons/edit.png" class="edit-image"></a></td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -33,7 +37,9 @@
 </section>
 
 <a href="/add-question">
-    <button>Add a new Question</button>
+    <i class="fa-solid fa-plus"></i>
 </a>
 <form action="/"><button type="submit">Back to the main page</button></form>
 {% endblock %}
+
+
