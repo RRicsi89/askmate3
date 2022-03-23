@@ -1,7 +1,9 @@
+import os
+
 from flask import Flask, render_template, request, redirect
+
 import connections
 import utils
-import os
 
 app = Flask(__name__)
 
@@ -96,7 +98,15 @@ def edit(question_id=None):
         connections.edit_in_file(connections.QUESTIONS_PATH, question, connections.QUESTION_HEADERS_CSV)
         return redirect("/list")
 
-        return redirect("/list")
+
+@app.route("/question/<question_id>/delete")
+def delete_question(question_id):
+    all_questions = connections.read_data_from_file(connections.QUESTIONS_PATH)
+    for question in all_questions:
+        if question["id"] == question_id:
+            line_to_delete = question
+    connections.delete_in_file(connections.QUESTIONS_PATH, line_to_delete, connections.QUESTION_HEADERS_CSV)
+    return redirect("/list")
 
 
 if __name__ == "__main__":
