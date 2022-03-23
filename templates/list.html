@@ -1,12 +1,38 @@
 {% extends "layout.html" %}
 {% block title %}List Questions{% endblock %}
 {% block body %}
-<section class="table">
+
+    <section class="table">
     <table border="1">
         <thead>
             <tr>
                 {% for header in headers %}
-                    <th>{{ header }}</th>
+                    <th>{{ header }}
+                            <form action="./list">
+                                <input  type="hidden"
+                                        name="order_direction"
+                                        value="desc">
+                                <input  type="hidden"
+                                        name="order_by"
+                                        value="{{ header }}">
+
+                                <input  type="submit"
+                                        value="^">
+
+                            </form>
+                            <form action="./list">
+                                <input  type="hidden"
+                                        name="order_direction"
+                                        value="asc">
+                                <input  type="hidden"
+                                        name="order_by"
+                                        value="{{ header }}">
+
+                                <input  type="submit"
+                                        value="ˇ">
+
+                            </form>
+                    </th>
                 {% endfor %}
             </tr>
         </thead>
@@ -23,6 +49,9 @@
                         <td>{{ question[key] }}</td>
                     {% endif %}
                 {% endfor %}
+                        <form action="/question/{{ question["id"] }}/edit" method="get">
+                            <td><button><img src="/static/icons/edit.png" class="edit-image"></button></td>
+                        </form>
                     </tr>
                 {% endfor %}
             </tbody>

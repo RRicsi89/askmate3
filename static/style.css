@@ -82,6 +82,6 @@ a {
     font-size: 1.5em;
 }
 
-.edit {
-    display: flex;
+.edit-image {
+    width: 30%;
 }

@@ -12,9 +12,15 @@ app.js (bundled file with webpack, including jquery)",images/image1.png
 3,1493015432,1364,57,Drawing canvas with an image picked with Cordova Camera Plugin,"I'm getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I'm on IOS, it throws errors such as cross origin issue, or that I'm trying to use an unknown format.
 
 This is the code I'm using to draw the image (that works on web/desktop but not cordova built ios app)",
-699e46bc-8109-40f7-8ffa-b0e1329abc56,1647974635,0,0,sdsdfrt,aDASDASD,images/gym.jpg
-af0a19d0-f80b-4afd-9262-b4d83855db6e,1648026574,0,0,fdsa,fdsa,images/
-4e951409-5909-4d33-9523-7a64bf3f87c4,1648026753,0,0,ada,dsadasd,images/
-526ae8af-dcd7-4a0d-acec-e2c040dbe70a,1648026809,0,0,asdasgghhj,afaf,images/gym.jpg
-13944b73-408a-407b-983b-18406ab3fc07,1648026850,0,0,sssssss,bbbbbbbbbbbbb,images/gym.jpg
-56ef6559-8ec2-4fe8-ac0e-5e53701b8d4e,1648026961,0,0,fffffff,gggggggggggg,
+1,1648032059,0,0,How to make lists in Python?,I am totally new to this.,
+3,1648032080,0,0,Drawing canvas with an image picked with Cordova Camera Plugin,I'm getting an image from device and drawing a canvas with filters using Pixi JS.,
+1,1648032155,0,0,How to make lists in JS?,"I am totally new to this, any hints?",
+2,1648035128,0,0,Hehe,"I developed a plugin that uses the jquery booklet plugin (http://builtbywill.com/booklet/#/) this plugin binds a function to $ so I cann call $('.myBook').booklet();
+
+I could easy managing the loading order with wp_enqueue_script so first I load jquery then I load booklet so everything is fine.
+
+BUT in my theme i also using jquery via webpack so the loading order is now following:
+
+jquery
+booklet
+app.js (bundled file with webpack, including jquery)",
