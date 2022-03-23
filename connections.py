@@ -57,8 +57,9 @@ def write_to_file(file, new_dictionary, field_name):
         writer.writerow(new_dictionary)
 
 
-def get_all_questions() -> list[dict[str]]:
-    return read_data_from_file(QUESTIONS_PATH)
+# def get_all_questions() -> list[dict[str]]:
+#     return read_data_from_file(QUESTIONS_PATH)
+
 
 def delete_in_file(file, line_to_delete, field_name):
     datas = read_data_from_file(file)
@@ -89,5 +90,5 @@ def sort_data(list_of_dicts, order_direction, order_by):
         direction = False
     else:
         direction = True
-    sorted_list = sorted(list_of_dicts, key=lambda dicti: dicti[order_by], reverse=direction)
+    sorted_list = sorted(list_of_dicts, key=lambda dicti: int(dicti[order_by]) if dicti[order_by].isnumeric() else dicti[order_by], reverse=direction)
     return sorted_list
