@@ -34,12 +34,15 @@ def add_question():
         return render_template("add_question.html")
     elif request.method == "POST":
 
-        image = request.files["image"]
-        image.save(os.path.join(connections.IMAGE_FOLDER_PATH, image.filename))
-
-        new_question = {"id": utils.generate_uuid(), "submission_time": utils.get_time(), "view_number": 0, "vote_number":0, "image": f"images/{image.filename}"}
+        new_question = {"id": utils.generate_uuid(), "submission_time": utils.get_time(), "view_number": 0, "vote_number":0}
         for key, value in request.form.items():
             new_question[key] = value
+
+        image = request.files["image"]
+        if image:
+            image.save(os.path.join(connections.IMAGE_FOLDER_PATH, image.filename))
+            new_question["image"] = f"images/{image.filename}"
+
         connections.write_to_file(connections.QUESTIONS_PATH, new_question, connections.QUESTION_HEADERS_CSV)
         return redirect(f"/question/{new_question['id']}")
 

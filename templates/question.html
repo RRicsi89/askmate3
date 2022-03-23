@@ -11,6 +11,10 @@
 <p>
   {{ question["message"] }}
 </p>
+    {% if question.image %}
+        <img src="{{ url_for("static", filename=question["image"]) }}">
+    {% endif %}
+
 <h1>Anwsers to the question:</h1>
 <table border="1">
     <thead>
@@ -40,7 +44,8 @@
     </tbody>
 
     
-</table
+</table>
+
 
 {% endblock %}
 
