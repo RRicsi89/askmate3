@@ -7,17 +7,14 @@
 <p>
   {{ question["message"] }}
 </p>
-<<<<<<< HEAD
 </section>
 
 <section class="table">
-=======
     {% if question.image %}
         <img src="{{ url_for("static", filename=question["image"]) }}">
     {% endif %}
 
 <h1>Anwsers to the question:</h1>
->>>>>>> origin/development
 <table border="1">
     <thead>
         {%for header in answer_headers%}
@@ -41,13 +38,9 @@
 </table>
 </section>
 
-<<<<<<< HEAD
-<form action="/question/{{ question["id"] }}/new-answer"><button type="submit">New answer</button></form>
-=======
-    
+<form action="/question/{{ question['id'] }}/new-answer"><button type="submit">New answer</button></form>
+<form action="/list"><button type="'submit">Back to the questions</button></form>
 </table>
-
->>>>>>> origin/development
 
 {% endblock %}
 
