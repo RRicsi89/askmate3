@@ -35,7 +35,7 @@
                                         name="order_by"
                                         value="{{ dict_keys[count] }}">
 
-                                <input  type="submit" value="ˇ">
+                                <input  type="submit" value="v">
                             </form>
                         {% endif %}
                     </th>
@@ -49,13 +49,13 @@
                         {% for key in question.keys() %}
                         {% if loop.index0 == 3 %}
                             <td>{{ question[key] }}
-                            <form action="/question/{{ question["id"] }}/vote_up">
+                            <form action="{{ url_for('change_vote_number', question_id=question.id, vote="vote_up") }}">
                                 <input  type="submit"
                                         value="^">
                             </form>
-                            <form action="/question/{{ question["id"] }}/vote_down">
+                            <form action="{{ url_for('change_vote_number', question_id=question.id, vote="vote_down") }}">
                                 <input  type="submit"
-                                        value="V">
+                                        value="v">
                             </form>
                             </td>
                         {% elif loop.index0 == 4 %}
