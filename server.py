@@ -54,9 +54,13 @@ def add_answer(question_id=None):
         return render_template("new_answer.html", question=question)
     if request.method == "POST":
         message = request.form['message']
-        new_answer = {"id": utils.generate_uuid(),"submission_time": utils.get_time(),"vote_number": 0,"question_id": question_id,"message": message,"image":None}
+        new_answer = {"id": utils.generate_uuid(), "submission_time": utils.get_time(), "vote_number": 0, "question_id": question_id, "message": message}
         for key, value in request.form.items():
             new_answer[key] = value
+        image = request.files["image"]
+        if image:
+            image.save(os.path.join(connections.IMAGE_FOLDER_PATH, image.filename))
+            new_answer["image"] = f"images/{image.filename}"
         connections.write_to_file(connections.ANSWERS_PATH, new_answer, connections.ANSWER_HEADERS_CSV)
         return redirect(f"/question/{question_id}")
 
