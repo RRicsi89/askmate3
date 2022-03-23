@@ -92,3 +92,17 @@ def sort_data(list_of_dicts, order_direction, order_by):
         direction = True
     sorted_list = sorted(list_of_dicts, key=lambda dicti: int(dicti[order_by]) if dicti[order_by].isnumeric() else dicti[order_by], reverse=direction)
     return sorted_list
+
+
+def increase_vote_number(dictionary):
+    number = int((dictionary["vote_number"]))
+    number += 1
+    dictionary["vote_number"] = number
+    return dictionary
+
+
+def decrease_vote_number(dictionary):
+    number = int((dictionary["vote_number"]))
+    number -= 1
+    dictionary["vote_number"] = number
+    return dictionary

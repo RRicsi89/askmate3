@@ -47,7 +47,18 @@
                     {% for question in questions %}
                         <tr>
                         {% for key in question.keys() %}
-                        {% if loop.index0 == 4 %}
+                        {% if loop.index0 == 3 %}
+                            <td>{{ question[key] }}
+                            <form action="/question/{{ question["id"] }}/vote_up">
+                                <input  type="submit"
+                                        value="^">
+                            </form>
+                            <form action="/question/{{ question["id"] }}/vote_down">
+                                <input  type="submit"
+                                        value="V">
+                            </form>
+                            </td>
+                        {% elif loop.index0 == 4 %}
                             <td><a href="/question/{{ question["id"] }}">{{ question[key]}}</a></td>
                         {% elif not loop.first %}
                             <td>{{ question[key] }}</td>
