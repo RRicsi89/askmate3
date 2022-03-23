@@ -12,6 +12,7 @@ ANSWER_HEADERS = ["Submission Time", "Vote Number", "Message", "Image"]
 
 QUESTION_HEADERS_CSV = ["id", "submission_time", "view_number", "vote_number", "title", "message", "image"]
 ANSWER_HEADERS_CSV = ["id", "submission_time", "vote_number", "question_id", "message", "image"]
+DICT_KEYS = ["submission_time", "view_number", "vote_number", "title", "message"]
 
 
 def read_data_from_file(file=None):
@@ -53,3 +54,24 @@ def write_to_file(file, new_dictionary, field_name):
         for data in datas:
             writer.writerow(data)
         writer.writerow(new_dictionary)
+
+
+def edit_in_file(file, line_to_be_edited, field_name):
+    datas = read_data_from_file(file)
+    with open(file, "w", newline="") as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=field_name)
+        writer.writeheader()
+        for data in datas:
+            if data["id"] == line_to_be_edited["id"]:
+                writer.writerow(line_to_be_edited)
+            else:
+                writer.writerow(data)
+
+
+def sort_data(list_of_dicts, order_direction, order_by="submission_time"):
+    if order_direction == "asc":
+        direction = False
+    else:
+        direction = True
+    sorted_list = sorted(list_of_dicts, reverse=direction, key=lambda dictionary: dictionary[order_by])
+    return sorted_list

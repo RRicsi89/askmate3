@@ -4,7 +4,8 @@
 }
 
 body {
-    background-color: #FAEBE0;
+    background: #C9D6FF;
+    background: linear-gradient(to left, #E2E2E2, #C9D6FF);
 }
 
 #content {
@@ -13,7 +14,8 @@ body {
     text-align: center;
     justify-content: center;
     height: 100vh;
-    background-color: #FFEAC9;
+    background: #C9D6FF;
+    background: linear-gradient(to left, #E2E2E2, #C9D6FF);
 }
 
 #main-title {
@@ -28,6 +30,12 @@ h2 {
     color: #FF616D;
     font-family: 'Bungee', cursive;
     font-size: 2em;
+}
+
+nav {
+    padding: 20px;
+    font-size: 2em;
+    font-family: 'Bungee', cursive;
 }
 
 button, .goback {
@@ -60,15 +68,23 @@ button:hover{
 
 .table {
     display: flex;
+    flex-direction: column;
     font-family: 'Exo', sans-serif;
     text-align: center;
     justify-content: center;
-    height: 80vh;
     padding: 20px;
+    align-items: center;
 }
 
 table {
     width: 90vw;
+    border: 1px solid #FF616D;
+    font-family: 'Roboto', sans-serif;
+}
+
+thead {
+    background-color: rgba(255,255,255,0.3);
+    text-transform: uppercase;
 }
 
 a {
@@ -83,5 +99,17 @@ a {
 }
 
 .edit-image {
-    width: 30%;
+    width: 10%;
 }
+
+footer {
+    display: flex;
+    height: 10vh;
+    background: #C9D6FF;
+    background: linear-gradient(to left, #E2E2E2, #C9D6FF);
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Inconsolata', monospace;
+}
+
