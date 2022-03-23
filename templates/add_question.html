@@ -8,11 +8,11 @@
         <input type="text" name="title" id="question_title"><br>
 
         <label for="message">Explain</label><br>
-        <textarea name="message" id="question_content" cols="50" rows="5" required></textarea><br>
+        <textarea name="message" id="question_content" cols="50" rows="5"></textarea><br>
 
         <label for="image">Select image</label><br>
         <input type="file" name="image" id="image" accept="image/jpeg, image/png">
-
         <button type="submit">Submit question</button>
     </form>
+    <form action="/list"><button type="submit">Back to the questions</button></form>
 {% endblock %}
