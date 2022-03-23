@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 
 
+
 {% block title %}
 {% endblock %}
 
@@ -19,18 +20,28 @@
     </thead>
     <tbody>
         {% for answer in answers %}
+            {% set count = loop.index0 %}
         <tr>
             {% for key in answer.keys() %}
-                {% if not (loop.index0 == 0 or loop.index0 == 3) %}
+                {% if loop.index == 2 %}
+                    <td>{{ timestamps[count] }}</td>
+                {% elif not (loop.index0 == 0 or loop.index0 == 3) %}
                     <td>{{answer[key]}}</td>
                 {% endif %}
             {% endfor %}
         </tr>
         {% endfor %}
 
-        
+
+    <form action="/question/{{ question["id"] }}/new-answer"><button type="submit">New answer</button>
+
+    </form>
+
     </tbody>
 
     
 </table>
+    <img src="gym.jpg">
+
 {% endblock %}
+

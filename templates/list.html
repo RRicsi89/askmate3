@@ -2,6 +2,9 @@
 {% block title %}List Questions{% endblock %}
 {% block body %}
 <table border="1">
+   <a href="/add-question">
+       <button>Add a new Question</button>
+   </a>
     <thead>
         <tr>
             {% for header in headers %}
@@ -10,18 +13,17 @@
         </tr>
     </thead>
     <tbody>
-    
+
         {% for question in questions %}
+            {% set count = loop.index0 %}
             <tr>
         {% for key in question.keys() %}
-            {% if loop.index == 2 %}
-            <td>{{ timestamps[question["id"] | int -1] }}</td>
-            {% elif loop.index == 5 %}
-                <td><a href="/question/{{ question["id"] | int  }}">{{ question[key] }}</a></td>
-
+            {% if loop.index0 == 1 %}
+            <td>{{ timestamps[count] }}</td>
+            {% elif loop.index0 == 4 %}
+                <td><a href="/question/{{ question["id"] }}">{{ question[key]}}</a></td>
             {% elif not loop.first %}
                 <td>{{ question[key] }}</td>
-
             {% endif %}
         {% endfor %}
             </tr>
