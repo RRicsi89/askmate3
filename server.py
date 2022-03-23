@@ -1,7 +1,9 @@
+import os
+
 from flask import Flask, render_template, request, redirect
+
 import connections
 import utils
-import os
 
 app = Flask(__name__)
 
@@ -60,7 +62,8 @@ def add_answer(question_id=None):
 
 @app.route("/question/<int:question_id>/delete")
 def delete_question(question_id):
-    return redirect("/list")
+    pass
+    #return redirect("/list")
 
 
 if __name__ == "__main__":
