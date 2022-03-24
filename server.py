@@ -1,7 +1,5 @@
 import os
-
-from flask import Flask, render_template, request, redirect
-
+from flask import Flask, render_template, request, redirect, url_for
 import connections
 import utils
 
@@ -26,10 +24,10 @@ def list_questions():
     questions = connections.read_data_from_file(connections.QUESTIONS_PATH)
     headers = connections.LIST_HEADERS
     dict_keys = connections.DICT_KEYS
-    if ("order_direction") in request.args.keys():
+    if "order_direction" in request.args.keys():
         args = request.args
         order_direction = args.get("order_direction")
-        order_by = args.get("order_by").lower().replace(" ","_")
+        order_by = args.get("order_by").lower().replace(" ", "_")
         questions = connections.sort_data(questions, order_direction, order_by)
         connections.save_data_to_file(questions, connections.QUESTION_HEADERS_CSV)
     timestamps = connections.convert_timestamps(questions)
@@ -44,7 +42,8 @@ def display_question(question_id=None):
     answers = connections.get_answers_from_file(question_id)
     timestamps = connections.convert_timestamps(answers)
     answer_headers = connections.ANSWER_HEADERS
-    return render_template("question.html", question=question, answers=answers, answer_headers=answer_headers, timestamps=timestamps)
+    return render_template("question.html", question=question, answers=answers, answer_headers=answer_headers,
+                           timestamps=timestamps)
 
 
 @app.route("/add-question", methods=["GET", "POST"])
@@ -53,7 +52,8 @@ def add_question():
         return render_template("add_question.html")
     elif request.method == "POST":
 
-        new_question = {"id": utils.generate_uuid(), "submission_time": utils.get_time(), "view_number": 0, "vote_number":0}
+        new_question = {"id": utils.generate_uuid(), "submission_time": utils.get_time(), "view_number": 0,
+                        "vote_number": 0}
         for key, value in request.form.items():
             new_question[key] = value
 

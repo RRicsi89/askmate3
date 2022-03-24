@@ -1,7 +1,6 @@
 import csv
 import os
 from datetime import datetime
-from operator import itemgetter, attrgetter
 
 
 QUESTIONS_PATH = os.getenv('QUESTIONS_PATH') if "QUESTIONS_PATH" in os.environ else "data/questions.csv"
