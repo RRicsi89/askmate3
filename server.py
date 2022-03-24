@@ -135,8 +135,9 @@ def delete_answer(answer_id):
     for answer in all_answers:
         if answer["id"] == answer_id:
             line_to_be_edited = answer
-    connections.edit_in_file(connections.ANSWERS_PATH, line_to_be_edited, connections.ANSWER_HEADERS_CSV, delete=True)
-    return redirect("/question/<question_id>")
+    connections.delete_in_file(connections.ANSWERS_PATH, line_to_be_edited, connections.ANSWER_HEADERS_CSV)
+    question_id = answer["question_id"]
+    return redirect(f"/question/{question_id}")
 
 
 @app.route("/question/<question_id>/<vote>")

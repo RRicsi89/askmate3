@@ -110,26 +110,12 @@ def sort_data(list_of_dicts, order_direction, order_by):
     return sorted_list
 
 
-def change_vote_number(dictionary, vote_up=True):
+def update_vote_number(dictionary, vote):
     number = int((dictionary["vote_number"]))
-    if vote_up:
+    if vote == "vote_up":
         number += 1
-    else:
+    elif vote == "vote_down":
         number -= 1
-    dictionary["vote_number"] = number
-    return dictionary
-
-
-def increase_vote_number(dictionary):
-    number = int((dictionary["vote_number"]))
-    number += 1
-    dictionary["vote_number"] = number
-    return dictionary
-
-
-def decrease_vote_number(dictionary):
-    number = int((dictionary["vote_number"]))
-    number -= 1
     dictionary["vote_number"] = number
     return dictionary
 
