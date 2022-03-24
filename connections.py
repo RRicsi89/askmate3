@@ -103,7 +103,7 @@ def sort_data(list_of_dicts, order_direction, order_by):
         sorted_list = sorted(list_of_dicts, key=lambda dicti: dicti[order_by], reverse=direction)
     else:
         sorted_list = sorted(list_of_dicts,
-                             key=lambda dicti: int(dicti[order_by]) if dicti[order_by].isnumeric() else dicti[order_by],
+                             key=lambda dicti: int(dicti[order_by]) if dicti[order_by].isnumeric() else dicti[order_by].lower(),
                              reverse=direction)
     return sorted_list
 
