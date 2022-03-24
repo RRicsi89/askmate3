@@ -55,20 +55,15 @@ def add_question():
     if request.method == "GET":
         return render_template("add_question.html")
     elif request.method == "POST":
-
-        new_question = {"id": utils.generate_uuid(), "submission_time": utils.get_time(), "view_number": 0,
-                        "vote_number": 0}
-        for key, value in request.form.items():
-            new_question[key] = value
-
+        new_data = {"id": utils.generate_uuid(),
+                    "submission_time": utils.get_time(),
+                    "view_number": 0,
+                    "vote_number": 0}
         image = request.files["image"]
-        if image:
-            image.save(os.path.join(connections.IMAGE_FOLDER_PATH, image.filename))
-            new_question["image"] = f"images/{image.filename}"
-
-        connections.write_to_file(connections.QUESTIONS_PATH, new_question, connections.QUESTION_HEADERS_CSV)
+        items = request.form.items()
+        connections.save_new_input(new_data, image, items, answer=False)
         connections.save_original_vote_numbers()
-        return redirect(f"/question/{new_question['id']}")
+        return redirect(f"/question/{new_data['id']}")
 
 
 @app.route("/question/<question_id>/new-answer", methods=["GET", "POST"])
@@ -78,18 +73,14 @@ def add_answer(question_id=None):
         return render_template("new_answer.html", question=question)
     elif request.method == "POST":
         message = request.form['message']
-        new_answer = {"id": utils.generate_uuid(),
+        new_data = {"id": utils.generate_uuid(),
                       "submission_time": utils.get_time(),
                       "vote_number": 0,
                       "question_id": question_id,
                       "message": message}
-        for key, value in request.form.items():
-            new_answer[key] = value
         image = request.files["image"]
-        if image:
-            image.save(os.path.join(connections.IMAGE_FOLDER_PATH, image.filename))
-            new_answer["image"] = f"images/{image.filename}"
-        connections.write_to_file(connections.ANSWERS_PATH, new_answer, connections.ANSWER_HEADERS_CSV)
+        items = request.form.items()
+        connections.save_new_input(new_data, image, items, answer=True)
         return redirect(f"/question/{question_id}")
 
 
