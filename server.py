@@ -46,7 +46,7 @@ def display_question(question_id):
     view_number += 1
     question['view_number'] = view_number
     connections.edit_in_file(connections.QUESTIONS_PATH, question, connections.QUESTION_HEADERS_CSV)
-    return render_template("question.html", question=question, answers=answers, answer_headers=answer_headers,
+    return render_template("answers.html", question=question, answers=answers, answer_headers=answer_headers,
                            timestamps=timestamps)
 
 

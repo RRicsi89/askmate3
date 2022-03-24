@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+{% block title %}Let's answer{% endblock %}
+
+{% block body %}
+
+{% block nav %}
+    <nav>
+        <a href="/">AskMate</a>
+    </nav>
+{% endblock %}
+
+<form action="/list"><button type="submit" class="previous-button"><img src="/static/icons/previous.png" alt="previous-button"></button></form>
+
+<h1 class="page-title">Answers of the question</h1>
+
+<section id="answers-content">
+    <section class="question">
+    <h3>{{ question["title"] }}</h3>
+    <p>
+      {{ question["message"] }}
+    </p>
+    </section>
+
+    <section class="table">
+        {% if question.image %}
+            <img alt="A picture about the question" src="{{ url_for("static", filename=question["image"]) }}">
+        {% endif %}
+
+        <section class="table">
+            <table>
+                <thead>
+                    {%for header in answer_headers%}
+                    <th>{{ header }}</th>
+                    {% endfor %}
+                    <th></th>
+                </thead>
+                <tbody>
+                    {% for answer in answers %}
+                        {% set count = loop.index0 %}
+                    <tr>
+                        {% for key in answer.keys() %}
+                            {% if loop.index == 2 %}
+                                <td>{{ timestamps[count] }}</td>
+                            {% elif loop.index == 3 %}
+                                <td>{{ answer[key] }}
+                                        <form action="{{ url_for('change_vote_number_answer', answer_id=answer.id, vote="vote_up") }}">
+                                            <button type="submit" class="sort-button"><img src="/static/icons/arrow-up.png" alt=""></button>
+                                        </form>
+                                        <form action="{{ url_for('change_vote_number_answer', answer_id=answer.id, vote="vote_down") }}">
+                                            <button type="submit" class="sort-button"><img src="/static/icons/down-filled-triangular-arrow.png" alt=""></button>
+                                        </form>
+                                        </td>
+
+                            {% elif loop.index0 == 5 %}
+                                {% if answer.image %}
+                                <td><img alt="A picture about the answer" src="{{ url_for('static', filename=answer[key]) }}"></td>
+                                {% else %}
+                                    <td><img alt="No picture for this answer" src="{{ url_for('static', filename="images/no_picture.png") }}"></td>
+                                {% endif %}
+                            {% elif not (loop.index0 == 0 or loop.index0 == 3) %}
+                                <td>{{answer[key]}}</td>
+
+                            {% endif %}
+                        {% endfor %}
+                        <td><form action="/answer/{{ answer['id'] }}/delete">
+                            <button type="submit" class="trash-button"><img src="/static/icons/trash.png" alt=""></button></form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                <tr>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="add-new">
+            <a href="/question/{{ question['id'] }}/new-answer">
+                <button class="plus-button"><img src="/static/icons/plus.png" alt="plus-btn"></button>
+            </a>
+        </section>
+
+    </section>
+
+    <form action="/question/{{ question['id'] }}/delete"><button type="submit">Delete question</button></form>
+</section>
+{% endblock %}
+
