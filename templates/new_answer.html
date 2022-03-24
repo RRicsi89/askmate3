@@ -11,6 +11,8 @@
 {% endblock %}
 
     <form action="/question/{{ question['id'] }}"><button type="submit" class="previous-button"><img src="/static/icons/previous.png" alt="previous-button"></button></form>
+
+    <h1 class="page-title">Let's answer!</h1>
     <section class="add_edit_question_form">
         <form action="/question/{{ question['id'] }}/new-answer" method="POST", enctype="multipart/form-data" class="question_form">
             <label for="question_content">Your answer</label><br>
