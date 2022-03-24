@@ -1,7 +1,6 @@
 import csv
 import os
 from datetime import datetime
-from flask import url_for
 
 QUESTIONS_PATH = os.getenv('QUESTIONS_PATH') if "QUESTIONS_PATH" in os.environ else "data/questions.csv"
 ANSWERS_PATH = os.getenv('ANSWERS_PATH') if "ANSWERS_PATH" in os.environ else "data/answers.csv"
@@ -9,11 +8,11 @@ IMAGE_FOLDER_PATH = os.getenv('IMAGE_FOLDER_PATH') if "IMAGE_FOLDER_PATH" in os.
 VOTE_NUMBERS_PATH = os.getenv('VOTE_NUMBERS_PATH') if "VOTE_NUMBERS_PATH" in os.environ else "data/votes.csv"
 SECURITY_CODE_PATH = os.getenv('SECURITY_CODE_PATH') if "VOTE_NUMBERS_PATH" in os.environ else "data/security.txt"
 STATIC_FOLDER_PATH = os.getenv('STATIC_FOLDER_PATH') if 'STATIC_FOLDER_PATH' in os.environ else "static"
+
 VISITS = 0
 
 LIST_HEADERS = ["Submission Time", "Number of views", "Number of votes", "Title", "Message"]
 ANSWER_HEADERS = ["Submission Time", "Vote Number", "Message", "Image"]
-
 QUESTION_HEADERS_CSV = ["id", "submission_time", "view_number", "vote_number", "title", "message", "image"]
 ANSWER_HEADERS_CSV = ["id", "submission_time", "vote_number", "question_id", "message", "image"]
 DICT_KEYS = ["submission_time", "view_number", "vote_number", "title", "message"]
