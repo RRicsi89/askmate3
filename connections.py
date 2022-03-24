@@ -7,6 +7,9 @@ from operator import itemgetter, attrgetter
 QUESTIONS_PATH = os.getenv('QUESTIONS_PATH') if "QUESTIONS_PATH" in os.environ else "data/questions.csv"
 ANSWERS_PATH = os.getenv('ANSWERS_PATH') if "ANSWERS_PATH" in os.environ else "data/answers.csv"
 IMAGE_FOLDER_PATH = os.getenv('IMAGE_FOLDER_PATH') if "IMAGE_FOLDER_PATH" in os.environ else "static/images"
+VOTE_NUMBERS_PATH = os.getenv('VOTE_NUMBERS_PATH') if "VOTE_NUMBERS_PATH" in os.environ else "data/votes.csv"
+SECURITY_CODE_PATH = os.getenv('SECURITY_CODE_PATH') if "VOTE_NUMBERS_PATH" in os.environ else "data/security.txt"
+VISITS = 0
 
 LIST_HEADERS = ["Submission Time", "Number of views", "Number of votes", "Title", "Message"]
 ANSWER_HEADERS = ["Submission Time", "Vote Number", "Message", "Image"]
@@ -55,6 +58,14 @@ def write_to_file(file, new_dictionary, field_name):
         for data in datas:
             writer.writerow(data)
         writer.writerow(new_dictionary)
+
+
+def save_data_to_file(dictionaries, field_name,  file=QUESTIONS_PATH):
+    with open(file, "w") as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=field_name)
+        writer.writeheader()
+        for dictionary in dictionaries:
+            writer.writerow(dictionary)
 
 
 # def get_all_questions() -> list[dict[str]]:
@@ -110,3 +121,28 @@ def decrease_vote_number(dictionary):
     number -= 1
     dictionary["vote_number"] = number
     return dictionary
+
+
+def save_original_vote_numbers(file_to_save=VOTE_NUMBERS_PATH, file_to_read=QUESTIONS_PATH):
+    datas = read_data_from_file(file_to_read)
+    dictionaries = []
+    for data in datas:
+        dictionary = {}
+        dictionary["id"] = data["id"]
+        dictionary["vote_number"] = data["vote_number"]
+        dictionaries.append(dictionary)
+    with open(file_to_save, "w", newline="") as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=["id", "vote_number"])
+        writer.writeheader()
+        for dicti in dictionaries:
+            writer.writerow(dicti)
+
+
+def get_vote_number_from_file(dictionary, file=VOTE_NUMBERS_PATH):
+    with open(file, "r") as csvfile:
+        reader = csv.DictReader(csvfile)
+        data = [line for line in reader]
+        for elem in data:
+            if elem["id"] == dictionary["id"]:
+                number = elem["vote_number"]
+                return int(number)

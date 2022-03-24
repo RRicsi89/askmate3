@@ -10,15 +10,20 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
+    connections.VISITS += 1
+    with open("data/security.txt", "r") as file:
+        security_code = file.readline()
+    if connections.VISITS == int(security_code):
+        connections.save_original_vote_numbers()
+        questions = connections.read_data_from_file(connections.QUESTIONS_PATH)
+        questions.sort(key=lambda dicti: dicti["submission_time"])
+        connections.save_data_to_file(questions, connections.QUESTION_HEADERS_CSV)
     return render_template("index.html")
 
 
 @app.route("/list")
 def list_questions():
     questions = connections.read_data_from_file(connections.QUESTIONS_PATH)
-    timestamps = connections.convert_timestamps(questions)
-    for i in range(len(questions)):
-        questions[i]["submission_time"] = timestamps[i]
     headers = connections.LIST_HEADERS
     dict_keys = connections.DICT_KEYS
     if ("order_direction") in request.args.keys():
@@ -26,7 +31,10 @@ def list_questions():
         order_direction = args.get("order_direction")
         order_by = args.get("order_by").lower().replace(" ","_")
         questions = connections.sort_data(questions, order_direction, order_by)
-        print(order_by, order_direction)
+        connections.save_data_to_file(questions, connections.QUESTION_HEADERS_CSV)
+    timestamps = connections.convert_timestamps(questions)
+    for i in range(len(questions)):
+        questions[i]["submission_time"] = timestamps[i]
     return render_template("list.html", questions=questions, headers=headers, timestamps=timestamps, dict_keys=dict_keys)
 
 
@@ -55,6 +63,7 @@ def add_question():
             new_question["image"] = f"images/{image.filename}"
 
         connections.write_to_file(connections.QUESTIONS_PATH, new_question, connections.QUESTION_HEADERS_CSV)
+        connections.save_original_vote_numbers()
         return redirect(f"/question/{new_question['id']}")
 
 
@@ -102,6 +111,7 @@ def edit_question(question_id=None):
             image.save(os.path.join(connections.IMAGE_FOLDER_PATH, image.filename))
             question["image"] = f"images/{image.filename}"
         connections.edit_in_file(connections.QUESTIONS_PATH, question, connections.QUESTION_HEADERS_CSV)
+        connections.save_original_vote_numbers()
         return redirect("/list")
 
 
@@ -118,14 +128,17 @@ def delete_question(question_id):
 @app.route("/question/<question_id>/<vote>")
 def change_vote_number(question_id=None, vote=None):
     current_question = connections.get_data(question_id, connections.QUESTIONS_PATH)
+    number = connections.get_vote_number_from_file(current_question)
     if vote == "vote_down":
-        connections.edit_in_file(connections.QUESTIONS_PATH,
-                                 connections.decrease_vote_number(current_question),
-                                 connections.QUESTION_HEADERS_CSV)
+        if number == int(current_question["vote_number"]):
+            connections.edit_in_file(connections.QUESTIONS_PATH,
+                                     connections.decrease_vote_number(current_question),
+                                     connections.QUESTION_HEADERS_CSV)
     elif vote == "vote_up":
-        connections.edit_in_file(connections.QUESTIONS_PATH,
-                                 connections.increase_vote_number(current_question),
-                                 connections.QUESTION_HEADERS_CSV)
+        if number == int(current_question["vote_number"]):
+            connections.edit_in_file(connections.QUESTIONS_PATH,
+                                     connections.increase_vote_number(current_question),
+                                     connections.QUESTION_HEADERS_CSV)
     return redirect("/list")
 
 
