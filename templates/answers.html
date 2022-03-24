@@ -42,14 +42,17 @@
                             {% if loop.index == 2 %}
                                 <td>{{ timestamps[count] }}</td>
                             {% elif loop.index == 3 %}
-                                <td>{{ answer[key] }}
-                                        <form action="{{ url_for('change_vote_number_answer', answer_id=answer.id, vote="vote_up") }}">
-                                            <button type="submit" class="sort-button"><img src="/static/icons/arrow-up.png" alt=""></button>
-                                        </form>
-                                        <form action="{{ url_for('change_vote_number_answer', answer_id=answer.id, vote="vote_down") }}">
-                                            <button type="submit" class="sort-button"><img src="/static/icons/down-filled-triangular-arrow.png" alt=""></button>
-                                        </form>
-                                        </td>
+                                <td>
+                                    <section class="field-with-sort">
+                                        {{ answer[key] }}
+                                            <form action="{{ url_for('change_vote_number_answer', answer_id=answer.id, vote="vote_up") }}">
+                                                <button type="submit" class="sort-button"><img src="/static/icons/arrow-up.png" alt=""></button>
+                                            </form>
+                                            <form action="{{ url_for('change_vote_number_answer', answer_id=answer.id, vote="vote_down") }}">
+                                                <button type="submit" class="sort-button"><img src="/static/icons/down-filled-triangular-arrow.png" alt=""></button>
+                                            </form>
+                                        </section>
+                                </td>
 
                             {% elif loop.index0 == 5 %}
                                 {% if answer.image %}
@@ -81,7 +84,7 @@
 
     </section>
 
-    <form action="/question/{{ question['id'] }}/delete"><button type="submit">Delete question</button></form>
+    <form action="/question/{{ question['id'] }}/delete"><button type="submit" class="delete-button">Delete question</button></form>
 </section>
 {% endblock %}
 

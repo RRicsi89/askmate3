@@ -87,13 +87,13 @@ button:hover{
     margin-top: 30px;
     font-size: 1.2em;
     border: none;
+    padding: 20px;
 }
 
 #browse-question-btn:hover {
     background-color: #D55280;
     font-size: 1.5em;
 }
-
 
 .table {
     display: flex;
@@ -135,9 +135,23 @@ footer {
     display: flex;
     flex-direction: column;
     padding: 40px;
-    font-family: 'Roboto', sans-serif;
-    height: 100vh;
+    height: 90vh;
+    width: 80vw;
     font-family: 'Exo', sans-serif;
+}
+
+.question_form > input, label, textarea, button {
+    padding: 10px 0;
+    font-size: 1.2em;
+}
+
+.question_form > label {
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.question_form > button, .delete-button {
+    padding: 20px;
 }
 
 img {
@@ -155,7 +169,7 @@ td {
     margin: 0;
 }
 
-.sort-button > img{
+.sort-button > img {
     width: 10px;
     height: 10px;
 }
@@ -184,6 +198,24 @@ td {
     font-family: 'Bungee', cursive;
     font-size: 2.5em;
     color: #D55280;
+}
+
+.add_edit_question_form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+}
+
+.field-with-sort {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.field-with-sort > form {
+    padding: 0 5px 5px;
 }
 
 

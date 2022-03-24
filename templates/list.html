@@ -15,7 +15,9 @@
                 <tr>
                     {% for header in headers %}
                     {% set count = loop.index0 %}
-                    <th>{{ header }}
+                    <th>
+                        <section class="field-with-sort">
+                        {{ header }}
                         {% if count < 5 %}
                             <form action="./list">
                                 <input  type="hidden"
@@ -33,10 +35,10 @@
                                 <input  type="hidden"
                                         name="order_by"
                                         value="{{ dict_keys[count] }}">
-
                                 <button type="submit" class="sort-button"><img src="/static/icons/down-filled-triangular-arrow.png" alt=""></button>
                             </form>
-                        {% endif %}
+                            {% endif %}
+                        </section>
                     </th>
                     {% endfor %}
                     <th></th>
@@ -47,14 +49,17 @@
                         <tr>
                         {% for key in question.keys() %}
                         {% if loop.index0 == 3 %}
-                            <td>{{ question[key] }}
-                            <form action="{{ url_for('change_vote_number', question_id=question.id, vote="vote_up") }}">
-                                <button type="submit" class="sort-button"><img src="/static/icons/arrow-up.png" alt=""></button>
-                            </form>
-                            <form action="{{ url_for('change_vote_number', question_id=question.id, vote="vote_down") }}">
-                                <button type="submit" class="sort-button"><img src="/static/icons/down-filled-triangular-arrow.png" alt=""></button>
-                            </form>
-                            </td>
+                                <td>
+                                    <section class="field-with-sort">
+                                        {{ question[key] }}
+                                        <form action="{{ url_for('change_vote_number', question_id=question.id, vote="vote_up") }}">
+                                            <button type="submit" class="sort-button"><img src="/static/icons/arrow-up.png" alt=""></button>
+                                        </form>
+                                        <form action="{{ url_for('change_vote_number', question_id=question.id, vote="vote_down") }}">
+                                            <button type="submit" class="sort-button"><img src="/static/icons/down-filled-triangular-arrow.png" alt=""></button>
+                                        </form>
+                                    </section>
+                                </td>
                         {% elif loop.index0 == 4 %}
                             <td><a href="/question/{{ question["id"] }}">{{ question[key]}}</a></td>
                         {% elif not (loop.first or loop.index0 == 6) %}
