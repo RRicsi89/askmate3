@@ -1,13 +1,14 @@
 import csv
 import os
 from datetime import datetime
-
+from flask import url_for
 
 QUESTIONS_PATH = os.getenv('QUESTIONS_PATH') if "QUESTIONS_PATH" in os.environ else "data/questions.csv"
 ANSWERS_PATH = os.getenv('ANSWERS_PATH') if "ANSWERS_PATH" in os.environ else "data/answers.csv"
 IMAGE_FOLDER_PATH = os.getenv('IMAGE_FOLDER_PATH') if "IMAGE_FOLDER_PATH" in os.environ else "static/images"
 VOTE_NUMBERS_PATH = os.getenv('VOTE_NUMBERS_PATH') if "VOTE_NUMBERS_PATH" in os.environ else "data/votes.csv"
 SECURITY_CODE_PATH = os.getenv('SECURITY_CODE_PATH') if "VOTE_NUMBERS_PATH" in os.environ else "data/security.txt"
+STATIC_FOLDER_PATH = os.getenv('STATIC_FOLDER_PATH') if 'STATIC_FOLDER_PATH' in os.environ else "static"
 VISITS = 0
 
 LIST_HEADERS = ["Submission Time", "Number of views", "Number of votes", "Title", "Message"]
@@ -67,8 +68,6 @@ def save_data_to_file(dictionaries, field_name,  file=QUESTIONS_PATH):
             writer.writerow(dictionary)
 
 
-
-
 def delete_in_file(file, line_to_delete, field_name):
     datas = read_data_from_file(file)
     with open(file, "w", newline="") as csvfile:
@@ -76,25 +75,24 @@ def delete_in_file(file, line_to_delete, field_name):
         writer.writeheader()
         for data in datas:
             if data["id"] == line_to_delete["id"]:
-                pass
+                if data["image"]:
+                    os.remove(f"{STATIC_FOLDER_PATH}/{data['image']}")
+                else:
+                    pass
             else:
                 writer.writerow(data)
 
 
-def edit_in_file(file, line_to_be_edited, field_name, delete=False):
+def edit_in_file(file, line_to_be_edited, field_name):
     datas = read_data_from_file(file)
     with open(file, "w", newline="") as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=field_name)
         writer.writeheader()
         for data in datas:
             if data["id"] == line_to_be_edited["id"]:
-                if delete:
-                    pass
-                else:
-                    writer.writerow(line_to_be_edited)
+                writer.writerow(line_to_be_edited)
             else:
                 writer.writerow(data)
-
 
 def sort_data(list_of_dicts, order_direction, order_by):
     if order_direction == "asc":

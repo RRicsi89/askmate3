@@ -96,7 +96,6 @@ def add_answer(question_id=None):
 @app.route("/question/<question_id>/edit", methods=["GET", "POST"])
 def edit_question(question_id=None):
     question = connections.get_data(question_id, connections.QUESTIONS_PATH)
-    all_data = connections.read_data_from_file(connections.QUESTIONS_PATH)
     if request.method == 'GET':
         return render_template("edit_question.html", question=question, question_id=question_id)
     if request.method == "POST":
@@ -125,7 +124,7 @@ def delete_question(question_id):
     for question in all_questions:
         if question["id"] == question_id:
             line_to_be_edited = question
-    connections.edit_in_file(connections.QUESTIONS_PATH, line_to_be_edited, connections.QUESTION_HEADERS_CSV, delete=True)
+    connections.delete_in_file(connections.QUESTIONS_PATH, line_to_be_edited, connections.QUESTION_HEADERS_CSV)
     return redirect("/list")
 
 
