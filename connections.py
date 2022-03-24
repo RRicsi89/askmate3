@@ -32,7 +32,7 @@ def get_data(data_id, file_to_read_from):
 
 
 def get_answers_from_file(question_id, file_to_read_from=ANSWERS_PATH):
-    answer_data = read_data_from_file(ANSWERS_PATH)
+    answer_data = read_data_from_file(file_to_read_from)
     answers = []
     for data in answer_data:
         if data["question_id"] == question_id:
@@ -108,16 +108,12 @@ def sort_data(list_of_dicts, order_direction, order_by):
     return sorted_list
 
 
-def increase_vote_number(dictionary):
+def update_vote_number(dictionary, vote):
     number = int((dictionary["vote_number"]))
-    number += 1
-    dictionary["vote_number"] = number
-    return dictionary
-
-
-def decrease_vote_number(dictionary):
-    number = int((dictionary["vote_number"]))
-    number -= 1
+    if vote == "vote_up":
+        number += 1
+    elif vote == "vote_down":
+        number -= 1
     dictionary["vote_number"] = number
     return dictionary
 

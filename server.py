@@ -133,30 +133,19 @@ def delete_question(question_id):
 def change_vote_number(question_id=None, vote=None):
     current_question = connections.get_data(question_id, connections.QUESTIONS_PATH)
     number = connections.get_vote_number_from_file(current_question)
-    if vote == "vote_down":
-        if number == int(current_question["vote_number"]):
-            connections.edit_in_file(connections.QUESTIONS_PATH,
-                                     connections.decrease_vote_number(current_question),
-                                     connections.QUESTION_HEADERS_CSV)
-    elif vote == "vote_up":
-        if number == int(current_question["vote_number"]):
-            connections.edit_in_file(connections.QUESTIONS_PATH,
-                                     connections.increase_vote_number(current_question),
-                                     connections.QUESTION_HEADERS_CSV)
+    if number == int(current_question["vote_number"]):
+        connections.edit_in_file(connections.QUESTIONS_PATH,
+                                 connections.update_vote_number(current_question, vote),
+                                 connections.QUESTION_HEADERS_CSV)
     return redirect("/list")
 
 
 @app.route("/answer/<answer_id>/<vote>")
 def change_vote_number_answer(answer_id=None, vote=None):
     current_answer = connections.get_data(answer_id, connections.ANSWERS_PATH)
-    if vote == "vote_down":
-        connections.edit_in_file(connections.ANSWERS_PATH,
-                                 connections.decrease_vote_number(current_answer),
-                                 connections.ANSWER_HEADERS_CSV)
-    elif vote == "vote_up":
-        connections.edit_in_file(connections.ANSWERS_PATH,
-                                 connections.increase_vote_number(current_answer),
-                                 connections.ANSWER_HEADERS_CSV)
+    connections.edit_in_file(connections.ANSWERS_PATH,
+                             connections.update_vote_number(current_answer, vote),
+                             connections.ANSWER_HEADERS_CSV)
     return redirect(url_for('display_question', question_id=current_answer["question_id"]))
 
 
