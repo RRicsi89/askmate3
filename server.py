@@ -42,6 +42,10 @@ def display_question(question_id=None):
     answers = connections.get_answers_from_file(question_id)
     timestamps = connections.convert_timestamps(answers)
     answer_headers = connections.ANSWER_HEADERS
+    view_number = int(question['view_number'])
+    view_number += 1
+    question['view_number'] = view_number
+    connections.edit_in_file(connections.QUESTIONS_PATH, question, connections.QUESTION_HEADERS_CSV)
     return render_template("question.html", question=question, answers=answers, answer_headers=answer_headers,
                            timestamps=timestamps)
 
