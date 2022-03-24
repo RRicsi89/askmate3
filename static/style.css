@@ -10,21 +10,25 @@ body {
 }
 
 h2 {
-    color: #FF616D;
+    color: #E696B2;
     font-family: 'Bungee', cursive;
     font-size: 2em;
+    text-shadow: 2px 2px 2px #B6A9AD;
 }
 
 nav {
     padding: 20px;
     font-size: 2em;
     font-family: 'Bungee', cursive;
+    background: linear-gradient(to left, #F7DDE6, #D8F1F8);
+    text-shadow: 3px 3px 2px #B6A9AD;
 }
 
 table {
     width: 70vw;
-    border: 1px solid #FF616D;
+    border: 1px solid #D55280;
     font-family: 'Roboto', sans-serif;
+    border-radius: 1em;
 }
 
 thead {
@@ -34,7 +38,7 @@ thead {
 
 a {
     text-decoration: none;
-    color: #D83A56;
+    color: #D55280;
 }
 
 #content {
@@ -49,17 +53,21 @@ a {
 #main-title {
     font-size: 5em;
     font-family: 'Bungee', cursive;
-    color: #D83A56;
+    color: #D55280;
     margin: 0;
     padding: 0;
+    text-shadow: 4px 4px 2px #B6A9AD;
 }
 
 button, .goback {
     padding: 20px;
-    background-color: #FF616D;
+    background-color: #D55280;
     font-family: 'Bungee', cursive;
-    color: #FFEAC9;
+    color: #F6DAE4;
     margin: 20px;
+    border-radius: 10px;
+    transition: 0.3s;
+    text-shadow: 2px 2px 2px #616161;
 }
 
 .goback {
@@ -67,20 +75,21 @@ button, .goback {
 }
 
 button:hover{
-    background-color: #D83A56;
+    background-color: #CC3167;
+    transition: 0.3s;
 }
 
 #browse-question-btn {
     margin-top: 30px;
     font-size: 1.2em;
     border: none;
-    font-size: 1.2em;
 }
 
 #browse-question-btn:hover {
-    background-color: #D83A56;
+    background-color: #D55280;
     font-size: 1.5em;
 }
+
 
 .table {
     display: flex;
