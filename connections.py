@@ -32,7 +32,7 @@ def get_data(data_id, file_to_read_from):
 
 
 def get_answers_from_file(question_id, file_to_read_from=ANSWERS_PATH):
-    answer_data = read_data_from_file(ANSWERS_PATH)
+    answer_data = read_data_from_file(file_to_read_from)
     answers = []
     for data in answer_data:
         if data["question_id"] == question_id:
@@ -67,8 +67,7 @@ def save_data_to_file(dictionaries, field_name,  file=QUESTIONS_PATH):
             writer.writerow(dictionary)
 
 
-# def get_all_questions() -> list[dict[str]]:
-#     return read_data_from_file(QUESTIONS_PATH)
+
 
 def delete_in_file(file, line_to_delete, field_name):
     datas = read_data_from_file(file)
