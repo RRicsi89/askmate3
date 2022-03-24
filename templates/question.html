@@ -11,10 +11,10 @@
 
 <section class="table">
     {% if question.image %}
-        <img src="{{ url_for("static", filename=question["image"]) }}">
+        <img alt="A picture about the question" src="{{ url_for("static", filename=question["image"]) }}">
     {% endif %}
 
-<h1>Anwsers to the question:</h1>
+<h1>Answers to the question:</h1>
 <table border="1">
     <thead>
         {%for header in answer_headers%}
@@ -44,12 +44,14 @@
 
                 {% elif loop.last %}
                     {% if answer.image %}
-                    <td><img src="{{ url_for('static', filename=answer[key]) }}"></td>
+                    <td><img alt="A picture about the answer" src="{{ url_for('static', filename=answer[key]) }}"></td>
                     {% endif %}
                 {% elif not (loop.index0 == 0 or loop.index0 == 3) %}
                     <td>{{answer[key]}}</td>
+
                 {% endif %}
             {% endfor %}
+        <!--<form action="/answer/{{ answer['id'] }}/delete"><button type="submit">Delete answer</button></form>-->
         </tr>
         {% endfor %}
     </tbody>
@@ -57,7 +59,7 @@
 </section>
 
 <form action="/question/{{ question['id'] }}/new-answer"><button type="submit">New answer</button></form>
-<form action="/list"><button type="'submit">Back to the questions</button></form>
+<form action="/list"><button type="submit">Back to the questions</button></form>
     <form action="/question/{{ question['id'] }}/delete"><button type="submit">Delete question</button></form>
 {% endblock %}
 

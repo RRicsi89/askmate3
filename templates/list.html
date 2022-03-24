@@ -6,9 +6,6 @@
         <a href="/">AskMate</a>
     </nav>
 {% endblock %}
-<section class="table">
-    <table>
-        <thead class="table-head">
     <section class="table">
         <table>
             <thead>
@@ -64,12 +61,12 @@
                             <td>{{ question[key] }}</td>
                         {% endif %}
                     {% endfor %}
-                            <td><a href="/question/{{ question["id"] }}/edit"><img src="/static/icons/edit.png" class="edit-image"></a></td>
+                            <td><a href="/question/{{ question["id"] }}/edit"><img alt="Edit question button" src="/static/icons/edit.png" class="edit-image"></a></td>
                         </tr>
                     {% endfor %}
                 </tbody>
         </table>
-</section>
+    </section>
 
 <a href="/add-question">
     <button>New question</button>

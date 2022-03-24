@@ -67,8 +67,7 @@ def save_data_to_file(dictionaries, field_name,  file=QUESTIONS_PATH):
             writer.writerow(dictionary)
 
 
-# def get_all_questions() -> list[dict[str]]:
-#     return read_data_from_file(QUESTIONS_PATH)
+
 
 def delete_in_file(file, line_to_delete, field_name):
     datas = read_data_from_file(file)
@@ -82,14 +81,17 @@ def delete_in_file(file, line_to_delete, field_name):
                 writer.writerow(data)
 
 
-def edit_in_file(file, line_to_be_edited, field_name):
+def edit_in_file(file, line_to_be_edited, field_name, delete=False):
     datas = read_data_from_file(file)
     with open(file, "w", newline="") as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=field_name)
         writer.writeheader()
         for data in datas:
             if data["id"] == line_to_be_edited["id"]:
-                writer.writerow(line_to_be_edited)
+                if delete:
+                    pass
+                else:
+                    writer.writerow(line_to_be_edited)
             else:
                 writer.writerow(data)
 
@@ -108,12 +110,26 @@ def sort_data(list_of_dicts, order_direction, order_by):
     return sorted_list
 
 
-def update_vote_number(dictionary, vote):
+def change_vote_number(dictionary, vote_up=True):
     number = int((dictionary["vote_number"]))
-    if vote == "vote_up":
+    if vote_up:
         number += 1
-    elif vote == "vote_down":
+    else:
         number -= 1
+    dictionary["vote_number"] = number
+    return dictionary
+
+
+def increase_vote_number(dictionary):
+    number = int((dictionary["vote_number"]))
+    number += 1
+    dictionary["vote_number"] = number
+    return dictionary
+
+
+def decrease_vote_number(dictionary):
+    number = int((dictionary["vote_number"]))
+    number -= 1
     dictionary["vote_number"] = number
     return dictionary
 
