@@ -6,6 +6,7 @@
 <nav>
     <a href="/">AskMate</a>
 </nav>
+<form action="/"><button type="submit" class="previous-button"><img src="/static/icons/previous.png" alt="previous-button"></button></form>
 {% endblock %}
     <section class="table">
         <table>
@@ -64,13 +65,12 @@
                     {% endfor %}
                 </tbody>
         </table>
-        <a href="/add-question">
-            <button class="plus-button"><img src="/static/icons/plus.png" alt="plus-btn"></button>
-        </a>
+        <section class="add-new">
+            <a href="/add-question">
+                <button class="plus-button"><img src="/static/icons/plus.png" alt="plus-btn"></button>
+            </a>
+        </section>
     </section>
-
-
-    <form action="/"><button type="submit">Back to the main page</button></form>
 </section>
 {% endblock %}
 

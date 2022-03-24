@@ -121,9 +121,10 @@ footer {
 .question_form {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     padding: 40px;
     font-family: 'Roboto', sans-serif;
+    height: 100vh;
+    font-family: 'Exo', sans-serif;
 }
 
 img {
@@ -134,7 +135,7 @@ td {
     background-color: rgba(255, 255, 255, 0.44)
 }
 
-.sort-button, .sort-button:hover, .plus-button, .plus-button:hover {
+.sort-button, .sort-button:hover, .plus-button, .plus-button:hover, .previous-button, .previous-button:hover {
     background-color: transparent;
     border: none;
     padding: 0;
@@ -146,8 +147,19 @@ td {
     height: 10px;
 }
 
-.plus-button > img {
-    width: 40px;
+.plus-button > img, .previous-button > img {
+    width: 30px;
+}
+
+.add-new, .previous-button, .previous-button:hover {
+    display: flex;
+    justify-content: flex-start;
+    width: 70vw;
+    padding: 10px;
+}
+
+.previous-button, .previous-button:hover {
+    padding-left: 20px;
 }
 
 #questions-content {
