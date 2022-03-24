@@ -94,6 +94,7 @@ def edit_in_file(file, line_to_be_edited, field_name):
             else:
                 writer.writerow(data)
 
+
 def sort_data(list_of_dicts, order_direction, order_by):
     if order_direction == "asc":
         direction = False
@@ -141,3 +142,16 @@ def get_vote_number_from_file(dictionary, file=VOTE_NUMBERS_PATH):
             if elem["id"] == dictionary["id"]:
                 number = elem["vote_number"]
                 return int(number)
+
+
+def save_new_input(new_data, image, items, answer=False):
+    for key, value in items:
+        new_data[key] = value
+    if image:
+        image.save(os.path.join(IMAGE_FOLDER_PATH, image.filename))
+        new_data["image"] = f"images/{image.filename}"
+    if answer:
+        write_to_file(ANSWERS_PATH, new_data, ANSWER_HEADERS_CSV)
+    else:
+        write_to_file(QUESTIONS_PATH, new_data, QUESTION_HEADERS_CSV)
+
