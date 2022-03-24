@@ -37,7 +37,7 @@ def list_questions():
 
 
 @app.route("/question/<question_id>")
-def display_question(question_id=None):
+def display_question(question_id):
     question = connections.get_data(question_id, connections.QUESTIONS_PATH)
     answers = connections.get_answers_from_file(question_id)
     timestamps = connections.convert_timestamps(answers)
@@ -112,9 +112,13 @@ def edit_question(question_id=None):
 @app.route("/question/<question_id>/delete")
 def delete_question(question_id):
     all_questions = connections.read_data_from_file(connections.QUESTIONS_PATH)
+    question_answers = connections.get_answers_from_file(question_id, connections.ANSWERS_PATH)
     for question in all_questions:
         if question["id"] == question_id:
             line_to_be_edited = question
+            for answer in question_answers:
+                if answer["question_id"] == question_id:
+                    connections.delete_in_file(connections.ANSWERS_PATH, answer, connections.ANSWER_HEADERS_CSV)
     connections.delete_in_file(connections.QUESTIONS_PATH, line_to_be_edited, connections.QUESTION_HEADERS_CSV)
     return redirect("/list")
 
