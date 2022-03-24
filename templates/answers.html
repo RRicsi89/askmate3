@@ -56,7 +56,7 @@
 
                             {% elif loop.index0 == 5 %}
                                 {% if answer.image %}
-                                <td><img alt="A picture about the answer" src="{{ url_for('static', filename=answer[key]) }}"></td>
+                                <td><img alt="A picture about the answer" src="{{ url_for('static', filename=answer[key]) }}" class="answer-image"></td>
                                 {% else %}
                                     <td><img alt="No picture for this answer" src="{{ url_for('static', filename="images/no_picture.png") }}"></td>
                                 {% endif %}

@@ -27,11 +27,12 @@ nav {
 table {
     width: 70vw;
     border: 1px solid #D55280;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Exo';
     border-radius: 1em;
 }
 
 thead {
+    font-family: 'Roboto', sans-serif;
     background-color: rgba(255,255,255,0.3);
     text-transform: uppercase;
 }
@@ -155,7 +156,7 @@ footer {
 }
 
 img {
-    max-width: 100px;
+    max-width: 300px;
 }
 
 td {
@@ -216,6 +217,14 @@ td {
 
 .field-with-sort > form {
     padding: 0 5px 5px;
+}
+
+.answer-image {
+    width: 100px;
+}
+
+.question {
+    font-family: 'Exo', sans-serif;
 }
 
 
