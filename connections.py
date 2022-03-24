@@ -103,9 +103,14 @@ def sort_data(list_of_dicts, order_direction, order_by):
     if order_by == "submission_time":
         sorted_list = sorted(list_of_dicts, key=lambda dicti: dicti[order_by], reverse=direction)
     else:
-        sorted_list = sorted(list_of_dicts,
-                             key=lambda dicti: int(dicti[order_by]) if dicti[order_by].lstrip("-").isnumeric() else dicti[order_by].lower(),
-                             reverse=direction)
+        numbers = 0
+        for dictionary in list_of_dicts:
+            if dictionary[order_by].lstrip("-").isnumeric():
+                numbers += 1
+        if numbers == len(list_of_dicts):
+            sorted_list = sorted(list_of_dicts, key=lambda dicti: int(dicti[order_by]), reverse=direction)
+        else:
+            sorted_list = sorted(list_of_dicts, key=lambda dicti: dicti[order_by].lower(), reverse=direction)
     return sorted_list
 
 
