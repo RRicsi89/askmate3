@@ -82,14 +82,17 @@ def delete_in_file(file, line_to_delete, field_name):
                 writer.writerow(data)
 
 
-def edit_in_file(file, line_to_be_edited, field_name):
+def edit_in_file(file, line_to_be_edited, field_name, delete=False):
     datas = read_data_from_file(file)
     with open(file, "w", newline="") as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=field_name)
         writer.writeheader()
         for data in datas:
             if data["id"] == line_to_be_edited["id"]:
-                writer.writerow(line_to_be_edited)
+                if delete:
+                    pass
+                else:
+                    writer.writerow(line_to_be_edited)
             else:
                 writer.writerow(data)
 

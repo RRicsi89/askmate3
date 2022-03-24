@@ -48,8 +48,10 @@
                     {% endif %}
                 {% elif not (loop.index0 == 0 or loop.index0 == 3) %}
                     <td>{{answer[key]}}</td>
+
                 {% endif %}
             {% endfor %}
+        <!--<form action="/answer/{{ answer['id'] }}/delete"><button type="submit">Delete answer</button></form>-->
         </tr>
         {% endfor %}
     </tbody>
