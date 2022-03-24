@@ -3,6 +3,13 @@
 {% block title %}Add new{% endblock %}
 
 {% block body %}
+
+{% block nav %}
+    <nav>
+        <a href="/">AskMate</a>
+    </nav>
+{% endblock %}
+
     <form action="/question/{{ question['id'] }}/new-answer" method="POST", enctype="multipart/form-data">
         <label for="question_content">Your answer</label><br>
         <textarea name="message" id="question_content" cols="50" rows="5" required></textarea><br>

@@ -1,10 +1,11 @@
 {% extends "layout.html" %}
 {% block title %}List Questions{% endblock %}
 {% block body %}
+<section id="questions-content">
 {% block nav %}
-    <nav>
-        <a href="/">AskMate</a>
-    </nav>
+<nav>
+    <a href="/">AskMate</a>
+</nav>
 {% endblock %}
     <section class="table">
         <table>
@@ -21,8 +22,7 @@
                                 <input  type="hidden"
                                         name="order_by"
                                         value="{{ dict_keys[count] }}">
-                                <input  type="submit"
-                                        value="^">
+                                <button type="submit" class="sort-button"><img src="/static/icons/arrow-up.png" alt=""></button>
                             </form>
                             <form action="./list">
                                 <input  type="hidden"
@@ -32,7 +32,7 @@
                                         name="order_by"
                                         value="{{ dict_keys[count] }}">
 
-                                <input  type="submit" value="v">
+                                <button type="submit" class="sort-button"><img src="/static/icons/down-filled-triangular-arrow.png" alt=""></button>
                             </form>
                         {% endif %}
                     </th>
@@ -47,12 +47,10 @@
                         {% if loop.index0 == 3 %}
                             <td>{{ question[key] }}
                             <form action="{{ url_for('change_vote_number', question_id=question.id, vote="vote_up") }}">
-                                <input  type="submit"
-                                        value="^">
+                                <button type="submit" class="sort-button"><img src="/static/icons/arrow-up.png" alt=""></button>
                             </form>
                             <form action="{{ url_for('change_vote_number', question_id=question.id, vote="vote_down") }}">
-                                <input  type="submit"
-                                        value="v">
+                                <button type="submit" class="sort-button"><img src="/static/icons/down-filled-triangular-arrow.png" alt=""></button>
                             </form>
                             </td>
                         {% elif loop.index0 == 4 %}
@@ -68,9 +66,12 @@
         </table>
     </section>
 
-<a href="/add-question">
-    <button>New question</button>
-</a>
+    <a href="/add-question">
+        <button>New question</button>
+    </a>
 
-<form action="/"><button type="submit">Back to the main page</button></form>
+    <form action="/"><button type="submit">Back to the main page</button></form>
+</section>
 {% endblock %}
+
+

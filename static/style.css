@@ -4,26 +4,9 @@
 }
 
 body {
-    background: #C9D6FF;
-    background: linear-gradient(to left, #E2E2E2, #C9D6FF);
-}
-
-#content {
+    background: linear-gradient(to left, #F6DAE4, #D4F0F7);
     display: flex;
     flex-direction: column;
-    text-align: center;
-    justify-content: center;
-    height: 100vh;
-    background: #C9D6FF;
-    background: linear-gradient(to left, #E2E2E2, #C9D6FF);
-}
-
-#main-title {
-    font-size: 5em;
-    font-family: 'Bungee', cursive;
-    color: #D83A56;
-    margin: 0;
-    padding: 0;
 }
 
 h2 {
@@ -36,6 +19,39 @@ nav {
     padding: 20px;
     font-size: 2em;
     font-family: 'Bungee', cursive;
+}
+
+table {
+    width: 70vw;
+    border: 1px solid #FF616D;
+    font-family: 'Roboto', sans-serif;
+}
+
+thead {
+    background-color: rgba(255,255,255,0.3);
+    text-transform: uppercase;
+}
+
+a {
+    text-decoration: none;
+    color: #D83A56;
+}
+
+#content {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(to left, #F6DAE4, #D4F0F7);
+}
+
+#main-title {
+    font-size: 5em;
+    font-family: 'Bungee', cursive;
+    color: #D83A56;
+    margin: 0;
+    padding: 0;
 }
 
 button, .goback {
@@ -76,22 +92,6 @@ button:hover{
     align-items: center;
 }
 
-table {
-    width: 70vw;
-    border: 1px solid #FF616D;
-    font-family: 'Roboto', sans-serif;
-}
-
-thead {
-    background-color: rgba(255,255,255,0.3);
-    text-transform: uppercase;
-}
-
-a {
-    text-decoration: none;
-    color: #D83A56;
-}
-
 .question {
     text-align: center;
     padding: 20px;
@@ -124,5 +124,29 @@ footer {
     justify-content: center;
     padding: 40px;
     font-family: 'Roboto', sans-serif;
+}
+
+img {
+    max-width: 10vw;
+}
+
+td {
+    background-color: rgba(255, 255, 255, 0.44)
+}
+
+.sort-button, .sort-button:hover {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sort-button > img {
+    width: 10px;
+    height: 10px;
+}
+
+#questions-content {
+    height: 100vh;
 }
 

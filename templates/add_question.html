@@ -1,8 +1,14 @@
 {% extends "layout.html" %}
 
 {% block title %}Add question{% endblock %}
+{%block body %}
 
-{% block body %}
+{% block nav %}
+    <nav>
+        <a href="/">AskMate</a>
+    </nav>
+{% endblock %}
+
     <form action="{{ url_for("add_question") }}" method="POST" enctype="multipart/form-data" class="question_form">
         <label for="question_title">Title</label><br>
         <input type="text" name="title" id="question_title" required><br>
