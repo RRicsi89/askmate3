@@ -168,6 +168,7 @@ td {
     border: none;
     padding: 0;
     margin: 0;
+    cursor: pointer;
 }
 
 .sort-button > img {
@@ -227,5 +228,8 @@ td {
     font-family: 'Exo', sans-serif;
 }
 
+.previous-button, .previous-button:hover {
+    width: 10px;
+}
 
 
