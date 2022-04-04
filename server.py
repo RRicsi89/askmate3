@@ -1,6 +1,6 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for
-import connections
+import data_handler
 import utils
 
 app = Flask(__name__)
@@ -8,29 +8,29 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
-    connections.VISITS += 1
+    data_handler.VISITS += 1
     with open("data/security.txt", "r") as file:
         security_code = file.readline()
-    if connections.VISITS == int(security_code):
-        connections.save_original_vote_numbers()
-        questions = connections.read_data_from_file(connections.QUESTIONS_PATH)
+    if data_handler.VISITS == int(security_code):
+        data_handler.save_original_vote_numbers()
+        questions = data_handler.read_data_from_file(data_handler.QUESTIONS_PATH)
         questions.sort(key=lambda dicti: dicti["submission_time"])
-        connections.save_data_to_file(questions, connections.QUESTION_HEADERS_CSV)
+        data_handler.save_data_to_file(questions, data_handler.QUESTION_HEADERS_CSV)
     return render_template("index.html")
 
 
 @app.route("/list")
 def list_questions():
-    questions = connections.read_data_from_file(connections.QUESTIONS_PATH)
-    headers = connections.LIST_HEADERS
-    dict_keys = connections.DICT_KEYS
+    questions = data_handler.read_data_from_file(data_handler.QUESTIONS_PATH)
+    headers = data_handler.LIST_HEADERS
+    dict_keys = data_handler.DICT_KEYS
     if "order_direction" in request.args.keys():
         args = request.args
         order_direction = args.get("order_direction")
         order_by = args.get("order_by").lower().replace(" ", "_")
-        questions = connections.sort_data(questions, order_direction, order_by)
-        connections.save_data_to_file(questions, connections.QUESTION_HEADERS_CSV)
-    timestamps = connections.convert_timestamps(questions)
+        questions = data_handler.sort_data(questions, order_direction, order_by)
+        data_handler.save_data_to_file(questions, data_handler.QUESTION_HEADERS_CSV)
+    timestamps = data_handler.convert_timestamps(questions)
     for i in range(len(questions)):
         questions[i]["submission_time"] = timestamps[i]
     return render_template("list.html", questions=questions, headers=headers, timestamps=timestamps, dict_keys=dict_keys)
@@ -38,14 +38,14 @@ def list_questions():
 
 @app.route("/question/<question_id>")
 def display_question(question_id):
-    question = connections.get_data(question_id, connections.QUESTIONS_PATH)
-    answers = connections.get_answers_from_file(question_id)
-    timestamps = connections.convert_timestamps(answers)
-    answer_headers = connections.ANSWER_HEADERS
+    question = data_handler.get_data(question_id, data_handler.QUESTIONS_PATH)
+    answers = data_handler.get_answers_from_file(question_id)
+    timestamps = data_handler.convert_timestamps(answers)
+    answer_headers = data_handler.ANSWER_HEADERS
     view_number = int(question['view_number'])
     view_number += 1
     question['view_number'] = view_number
-    connections.edit_in_file(connections.QUESTIONS_PATH, question, connections.QUESTION_HEADERS_CSV)
+    data_handler.edit_in_file(data_handler.QUESTIONS_PATH, question, data_handler.QUESTION_HEADERS_CSV)
     return render_template("answers.html", question=question, answers=answers, answer_headers=answer_headers,
                            timestamps=timestamps)
 
@@ -61,15 +61,15 @@ def add_question():
                     "vote_number": 0}
         image = request.files["image"]
         items = request.form.items()
-        connections.save_new_input(new_data, image, items, answer=False)
-        connections.save_original_vote_numbers()
+        data_handler.save_new_input(new_data, image, items, answer=False)
+        data_handler.save_original_vote_numbers()
         return redirect(f"/question/{new_data['id']}")
 
 
 @app.route("/question/<question_id>/new-answer", methods=["GET", "POST"])
 def add_answer(question_id=None):
     if request.method == "GET":
-        question = connections.get_data(question_id, connections.QUESTIONS_PATH)
+        question = data_handler.get_data(question_id, data_handler.QUESTIONS_PATH)
         return render_template("new_answer.html", question=question)
     elif request.method == "POST":
         message = request.form['message']
@@ -80,13 +80,13 @@ def add_answer(question_id=None):
                       "message": message}
         image = request.files["image"]
         items = request.form.items()
-        connections.save_new_input(new_data, image, items, answer=True)
+        data_handler.save_new_input(new_data, image, items, answer=True)
         return redirect(f"/question/{question_id}")
 
 
 @app.route("/question/<question_id>/edit", methods=["GET", "POST"])
 def edit_question(question_id=None):
-    question = connections.get_data(question_id, connections.QUESTIONS_PATH)
+    question = data_handler.get_data(question_id, data_handler.QUESTIONS_PATH)
     if request.method == 'GET':
         return render_template("edit_question.html", question=question, question_id=question_id)
     if request.method == "POST":
@@ -102,55 +102,55 @@ def edit_question(question_id=None):
 
         image = request.files["image"]
         if image:
-            image.save(os.path.join(connections.IMAGE_FOLDER_PATH, image.filename))
+            image.save(os.path.join(data_handler.IMAGE_FOLDER_PATH, image.filename))
             question["image"] = f"images/{image.filename}"
-        connections.edit_in_file(connections.QUESTIONS_PATH, question, connections.QUESTION_HEADERS_CSV)
-        connections.save_original_vote_numbers()
+        data_handler.edit_in_file(data_handler.QUESTIONS_PATH, question, data_handler.QUESTION_HEADERS_CSV)
+        data_handler.save_original_vote_numbers()
         return redirect("/list")
 
 
 @app.route("/question/<question_id>/delete")
 def delete_question(question_id):
-    all_questions = connections.read_data_from_file(connections.QUESTIONS_PATH)
-    question_answers = connections.get_answers_from_file(question_id, connections.ANSWERS_PATH)
+    all_questions = data_handler.read_data_from_file(data_handler.QUESTIONS_PATH)
+    question_answers = data_handler.get_answers_from_file(question_id, data_handler.ANSWERS_PATH)
     for question in all_questions:
         if question["id"] == question_id:
             line_to_be_edited = question
             for answer in question_answers:
                 if answer["question_id"] == question_id:
-                    connections.delete_in_file(connections.ANSWERS_PATH, answer, connections.ANSWER_HEADERS_CSV)
-    connections.delete_in_file(connections.QUESTIONS_PATH, line_to_be_edited, connections.QUESTION_HEADERS_CSV)
+                    data_handler.delete_in_file(data_handler.ANSWERS_PATH, answer, data_handler.ANSWER_HEADERS_CSV)
+    data_handler.delete_in_file(data_handler.QUESTIONS_PATH, line_to_be_edited, data_handler.QUESTION_HEADERS_CSV)
     return redirect("/list")
 
 
 @app.route("/answer/<answer_id>/delete")
 def delete_answer(answer_id):
-    all_answers = connections.read_data_from_file(connections.ANSWERS_PATH)
+    all_answers = data_handler.read_data_from_file(data_handler.ANSWERS_PATH)
     for answer in all_answers:
         if answer["id"] == answer_id:
             line_to_be_edited = answer
-    connections.delete_in_file(connections.ANSWERS_PATH, line_to_be_edited, connections.ANSWER_HEADERS_CSV)
+    data_handler.delete_in_file(data_handler.ANSWERS_PATH, line_to_be_edited, data_handler.ANSWER_HEADERS_CSV)
     question_id = answer["question_id"]
     return redirect(f"/question/{question_id}")
 
 
 @app.route("/question/<question_id>/<vote>")
 def change_vote_number(question_id=None, vote=None):
-    current_question = connections.get_data(question_id, connections.QUESTIONS_PATH)
-    number = connections.get_vote_number_from_file(current_question)
+    current_question = data_handler.get_data(question_id, data_handler.QUESTIONS_PATH)
+    number = data_handler.get_vote_number_from_file(current_question)
     if number == int(current_question["vote_number"]):
-        connections.edit_in_file(connections.QUESTIONS_PATH,
-                                 connections.update_vote_number(current_question, vote),
-                                 connections.QUESTION_HEADERS_CSV)
+        data_handler.edit_in_file(data_handler.QUESTIONS_PATH,
+                                 data_handler.update_vote_number(current_question, vote),
+                                 data_handler.QUESTION_HEADERS_CSV)
     return redirect("/list")
 
 
 @app.route("/answer/<answer_id>/<vote>")
 def change_vote_number_answer(answer_id=None, vote=None):
-    current_answer = connections.get_data(answer_id, connections.ANSWERS_PATH)
-    connections.edit_in_file(connections.ANSWERS_PATH,
-                             connections.update_vote_number(current_answer, vote),
-                             connections.ANSWER_HEADERS_CSV)
+    current_answer = data_handler.get_data(answer_id, data_handler.ANSWERS_PATH)
+    data_handler.edit_in_file(data_handler.ANSWERS_PATH,
+                             data_handler.update_vote_number(current_answer, vote),
+                             data_handler.ANSWER_HEADERS_CSV)
     return redirect(url_for('display_question', question_id=current_answer["question_id"]))
 
 
