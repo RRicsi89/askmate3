@@ -154,6 +154,14 @@ def change_vote_number_answer(answer_id=None, vote=None):
     return redirect(url_for('display_question', question_id=current_answer["question_id"]))
 
 
+@app.route('/question/<question_id>/new-comment', methods=['GET', 'POST'])
+def add_comment_to_the_question(question_id):
+    question = data_handler.get_data(question_id, data_handler.QUESTIONS_PATH)
+    if request.method == 'GET':
+        return render_template('new_comment.html', question=question)
+    elif request.method == 'POST':
+        return redirect(f'/question/{ question["id"] }')
+
 if __name__ == "__main__":
     app.run(
         host="0.0.0.0",

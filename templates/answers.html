@@ -83,7 +83,9 @@
         </section>
 
     </section>
-
+    <a href='/question/{{ question['id'] }}/new-comment'>
+        <button type='submit' class='delete-button'>Add comment</button>
+    </a>
     <form action="/question/{{ question['id'] }}/delete"><button type="submit" class="delete-button">Delete question</button></form>
 </section>
 {% endblock %}
