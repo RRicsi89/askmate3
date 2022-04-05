@@ -1,7 +1,7 @@
 import csv
 import os
 import connections
-from datetime import datetime
+
 
 QUESTIONS_PATH = os.getenv('QUESTIONS_PATH') if "QUESTIONS_PATH" in os.environ else "data/questions.csv"
 ANSWERS_PATH = os.getenv('ANSWERS_PATH') if "ANSWERS_PATH" in os.environ else "data/answers.csv"
@@ -24,6 +24,17 @@ DICT_KEYS = ["submission_time", "view_number", "vote_number", "title", "message"
 #         reader = csv.DictReader(csvfile)
 #         return [line for line in reader]
 
+@connections.connection_handler
+def get_questions(cursor, searched_question):
+    query = f"""
+        SELECT * FROM question FULL OUTER JOIN answer
+        ON question.id = answer.question_id
+        WHERE question.title LIKE '%{searched_question}%' OR
+        question.message LIKE '%{searched_question}%' OR
+        answer.message LIKE '%{searched_question}%';
+    """
+    cursor.execute(query)
+    return cursor.fetchall()
 
 @connections.connection_handler
 def get_all_questions(cursor):
@@ -59,8 +70,18 @@ def get_question_by_id(cursor, question_id):
         WHERE id = %(question_id)s;
     """
     cursor.execute(query, {"question_id": question_id})
-    data = cursor.fetchall()
-    return data
+    return cursor.fetchall()
+
+
+@connections.connection_handler
+def get_answer_by_id(cursor, answer_id):
+    query = f"""
+        SELECT * 
+        FROM answer
+        WHERE id = {answer_id}
+    """
+    cursor.execute(query)
+    return cursor.fetchall()
 
 
 @connections.connection_handler
