@@ -84,6 +84,10 @@ def get_answers_from_file(question_id, file_to_read_from=ANSWERS_PATH):
     return answers
 
 
+def get_time():
+    return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+
 def write_to_file(file, new_dictionary, field_name):
     datas = read_data_from_file(file)
     with open(file, "w", newline="") as csvfile:
@@ -222,6 +226,13 @@ def save_new_input(new_data, image, items, answer=False):
     else:
         write_to_file(QUESTIONS_PATH, new_data, QUESTION_HEADERS_CSV)
 
+@connections.connection_handler
+def insert_into_comment(cursor, *args):
+    query = f"""
+        INSERT INTO comment (id, question_id, answer_id, message, submission_time, edited_count)
+        VALUES {args}
+    """
+    cursor.execute(query)
 
 @connections.connection_handler
 def edit_question(cursor, question_id, title, message):

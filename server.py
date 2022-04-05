@@ -175,11 +175,14 @@ def change_vote_number_answer(answer_id=None, vote=None):
 
 @app.route('/question/<question_id>/new-comment', methods=['GET', 'POST'])
 def add_comment_to_the_question(question_id):
-    question = data_handler.get_data(question_id, data_handler.QUESTIONS_PATH)
     if request.method == 'GET':
-        return render_template('new_comment.html', question=question)
+        return render_template('new_q_comment.html', question_id=question_id)
     elif request.method == 'POST':
-        return redirect(f'/question/{ question["id"] }')
+        comment = request.form['message']
+        time = data_handler.get_time()
+        data_handler.insert_into_comment(question_id=question_id, message=comment, submission_time=time)
+        return redirect(f'/question/{ question_id }')
+
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
