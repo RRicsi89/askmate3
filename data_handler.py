@@ -1,7 +1,7 @@
 import csv
 import os
 import connections
-from datetime import datetime
+
 
 QUESTIONS_PATH = os.getenv('QUESTIONS_PATH') if "QUESTIONS_PATH" in os.environ else "data/questions.csv"
 ANSWERS_PATH = os.getenv('ANSWERS_PATH') if "ANSWERS_PATH" in os.environ else "data/answers.csv"
@@ -59,8 +59,7 @@ def get_question_by_id(cursor, question_id):
         WHERE id = %(question_id)s;
     """
     cursor.execute(query, {"question_id": question_id})
-    data = cursor.fetchall()
-    return data
+    return cursor.fetchall()
 
 
 @connections.connection_handler

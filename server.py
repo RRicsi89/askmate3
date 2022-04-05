@@ -1,6 +1,7 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for
 import data_handler
+import delete_functions
 import utils
 
 app = Flask(__name__)
@@ -144,12 +145,14 @@ def delete_question(question_id):
 
 @app.route("/answer/<answer_id>/delete")
 def delete_answer(answer_id):
-    all_answers = data_handler.read_data_from_file(data_handler.ANSWERS_PATH)
-    for answer in all_answers:
-        if answer["id"] == answer_id:
-            line_to_be_edited = answer
-    data_handler.delete_in_file(data_handler.ANSWERS_PATH, line_to_be_edited, data_handler.ANSWER_HEADERS_CSV)
-    question_id = answer["question_id"]
+    # all_answers = data_handler.read_data_from_file(data_handler.ANSWERS_PATH)
+    # for answer in all_answers:
+    #     if answer["id"] == answer_id:
+    #         line_to_be_edited = answer
+    # data_handler.delete_in_file(data_handler.ANSWERS_PATH, line_to_be_edited, data_handler.ANSWER_HEADERS_CSV)
+    # question_id = answer["question_id"]
+    question_data = data_handler.get_question_by_id(question_id)
+    delete_functions.delete_answer()
     return redirect(f"/question/{question_id}")
 
 
@@ -195,6 +198,7 @@ def search():
     question = request.args.get('question-input')
     searched_questions = data_handler.get_questions(question)
     return render_template("search-result.html", searched_questions=searched_questions)
+
 
 if __name__ == "__main__":
     app.run(
