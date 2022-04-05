@@ -184,10 +184,13 @@ def add_comment_to_the_question(question_id):
         return redirect(f'/question/{ question_id }')
 
 
-
 @app.route('/answer/<answer_id>/edit', methods=['GET', 'POST'])
 def edit_answer(answer_id):
-    return render_template('edit_answer.html', answer_id=answer_id)
+    answer_info = data_handler.get_answer_by_id(answer_id)
+    if request.method == 'GET':
+        return render_template('edit_answer.html', answer_id=answer_id, answer_info=answer_info)
+    elif request.method == 'POST':
+        pass
 
 
 @app.route('/search', methods=['GET', 'POST'])
@@ -195,6 +198,7 @@ def search():
     question = request.args.get('question-input')
     searched_questions = data_handler.get_questions(question)
     return render_template("search-result.html", searched_questions=searched_questions)
+
 
 if __name__ == "__main__":
     app.run(
