@@ -58,10 +58,12 @@ def add_question():
         #             "vote_number": 0}
         if request.files["image"]:
             image = request.files["image"]
+            image.save(os.path.join(data_handler.IMAGE_FOLDER_PATH, image.filename))
+            question_image = f"images/{image.filename}"
         else:
-            image = f"static/images/default.png"
+            question_image = "images/no_picture.png"
         submission_time = utils.get_time()
-        new_data = [submission_time, 0, 0, request.form.get("title"), request.form.get("message"), image]
+        new_data = [submission_time, 0, 0, request.form.get("title"), request.form.get("message"), question_image]
         # items = request.form.items()
         # data_handler.save_new_input(new_data, image, items, answer=False)
         # data_handler.save_original_vote_numbers()
@@ -121,9 +123,11 @@ def edit_question(question_id=None):
         #     question["image"] = f"images/{image.filename}"
         if request.files["image"]:
             image = request.files["image"]
+            image.save(os.path.join(data_handler.IMAGE_FOLDER_PATH, image.filename))
+            question_image = f"images/{image.filename}"
         else:
-            image = f"static/images/default.png"
-        data_handler.edit_question(question_id, edited_title, edited_message)
+            question_image = "images/no_picture.png"
+        data_handler.edit_question(question_id, edited_title, edited_message, question_image)
         # data_handler.edit_in_file(data_handler.QUESTIONS_PATH, question, data_handler.QUESTION_HEADERS_CSV)
         # data_handler.save_original_vote_numbers()
         return redirect("/list")
@@ -131,15 +135,19 @@ def edit_question(question_id=None):
 
 @app.route("/question/<question_id>/delete")
 def delete_question(question_id):
-    all_questions = data_handler.read_data_from_file(data_handler.QUESTIONS_PATH)
-    question_answers = data_handler.get_answers_from_file(question_id, data_handler.ANSWERS_PATH)
-    for question in all_questions:
-        if question["id"] == question_id:
-            line_to_be_edited = question
-            for answer in question_answers:
-                if answer["question_id"] == question_id:
-                    data_handler.delete_in_file(data_handler.ANSWERS_PATH, answer, data_handler.ANSWER_HEADERS_CSV)
-    data_handler.delete_in_file(data_handler.QUESTIONS_PATH, line_to_be_edited, data_handler.QUESTION_HEADERS_CSV)
+    # all_questions = data_handler.read_data_from_file(data_handler.QUESTIONS_PATH)
+    # question_answers = data_handler.get_answers_from_file(question_id, data_handler.ANSWERS_PATH)
+    # for question in all_questions:
+    #     if question["id"] == question_id:
+    #         line_to_be_edited = question
+    #         for answer in question_answers:
+    #             if answer["question_id"] == question_id:
+    #                 data_handler.delete_in_file(data_handler.ANSWERS_PATH, answer, data_handler.ANSWER_HEADERS_CSV)
+    # data_handler.delete_in_file(data_handler.QUESTIONS_PATH, line_to_be_edited, data_handler.QUESTION_HEADERS_CSV)
+    question_data = data_handler.get_question_by_id(question_id)
+    if question_data[0]["image"] != "images/no_picture.png":
+        os.remove(f"{data_handler.STATIC_FOLDER_PATH}/{question_data[0]['image']}")
+    delete_functions.delete_question(question_id)
     return redirect("/list")
 
 
@@ -185,7 +193,6 @@ def add_comment_to_the_question(question_id):
         time = utils.get_time()
         data_handler.insert_into_g_comment(*[question_id, comment, time])
         return redirect(f'/question/{ question_id }')
-
 
 
 @app.route('/answer/<answer_id>/edit', methods=['GET', 'POST'])

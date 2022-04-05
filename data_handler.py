@@ -251,6 +251,7 @@ def save_new_input(new_data, image, items, answer=False):
     else:
         write_to_file(QUESTIONS_PATH, new_data, QUESTION_HEADERS_CSV)
 
+
 @connections.connection_handler
 def insert_into_g_comment(cursor, *args):
     query = f"""
@@ -270,11 +271,12 @@ def insert_into_a_comment(cursor, *args):
 
 
 @connections.connection_handler
-def edit_question(cursor, question_id, title, message):
+def edit_question(cursor, question_id, title, message, image):
     query = """
         UPDATE question
         SET title = %(title)s,
-            message = %(message)s
+            message = %(message)s,
+            image = %(image)s
         WHERE id = %(question_id)s
     """
-    cursor.execute(query, {"title": title, "message": message, "question_id": question_id})
+    cursor.execute(query, {"title": title, "message": message, "question_id": question_id, "image": image})
