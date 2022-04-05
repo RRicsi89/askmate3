@@ -1,7 +1,7 @@
 import csv
 import os
 import connections
-from datetime import datetime
+
 
 QUESTIONS_PATH = os.getenv('QUESTIONS_PATH') if "QUESTIONS_PATH" in os.environ else "data/questions.csv"
 ANSWERS_PATH = os.getenv('ANSWERS_PATH') if "ANSWERS_PATH" in os.environ else "data/answers.csv"
@@ -70,8 +70,18 @@ def get_question_by_id(cursor, question_id):
         WHERE id = %(question_id)s;
     """
     cursor.execute(query, {"question_id": question_id})
-    data = cursor.fetchall()
-    return data
+    return cursor.fetchall()
+
+
+@connections.connection_handler
+def get_answer_by_id(cursor, answer_id):
+    query = f"""
+        SELECT * 
+        FROM answer
+        WHERE id = {answer_id}
+    """
+    cursor.execute(query)
+    return cursor.fetchall()
 
 
 @connections.connection_handler
@@ -93,6 +103,10 @@ def get_answers_from_file(question_id, file_to_read_from=ANSWERS_PATH):
         if data["question_id"] == question_id:
             answers.append(data)
     return answers
+
+
+def get_time():
+    return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 
 def write_to_file(file, new_dictionary, field_name):
@@ -233,3 +247,20 @@ def save_new_input(new_data, image, items, answer=False):
     else:
         write_to_file(QUESTIONS_PATH, new_data, QUESTION_HEADERS_CSV)
 
+@connections.connection_handler
+def insert_into_comment(cursor, *args):
+    query = f"""
+        INSERT INTO comment (id, question_id, answer_id, message, submission_time, edited_count)
+        VALUES {args}
+    """
+    cursor.execute(query)
+
+@connections.connection_handler
+def edit_question(cursor, question_id, title, message):
+    query = """
+        UPDATE question
+        SET title = %(title)s,
+            message = %(message)s
+        WHERE id = %(question_id)s
+    """
+    cursor.execute(query, {"title": title, "message": message, "question_id": question_id})

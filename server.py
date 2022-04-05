@@ -1,6 +1,7 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for
 import data_handler
+import delete_functions
 import utils
 
 app = Flask(__name__)
@@ -99,26 +100,32 @@ def add_answer(question_id=None):
 
 @app.route("/question/<question_id>/edit", methods=["GET", "POST"])
 def edit_question(question_id=None):
-    question = data_handler.get_data(question_id, data_handler.QUESTIONS_PATH)
+    # question = data_handler.get_data(question_id, data_handler.QUESTIONS_PATH)
+    question = data_handler.get_question_by_id(question_id)
     if request.method == 'GET':
         return render_template("edit_question.html", question=question, question_id=question_id)
     if request.method == "POST":
         edited_title = request.form["title"]
         edited_message = request.form["message"]
 
-        question = {"id": question_id,
-                    "submission_time": utils.get_time(),
-                    "view_number": 0,
-                    "vote_number": 0,
-                    "title": edited_title,
-                    "message": edited_message}
+        # question = {"id": question_id,
+        #             "submission_time": utils.get_time(),
+        #             "view_number": 0,
+        #             "vote_number": 0,
+        #             "title": edited_title,
+        #             "message": edited_message}
 
-        image = request.files["image"]
-        if image:
-            image.save(os.path.join(data_handler.IMAGE_FOLDER_PATH, image.filename))
-            question["image"] = f"images/{image.filename}"
-        data_handler.edit_in_file(data_handler.QUESTIONS_PATH, question, data_handler.QUESTION_HEADERS_CSV)
-        data_handler.save_original_vote_numbers()
+        # image = request.files["image"]
+        # if image:
+        #     image.save(os.path.join(data_handler.IMAGE_FOLDER_PATH, image.filename))
+        #     question["image"] = f"images/{image.filename}"
+        if request.files["image"]:
+            image = request.files["image"]
+        else:
+            image = f"static/images/default.png"
+        data_handler.edit_question(question_id, edited_title, edited_message)
+        # data_handler.edit_in_file(data_handler.QUESTIONS_PATH, question, data_handler.QUESTION_HEADERS_CSV)
+        # data_handler.save_original_vote_numbers()
         return redirect("/list")
 
 
@@ -138,12 +145,14 @@ def delete_question(question_id):
 
 @app.route("/answer/<answer_id>/delete")
 def delete_answer(answer_id):
-    all_answers = data_handler.read_data_from_file(data_handler.ANSWERS_PATH)
-    for answer in all_answers:
-        if answer["id"] == answer_id:
-            line_to_be_edited = answer
-    data_handler.delete_in_file(data_handler.ANSWERS_PATH, line_to_be_edited, data_handler.ANSWER_HEADERS_CSV)
-    question_id = answer["question_id"]
+    # all_answers = data_handler.read_data_from_file(data_handler.ANSWERS_PATH)
+    # for answer in all_answers:
+    #     if answer["id"] == answer_id:
+    #         line_to_be_edited = answer
+    # data_handler.delete_in_file(data_handler.ANSWERS_PATH, line_to_be_edited, data_handler.ANSWER_HEADERS_CSV)
+    # question_id = answer["question_id"]
+    question_data = data_handler.get_question_by_id(question_id)
+    delete_functions.delete_answer()
     return redirect(f"/question/{question_id}")
 
 
@@ -169,11 +178,20 @@ def change_vote_number_answer(answer_id=None, vote=None):
 
 @app.route('/question/<question_id>/new-comment', methods=['GET', 'POST'])
 def add_comment_to_the_question(question_id):
-    question = data_handler.get_data(question_id, data_handler.QUESTIONS_PATH)
     if request.method == 'GET':
-        return render_template('new_comment.html', question=question)
+        return render_template('new_q_comment.html', question_id=question_id)
     elif request.method == 'POST':
-        return redirect(f'/question/{ question["id"] }')
+        comment = request.form['message']
+        time = data_handler.get_time()
+        data_handler.insert_into_comment(question_id=question_id, message=comment, submission_time=time)
+        return redirect(f'/question/{ question_id }')
+
+
+
+@app.route('/answer/<answer_id>/edit', methods=['GET', 'POST'])
+def edit_answer(answer_id):
+    return render_template('edit_answer.html', answer_id=answer_id)
+
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
@@ -181,6 +199,7 @@ def search():
     question = request.args.get("question_input")
     searched_questions = data_handler.get_questions(question)
     return render_template("search-result.html", headers=headers, searched_questions=searched_questions)
+
 
 if __name__ == "__main__":
     app.run(
