@@ -28,6 +28,7 @@ DICT_KEYS = ["submission_time", "view_number", "vote_number", "title", "message"
 def get_questions(cursor, searched_question):
     query = f"""
         SELECT
+            question.id,
             question.submission_time,
             question.view_number,
             question.vote_number,
