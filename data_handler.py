@@ -159,6 +159,18 @@ def save_answer_to_db(cursor, *args):
     cursor.execute(query)
 
 
+@connections.connection_handler
+def save_edited_answer_to_db(cursor, sub_time, message, image, question_id):
+    query = f"""
+    UPDATE answer
+    SET submission_time = '{sub_time}',
+    message = '{message}',
+    image = '{image}'
+    WHERE id = '{question_id}'
+    """
+    cursor.execute(query)
+
+
 def delete_in_file(file, line_to_delete, field_name):
     datas = read_data_from_file(file)
     with open(file, "w", newline="") as csvfile:
