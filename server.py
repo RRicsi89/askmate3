@@ -99,26 +99,32 @@ def add_answer(question_id=None):
 
 @app.route("/question/<question_id>/edit", methods=["GET", "POST"])
 def edit_question(question_id=None):
-    question = data_handler.get_data(question_id, data_handler.QUESTIONS_PATH)
+    # question = data_handler.get_data(question_id, data_handler.QUESTIONS_PATH)
+    question = data_handler.get_question_by_id(question_id)
     if request.method == 'GET':
         return render_template("edit_question.html", question=question, question_id=question_id)
     if request.method == "POST":
         edited_title = request.form["title"]
         edited_message = request.form["message"]
 
-        question = {"id": question_id,
-                    "submission_time": utils.get_time(),
-                    "view_number": 0,
-                    "vote_number": 0,
-                    "title": edited_title,
-                    "message": edited_message}
+        # question = {"id": question_id,
+        #             "submission_time": utils.get_time(),
+        #             "view_number": 0,
+        #             "vote_number": 0,
+        #             "title": edited_title,
+        #             "message": edited_message}
 
-        image = request.files["image"]
-        if image:
-            image.save(os.path.join(data_handler.IMAGE_FOLDER_PATH, image.filename))
-            question["image"] = f"images/{image.filename}"
-        data_handler.edit_in_file(data_handler.QUESTIONS_PATH, question, data_handler.QUESTION_HEADERS_CSV)
-        data_handler.save_original_vote_numbers()
+        # image = request.files["image"]
+        # if image:
+        #     image.save(os.path.join(data_handler.IMAGE_FOLDER_PATH, image.filename))
+        #     question["image"] = f"images/{image.filename}"
+        if request.files["image"]:
+            image = request.files["image"]
+        else:
+            image = f"static/images/default.png"
+        data_handler.edit_question(question_id, edited_title, edited_message)
+        # data_handler.edit_in_file(data_handler.QUESTIONS_PATH, question, data_handler.QUESTION_HEADERS_CSV)
+        # data_handler.save_original_vote_numbers()
         return redirect("/list")
 
 

@@ -222,3 +222,13 @@ def save_new_input(new_data, image, items, answer=False):
     else:
         write_to_file(QUESTIONS_PATH, new_data, QUESTION_HEADERS_CSV)
 
+
+@connections.connection_handler
+def edit_question(cursor, question_id, title, message):
+    query = """
+        UPDATE question
+        SET title = %(title)s,
+            message = %(message)s
+        WHERE id = %(question_id)s
+    """
+    cursor.execute(query, {"title": title, "message": message, "question_id": question_id})

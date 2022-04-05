@@ -10,10 +10,10 @@
         <section class="add_edit_question_form">
             <form action="/question/{{ question_id }}/edit" method="POST" enctype="multipart/form-data" class="question_form">
                 <label for="question_title">Title</label><br>
-                <input type="text" name="title" id="question_title" value="{{ question['title'] }}" required><br>
+                <input type="text" name="title" id="question_title" value="{{ question[0]['title'] }}" required><br>
 
                 <label for="question_content">Explain</label><br>
-                <textarea name="message" id="question_content" cols="50" rows="5" required>{{question["message"]}}></textarea><br>
+                <textarea name="message" id="question_content" cols="50" rows="5" required>{{question[0]["message"]}}</textarea><br>
 
                 <label for="image">Select image</label><br>
                 <input type="file" name="image" id="image" accept="image/jpeg, image/png">
