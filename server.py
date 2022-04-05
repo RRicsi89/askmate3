@@ -184,6 +184,12 @@ def add_comment_to_the_question(question_id):
         return redirect(f'/question/{ question_id }')
 
 
+
+@app.route('/answer/<answer_id>/edit', methods=['GET', 'POST'])
+def edit_answer(answer_id):
+    return render_template('edit_answer.html', answer_id=answer_id)
+
+
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     question = request.args.get('question-input')

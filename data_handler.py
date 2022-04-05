@@ -64,6 +64,17 @@ def get_question_by_id(cursor, question_id):
 
 
 @connections.connection_handler
+def get_answer_by_id(cursor, answer_id):
+    query = f"""
+        SELECT * 
+        FROM answer
+        WHERE id = {answer_id}
+    """
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@connections.connection_handler
 def get_answers_by_id(cursor, question_id):
     query = """
         SELECT answer.submission_time, answer.vote_number, answer.message, answer.image FROM answer
