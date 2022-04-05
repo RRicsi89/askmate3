@@ -16,12 +16,26 @@ h2 {
     text-shadow: 2px 2px 2px #B6A9AD;
 }
 
-nav {
+header {
     padding: 20px;
     font-size: 3em;
     font-family: 'Bungee', cursive;
     background: linear-gradient(to left, #F7DDE6, #D8F1F8);
     text-shadow: 3px 3px 2px #B6A9AD;
+}
+
+nav {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#question-input {
+    padding: 5px;
+    font-size: 100%;
+}
+
+.search-btn {
+    padding: 5px;
 }
 
 table {

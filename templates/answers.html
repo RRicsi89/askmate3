@@ -3,11 +3,7 @@
 
 {% block body %}
 
-{% block nav %}
-    <nav>
-        <a href="/">AskMate</a>
-    </nav>
-{% endblock %}
+{% include "header.html" %}
 
 <form action="/list"><button type="submit" class="previous-button"><img src="/static/icons/previous.png" alt="previous-button"></button></form>
 
@@ -81,8 +77,10 @@
         </section>
 
     </section>
-
-    <form action="/question/{{ question_data['id'] }}/delete"><button type="submit" class="delete-button">Delete question</button></form>
+    <a href='/question/{{ question_data['id'] }}/new-comment'>
+        <button type='submit' class='delete-button'>Add comment</button>
+    </a>
+    <form action="/question/{{ question['id'] }}/delete"><button type="submit" class="delete-button">Delete question</button></form>
 </section>
 {% endblock %}
 
