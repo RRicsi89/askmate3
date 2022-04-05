@@ -24,6 +24,20 @@ header {
     text-shadow: 3px 3px 2px #B6A9AD;
 }
 
+nav {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#search {
+    padding: 5px;
+    font-size: 100%;
+}
+
+.search-btn {
+    padding: 5px;
+}
+
 table {
     width: 70vw;
     border: 1px solid #D55280;
