@@ -160,9 +160,7 @@ def add_comment_to_the_question(question_id):
     if request.method == 'GET':
         return render_template('new_comment.html', question=question)
     elif request.method == 'POST':
-        return redirect(f'/qu'
-                        f''
-                        f'estion/{ question["id"] }')
+        return redirect(f'/question/{ question["id"] }')
 
 if __name__ == "__main__":
     app.run(
