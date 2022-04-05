@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block title %}Results{% endblock %}
+{% block body %}
+<section id="questions-content">
+{% include "header.html" %}
+<form action="/"><button type="submit" class="previous-button"><img src="/static/icons/previous.png" alt="previous-button"></button></form>
+    <h1 class="page-title">Results</h1>
+        <section class="table">
+            <table>
+                <thead>
+                    <tr>
+                        {% for question in searched_questions %}
+                        <th>
+                            {{ question.submission_time }}
+                        </th>
+                        {% endfor %}
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody class="table-content">
+                        {% for question in seached_questions %}
+                            <tr>
+                                    <td>
+                                        {{ question.submission_time }}
+                                    </td>
+                                    <td>
+                                        {{ question.view_number }}
+                                    </td>
+                                    <td>
+                                        {{ question.vote_number }}
+                                    </td>
+                                    <td>
+                                        {{ question.title }}
+                                    </td>
+                                    <td>
+                                        {{ question.message }}
+                                    </td>
+                                    <td>
+                                        <img src="{{ question.image }}" alt="question-image">
+                                    </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+            </table>
+        </section>
+</section>
+{% endblock %}

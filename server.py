@@ -162,6 +162,12 @@ def add_comment_to_the_question(question_id):
     elif request.method == 'POST':
         return redirect(f'/question/{ question["id"] }')
 
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    question = request.args.get('question-input')
+    searched_questions = data_handler.get_questions(question)
+    return render_template("search-result.html", searched_questions=searched_questions)
+
 if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
