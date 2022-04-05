@@ -1,7 +1,7 @@
 import csv
 import os
 import connections
-from datetime import datetime
+
 
 QUESTIONS_PATH = os.getenv('QUESTIONS_PATH') if "QUESTIONS_PATH" in os.environ else "data/questions.csv"
 ANSWERS_PATH = os.getenv('ANSWERS_PATH') if "ANSWERS_PATH" in os.environ else "data/answers.csv"
@@ -24,6 +24,25 @@ DICT_KEYS = ["submission_time", "view_number", "vote_number", "title", "message"
 #         reader = csv.DictReader(csvfile)
 #         return [line for line in reader]
 
+@connections.connection_handler
+def get_questions(cursor, searched_question):
+    query = f"""
+        SELECT
+            question.id,
+            question.submission_time,
+            question.view_number,
+            question.vote_number,
+            question.title,
+            question.message,
+            question.image
+        FROM question FULL OUTER JOIN answer
+        ON question.id = answer.question_id
+        WHERE question.title LIKE '%{searched_question}%' OR
+        question.message LIKE '%{searched_question}%' OR
+        answer.message LIKE '%{searched_question}%';
+    """
+    cursor.execute(query)
+    return cursor.fetchall()
 
 @connections.connection_handler
 def get_all_questions(cursor):
@@ -59,8 +78,7 @@ def get_question_by_id(cursor, question_id):
         WHERE id = %(question_id)s;
     """
     cursor.execute(query, {"question_id": question_id})
-    data = cursor.fetchall()
-    return data
+    return cursor.fetchall()
 
 
 @connections.connection_handler
@@ -93,10 +111,6 @@ def get_answers_from_file(question_id, file_to_read_from=ANSWERS_PATH):
         if data["question_id"] == question_id:
             answers.append(data)
     return answers
-
-
-def get_time():
-    return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 
 def write_to_file(file, new_dictionary, field_name):
@@ -238,12 +252,22 @@ def save_new_input(new_data, image, items, answer=False):
         write_to_file(QUESTIONS_PATH, new_data, QUESTION_HEADERS_CSV)
 
 @connections.connection_handler
-def insert_into_comment(cursor, *args):
+def insert_into_g_comment(cursor, *args):
     query = f"""
-        INSERT INTO comment (id, question_id, answer_id, message, submission_time, edited_count)
+        INSERT INTO comment (question_id, message, submission_time)
         VALUES {args}
     """
     cursor.execute(query)
+
+
+@connections.connection_handler
+def insert_into_a_comment(cursor, *args):
+    query = f"""
+        INSERT INTO comment (answer_id, message, submission_time)
+        VALUES {args}
+    """
+    cursor.execute(query)
+
 
 @connections.connection_handler
 def edit_question(cursor, question_id, title, message):

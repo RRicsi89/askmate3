@@ -1,6 +1,7 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for
 import data_handler
+import delete_functions
 import utils
 
 app = Flask(__name__)
@@ -144,12 +145,14 @@ def delete_question(question_id):
 
 @app.route("/answer/<answer_id>/delete")
 def delete_answer(answer_id):
-    all_answers = data_handler.read_data_from_file(data_handler.ANSWERS_PATH)
-    for answer in all_answers:
-        if answer["id"] == answer_id:
-            line_to_be_edited = answer
-    data_handler.delete_in_file(data_handler.ANSWERS_PATH, line_to_be_edited, data_handler.ANSWER_HEADERS_CSV)
-    question_id = answer["question_id"]
+    # all_answers = data_handler.read_data_from_file(data_handler.ANSWERS_PATH)
+    # for answer in all_answers:
+    #     if answer["id"] == answer_id:
+    #         line_to_be_edited = answer
+    # data_handler.delete_in_file(data_handler.ANSWERS_PATH, line_to_be_edited, data_handler.ANSWER_HEADERS_CSV)
+    # question_id = answer["question_id"]
+    question_data = data_handler.get_question_by_id(question_id)
+    delete_functions.delete_answer()
     return redirect(f"/question/{question_id}")
 
 
@@ -179,8 +182,8 @@ def add_comment_to_the_question(question_id):
         return render_template('new_q_comment.html', question_id=question_id)
     elif request.method == 'POST':
         comment = request.form['message']
-        time = data_handler.get_time()
-        data_handler.insert_into_comment(question_id=question_id, message=comment, submission_time=time)
+        time = utils.get_time()
+        data_handler.insert_into_g_comment(*[question_id, comment, time])
         return redirect(f'/question/{ question_id }')
 
 
@@ -195,9 +198,11 @@ def edit_answer(answer_id):
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
-    question = request.args.get('question-input')
+    headers = data_handler.LIST_HEADERS
+    question = request.args.get("question_input")
     searched_questions = data_handler.get_questions(question)
-    return render_template("search-result.html", searched_questions=searched_questions)
+    return render_template("search-result.html", headers=headers, searched_questions=searched_questions)
+
 
 
 if __name__ == "__main__":

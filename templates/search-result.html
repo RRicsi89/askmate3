@@ -9,38 +9,40 @@
             <table>
                 <thead>
                     <tr>
-                        {% for question in searched_questions %}
+                        {% for header in headers %}
                         <th>
-                            {{ question.submission_time }}
+                            {{ header }}
                         </th>
                         {% endfor %}
-                        <th></th>
+                        <th>
+                            Image
+                        </th>
                     </tr>
                 </thead>
                 <tbody class="table-content">
-                        {% for question in seached_questions %}
-                            <tr>
-                                    <td>
-                                        {{ question.submission_time }}
-                                    </td>
-                                    <td>
-                                        {{ question.view_number }}
-                                    </td>
-                                    <td>
-                                        {{ question.vote_number }}
-                                    </td>
-                                    <td>
-                                        {{ question.title }}
-                                    </td>
-                                    <td>
-                                        {{ question.message }}
-                                    </td>
-                                    <td>
-                                        <img src="{{ question.image }}" alt="question-image">
-                                    </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
+                    {% for question in searched_questions %}
+                        <tr>
+                            <td>
+                                {{ question.submission_time }}
+                            </td>
+                            <td>
+                                {{ question.view_number }}
+                            </td>
+                            <td>
+                                {{ question.vote_number }}
+                            </td>
+                            <td>
+                                <a href={{ url_for('display_question', question_id = question.id) }}>{{ question.title }}</a>
+                            </td>
+                            <td>
+                                {{ question.message }}
+                            </td>
+                            <td>
+                                <img src="{{ question.image }}" alt="question-image">
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
             </table>
         </section>
 </section>
