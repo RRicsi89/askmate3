@@ -10,11 +10,11 @@
     </nav>
 {% endblock %}
 
-    <form action="/question/{{ question['id'] }}"><button type="submit" class="previous-button"><img src="/static/icons/previous.png" alt="previous-button"></button></form>
+    <form action="/question/{{ question_id }}"><button type="submit" class="previous-button"><img src="/static/icons/previous.png" alt="previous-button"></button></form>
 
     <h1 class="page-title">Let's answer!</h1>
     <section class="add_edit_question_form">
-        <form action="/question/{{ question['id'] }}/new-answer" method="POST", enctype="multipart/form-data" class="question_form">
+        <form action="/question/{{ question_id }}/new-answer" method="POST", enctype="multipart/form-data" class="question_form">
             <label for="question_content">Your answer</label><br>
             <textarea name="message" id="question_content" cols="50" rows="5" required></textarea><br>
             <label for="image">Select image</label><br>

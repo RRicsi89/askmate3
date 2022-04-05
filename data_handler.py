@@ -19,17 +19,60 @@ ANSWER_HEADERS_CSV = ["id", "submission_time", "vote_number", "question_id", "me
 DICT_KEYS = ["submission_time", "view_number", "vote_number", "title", "message"]
 
 
-def read_data_from_file(file=None):
-    with open(file, "r") as csvfile:
-        reader = csv.DictReader(csvfile)
-        return [line for line in reader]
+# def read_data_from_file(file=None):
+#     with open(file, "r") as csvfile:
+#         reader = csv.DictReader(csvfile)
+#         return [line for line in reader]
 
 
-def get_data(data_id, file_to_read_from):
-    datas = read_data_from_file(file_to_read_from)
-    for data in datas:
-        if data["id"] == data_id:
-            return data
+@connections.connection_handler
+def get_all_questions(cursor):
+    query = """
+        SELECT * FROM question
+        ORDER BY submission_time;
+    """
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@connections.connection_handler
+def sort_all_questions(cursor, key, direction):
+    query = f"""
+        SELECT * FROM question
+        ORDER BY {key} {direction};
+    """
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+# def get_data(data_id, file_to_read_from):
+#     datas = read_data_from_file(file_to_read_from)
+#     for data in datas:
+#         if data["id"] == data_id:
+#             return data
+
+
+@connections.connection_handler
+def get_question_by_id(cursor, question_id):
+    query = """
+        SELECT * FROM question
+        WHERE id = %(question_id)s;
+    """
+    cursor.execute(query, {"question_id": question_id})
+    data = cursor.fetchall()
+    return data
+
+
+@connections.connection_handler
+def get_answers_by_id(cursor, question_id):
+    query = """
+        SELECT answer.submission_time, answer.vote_number, answer.message, answer.image FROM answer
+        JOIN question
+            ON answer.question_id = question.id
+        WHERE answer.question_id = %(question_id)s;
+    """
+    cursor.execute(query, {"question_id": question_id})
+    return cursor.fetchall()
 
 
 def get_answers_from_file(question_id, file_to_read_from=ANSWERS_PATH):
@@ -39,15 +82,6 @@ def get_answers_from_file(question_id, file_to_read_from=ANSWERS_PATH):
         if data["question_id"] == question_id:
             answers.append(data)
     return answers
-
-
-def convert_timestamps(dictionaries):
-    timestamps = []
-    for dictionary in dictionaries:
-        for key, value in dictionary.items():
-            if key == "submission_time":
-                timestamps.append(datetime.fromtimestamp(int(value)))
-    return timestamps
 
 
 def write_to_file(file, new_dictionary, field_name):
@@ -66,6 +100,34 @@ def save_data_to_file(dictionaries, field_name,  file=QUESTIONS_PATH):
         writer.writeheader()
         for dictionary in dictionaries:
             writer.writerow(dictionary)
+
+
+@connections.connection_handler
+def save_question_to_db(cursor, *args):
+    query = f"""
+        INSERT INTO question (submission_time, view_number, vote_number, title, message, image) 
+        VALUES {args}
+    """
+    cursor.execute(query)
+
+
+@connections.connection_handler
+def get_question_id(cursor, title):
+    query = f"""
+        SELECT id FROM question
+        WHERE title = %(title)s
+    """
+    cursor.execute(query, {"title": title})
+    return cursor.fetchall()
+
+
+@connections.connection_handler
+def save_answer_to_db(cursor, *args):
+    query = f"""
+        INSERT INTO answer (submission_time, vote_number, question_id, message, image) 
+        VALUES {args}
+    """
+    cursor.execute(query)
 
 
 def delete_in_file(file, line_to_delete, field_name):

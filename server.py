@@ -8,46 +8,42 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
-    data_handler.VISITS += 1
-    with open("data/security.txt", "r") as file:
-        security_code = file.readline()
-    if data_handler.VISITS == int(security_code):
-        data_handler.save_original_vote_numbers()
-        questions = data_handler.read_data_from_file(data_handler.QUESTIONS_PATH)
-        questions.sort(key=lambda dicti: dicti["submission_time"])
-        data_handler.save_data_to_file(questions, data_handler.QUESTION_HEADERS_CSV)
+    # data_handler.VISITS += 1
+    # with open("data/security.txt", "r") as file:
+    #     security_code = file.readline()
+    # if data_handler.VISITS == int(security_code):
+    #     data_handler.save_original_vote_numbers()
+    #     questions = data_handler.read_data_from_file(data_handler.QUESTIONS_PATH)
+    #     questions.sort(key=lambda dicti: dicti["submission_time"])
+    #     data_handler.save_data_to_file(questions, data_handler.QUESTION_HEADERS_CSV)
     return render_template("index.html")
 
 
 @app.route("/list")
 def list_questions():
-    questions = data_handler.read_data_from_file(data_handler.QUESTIONS_PATH)
+    questions = data_handler.get_all_questions()
     headers = data_handler.LIST_HEADERS
     dict_keys = data_handler.DICT_KEYS
     if "order_direction" in request.args.keys():
-        args = request.args
-        order_direction = args.get("order_direction")
-        order_by = args.get("order_by").lower().replace(" ", "_")
-        questions = data_handler.sort_data(questions, order_direction, order_by)
-        data_handler.save_data_to_file(questions, data_handler.QUESTION_HEADERS_CSV)
-    timestamps = data_handler.convert_timestamps(questions)
-    for i in range(len(questions)):
-        questions[i]["submission_time"] = timestamps[i]
-    return render_template("list.html", questions=questions, headers=headers, timestamps=timestamps, dict_keys=dict_keys)
+        order_direction = request.args.get("order_direction")
+        order_by = request.args.get("order_by")
+        questions = data_handler.sort_all_questions(order_by, order_direction)
+    return render_template("list.html", questions=questions, headers=headers, dict_keys=dict_keys)
 
 
 @app.route("/question/<question_id>")
 def display_question(question_id):
-    question = data_handler.get_data(question_id, data_handler.QUESTIONS_PATH)
-    answers = data_handler.get_answers_from_file(question_id)
-    timestamps = data_handler.convert_timestamps(answers)
+    # question = data_handler.get_data(question_id, data_handler.QUESTIONS_PATH)
+    # answers = data_handler.get_answers_from_file(question_id)
+    question_data = data_handler.get_question_by_id(question_id)
+    answers = data_handler.get_answers_by_id(question_id)
+    # timestamps = data_handler.convert_timestamps(answers)
     answer_headers = data_handler.ANSWER_HEADERS
-    view_number = int(question['view_number'])
-    view_number += 1
-    question['view_number'] = view_number
-    data_handler.edit_in_file(data_handler.QUESTIONS_PATH, question, data_handler.QUESTION_HEADERS_CSV)
-    return render_template("answers.html", question=question, answers=answers, answer_headers=answer_headers,
-                           timestamps=timestamps)
+    # view_number = int(question['view_number'])
+    # view_number += 1
+    # question['view_number'] = view_number
+    # data_handler.edit_in_file(data_handler.QUESTIONS_PATH, question, data_handler.QUESTION_HEADERS_CSV)
+    return render_template("answers.html", question_data=question_data, answers=answers, answer_headers=answer_headers)
 
 
 @app.route("/add-question", methods=["GET", "POST"])
@@ -55,32 +51,49 @@ def add_question():
     if request.method == "GET":
         return render_template("add_question.html")
     elif request.method == "POST":
-        new_data = {"id": utils.generate_uuid(),
-                    "submission_time": utils.get_time(),
-                    "view_number": 0,
-                    "vote_number": 0}
-        image = request.files["image"]
-        items = request.form.items()
-        data_handler.save_new_input(new_data, image, items, answer=False)
-        data_handler.save_original_vote_numbers()
-        return redirect(f"/question/{new_data['id']}")
+        # new_data = {"id": utils.generate_uuid(),
+        #             "submission_time": utils.get_time(),
+        #             "view_number": 0,
+        #             "vote_number": 0}
+        if request.files["image"]:
+            image = request.files["image"]
+        else:
+            image = f"static/images/default.png"
+        submission_time = utils.get_time()
+        new_data = [submission_time, 0, 0, request.form.get("title"), request.form.get("message"), image]
+        # items = request.form.items()
+        # data_handler.save_new_input(new_data, image, items, answer=False)
+        # data_handler.save_original_vote_numbers()
+
+        data_handler.save_question_to_db(*new_data)
+        question_id = data_handler.get_question_id(request.form.get("title"))[0]["id"]
+        return redirect(f"/question/{question_id}")
 
 
 @app.route("/question/<question_id>/new-answer", methods=["GET", "POST"])
 def add_answer(question_id=None):
     if request.method == "GET":
-        question = data_handler.get_data(question_id, data_handler.QUESTIONS_PATH)
-        return render_template("new_answer.html", question=question)
+        # question = data_handler.get_data(question_id, data_handler.QUESTIONS_PATH)
+        question = data_handler.get_question_by_id(question_id)
+        question_id = question[0]["id"]
+        return render_template("new_answer.html", question_id=question_id)
     elif request.method == "POST":
-        message = request.form['message']
-        new_data = {"id": utils.generate_uuid(),
-                      "submission_time": utils.get_time(),
-                      "vote_number": 0,
-                      "question_id": question_id,
-                      "message": message}
-        image = request.files["image"]
-        items = request.form.items()
-        data_handler.save_new_input(new_data, image, items, answer=True)
+        # message = request.form['message']
+        # new_data = {"id": utils.generate_uuid(),
+        #               "submission_time": utils.get_time(),
+        #               "vote_number": 0,
+        #               "question_id": question_id,
+        #               "message": message}
+        # image = request.files["image"]
+        # items = request.form.items()
+        if request.files["image"]:
+            image = request.files["image"]
+        else:
+            image = f"static/images/default.png"
+        submission_time = utils.get_time()
+        new_data = [submission_time, 0, question_id, request.form["message"], image]
+        data_handler.save_answer_to_db(*new_data)
+        # data_handler.save_new_input(new_data, image, items, answer=True)
         return redirect(f"/question/{question_id}")
 
 
