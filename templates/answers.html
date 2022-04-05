@@ -53,7 +53,7 @@
                                 {% else %}
                                     <td><img class="answer-image" alt="No picture for this answer" src="{{ url_for('static', filename="images/no_picture.png") }}"></td>
                                 {% endif %}
-                            {% else %}
+                            {% elif not loop.first %}
                                 <td>{{ answer[key] }}</td>
                             {% endif %}
                         {% endfor %}
