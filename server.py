@@ -200,6 +200,17 @@ def add_comment_to_the_question(question_id):
         return redirect(f'/question/{ question_id }')
 
 
+@app.route('/answer/<answer_id>/new-comment', methods=['GET', 'POST'])
+def add_comment_to_the_answer(question_id, answer_id):
+    if request.method == 'GET':
+        return render_template('new_a_comment.html', answer_id=answer_id, question_id=question_id)
+    elif request.method == 'POST':
+        comment = request.form['message']
+        time = utils.get_time()
+        data_handler.insert_into_g_comment(*[answer_id, comment, time])
+        return redirect(f'/question/{ question_id }')
+
+
 @app.route('/answer/<answer_id>/edit', methods=['GET', 'POST'])
 def edit_answer(answer_id):
     answer_info = data_handler.get_answer_by_id(answer_id)
