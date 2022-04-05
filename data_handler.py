@@ -217,14 +217,14 @@ def sort_data(list_of_dicts, order_direction, order_by):
     return sorted_list
 
 
-def update_vote_number(dictionary, vote):
-    number = int((dictionary["vote_number"]))
-    if vote == "vote_up":
-        number += 1
-    elif vote == "vote_down":
-        number -= 1
-    dictionary["vote_number"] = number
-    return dictionary
+# def update_vote_number(dictionary, vote):
+#     number = int((dictionary["vote_number"]))
+#     if vote == "vote_up":
+#         number += 1
+#     elif vote == "vote_down":
+#         number -= 1
+#     dictionary["vote_number"] = number
+#     return dictionary
 
 
 def save_original_vote_numbers(file_to_save=VOTE_NUMBERS_PATH, file_to_read=QUESTIONS_PATH):
@@ -283,12 +283,30 @@ def insert_into_a_comment(cursor, *args):
 
 
 @connections.connection_handler
-def edit_question(cursor, question_id, title, message, image):
+def edit_question(cursor, question_id, title, message, image, submission_time):
     query = """
         UPDATE question
         SET title = %(title)s,
             message = %(message)s,
-            image = %(image)s
+            image = %(image)s,
+            submission_time = %(submission_time)s
         WHERE id = %(question_id)s
     """
-    cursor.execute(query, {"title": title, "message": message, "question_id": question_id, "image": image})
+    cursor.execute(query, {"title": title, "message": message, "question_id": question_id, "image": image, "submission_time": submission_time})
+
+
+@connections.connection_handler
+def update_vote_number(cursor, question_id, vote):
+    if vote == "vote_up":
+        query = """
+            UPDATE question
+            SET vote_number = vote_number + 1
+            WHERE id = %(question_id)s
+    """
+    elif vote == "vote_down":
+        query = """
+            UPDATE question
+            SET vote_number = vote_number - 1
+            WHERE id = %(question_id)s
+        """
+    cursor.execute(query, {"question_id": question_id})
