@@ -24,6 +24,17 @@ DICT_KEYS = ["submission_time", "view_number", "vote_number", "title", "message"
 #         reader = csv.DictReader(csvfile)
 #         return [line for line in reader]
 
+@connections.connection_handler
+def get_questions(cursor, searched_question):
+    query = f"""
+        SELECT * FROM question FULL OUTER JOIN answer
+        ON question.id = answer.question_id
+        WHERE question.title LIKE '%{searched_question}%' OR
+        question.message LIKE '%{searched_question}%' OR
+        answer.message LIKE '%{searched_question}%';
+    """
+    cursor.execute(query)
+    return cursor.fetchall()
 
 @connections.connection_handler
 def get_all_questions(cursor):

@@ -177,9 +177,10 @@ def add_comment_to_the_question(question_id):
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
-    question = request.args.get('question-input')
+    headers = data_handler.LIST_HEADERS
+    question = request.args.get("question_input")
     searched_questions = data_handler.get_questions(question)
-    return render_template("search-result.html", searched_questions=searched_questions)
+    return render_template("search-result.html", headers=headers, searched_questions=searched_questions)
 
 if __name__ == "__main__":
     app.run(
