@@ -219,18 +219,14 @@ def edit_answer(answer_id):
     elif request.method == 'POST':
         new_info = request.form["answer_text"]
         submission_time = utils.get_time()
-
-        test = [submission_time, new_info, answer_info[0]["question_id"]]
-
         if request.files["image"]:
             image = request.files["image"]
             image.save(os.path.join(data_handler.IMAGE_FOLDER_PATH, image.filename))
             answer_image = f"images/{image.filename}"
         else:
             answer_image = "images/no_picture.png"
-
         data_handler.save_edited_answer_to_db(sub_time=submission_time, message=new_info, image=answer_image, question_id=answer_info[0]['question_id'])
-        return redirect(f'/question/{int(answer_info[0]["question_id"])}')
+        return redirect(f'/question/{answer_info[0]["question_id"]}')
 
 
 @app.route('/search', methods=['GET', 'POST'])
