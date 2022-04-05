@@ -27,7 +27,14 @@ DICT_KEYS = ["submission_time", "view_number", "vote_number", "title", "message"
 @connections.connection_handler
 def get_questions(cursor, searched_question):
     query = f"""
-        SELECT * FROM question FULL OUTER JOIN answer
+        SELECT
+            question.submission_time,
+            question.view_number,
+            question.vote_number,
+            question.title,
+            question.message,
+            question.image
+        FROM question FULL OUTER JOIN answer
         ON question.id = answer.question_id
         WHERE question.title LIKE '%{searched_question}%' OR
         question.message LIKE '%{searched_question}%' OR
