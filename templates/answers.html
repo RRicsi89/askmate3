@@ -60,6 +60,13 @@
                         <td><form action="/answer/{{ answer['id'] }}/delete">
                             <button type="submit" class="trash-button"><img src="/static/icons/trash.png" alt=""></button></form>
                         </td>
+
+                        <td>
+                            <form action="answer/{{ answer['id'] }}/edit">
+                                  <button type="submit" class="edit_button">EDIT ME</button>
+                            </form>
+                        </td>
+
                         <td>
                         <a href='/answer/{{ answer['id'] }}/new-comment'>
                            <button type='submit' class='delete-button'>Add comment</button>
