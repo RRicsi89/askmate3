@@ -37,7 +37,7 @@ def display_question(question_id):
     # question = data_handler.get_data(question_id, data_handler.QUESTIONS_PATH)
     # answers = data_handler.get_answers_from_file(question_id)
     question_data = data_handler.get_question_by_id(question_id)
-    answers = data_handler.get_answers_by_id(question_id)
+    answers = data_handler.get_answers_by_question_id(question_id)
     # timestamps = data_handler.convert_timestamps(answers)
     answer_headers = data_handler.ANSWER_HEADERS
     # view_number = int(question['view_number'])
@@ -91,10 +91,12 @@ def add_answer(question_id=None):
         # items = request.form.items()
         if request.files["image"]:
             image = request.files["image"]
+            image.save(os.path.join(data_handler.IMAGE_FOLDER_PATH, image.filename))
+            answer_image = f"images/{image.filename}"
         else:
-            image = f"static/images/default.png"
+            answer_image = "images/no_picture.png"
         submission_time = utils.get_time()
-        new_data = [submission_time, 0, question_id, request.form["message"], image]
+        new_data = [submission_time, 0, question_id, request.form["message"], answer_image]
         data_handler.save_answer_to_db(*new_data)
         # data_handler.save_new_input(new_data, image, items, answer=True)
         return redirect(f"/question/{question_id}")
@@ -159,8 +161,11 @@ def delete_answer(answer_id):
     #         line_to_be_edited = answer
     # data_handler.delete_in_file(data_handler.ANSWERS_PATH, line_to_be_edited, data_handler.ANSWER_HEADERS_CSV)
     # question_id = answer["question_id"]
-    question_data = data_handler.get_question_by_id(question_id)
-    delete_functions.delete_answer()
+    answer_data = data_handler.get_answer_by_id(answer_id)
+    question_id = answer_data[0]["question_id"]
+    if answer_data[0]["image"] != "images/no_picture.png":
+        os.remove(f"{data_handler.STATIC_FOLDER_PATH}/{answer_data[0]['image']}")
+    delete_functions.delete_answer(answer_id)
     return redirect(f"/question/{question_id}")
 
 

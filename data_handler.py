@@ -93,9 +93,9 @@ def get_answer_by_id(cursor, answer_id):
 
 
 @connections.connection_handler
-def get_answers_by_id(cursor, question_id):
+def get_answers_by_question_id(cursor, question_id):
     query = """
-        SELECT answer.submission_time, answer.vote_number, answer.message, answer.image FROM answer
+        SELECT answer.id, answer.submission_time, answer.vote_number, answer.message, answer.image FROM answer
         JOIN question
             ON answer.question_id = question.id
         WHERE answer.question_id = %(question_id)s;

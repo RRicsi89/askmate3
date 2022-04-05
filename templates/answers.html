@@ -47,14 +47,12 @@
                                         </section>
                                 </td>
 
-                            {% elif loop.index0 == 5 %}
+                            {% elif loop.index0 == 3 %}
                                 {% if answer.image %}
-                                <td><img alt="A picture about the answer" src="{{ url_for('static', filename=answer[key]) }}" class="answer-image"></td>
+                                <td><img alt="A picture about the answer" src="{{ url_for('static', filename=answer['image']) }}" class="answer-image"></td>
                                 {% else %}
                                     <td><img class="answer-image" alt="No picture for this answer" src="{{ url_for('static', filename="images/no_picture.png") }}"></td>
                                 {% endif %}
-                            {% elif not (loop.index0 == 0 or loop.index0 == 3) %}
-                                <td>{{answer[key]}}</td>
                             {% else %}
                                 <td>{{ answer[key] }}</td>
                             {% endif %}
