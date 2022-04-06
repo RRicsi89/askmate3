@@ -15,6 +15,7 @@
     <p>
       {{ question_data[0]["message"] }}
     </p>
+    <section class='table'>
     <table>
     <h6>
         {% for comment in q_comments %}
@@ -32,6 +33,7 @@
         {% endfor %}
     </h6>
     </table>
+    </section>
     </section>
     <a id="tag-link" href="{{ url_for('add_tag_to_question', question_id=question_data[0]['id']) }}">add tag</a>
     <section class="table">
