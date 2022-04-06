@@ -33,7 +33,7 @@
     </h6>
     </table>
     </section>
-
+    <a id="tag-link" href="{{ url_for('add_tag_to_question', question_id=question_data[0]['id']) }}">add tag</a>
     <section class="table">
         {% if question_data[0]["image"] %}
             <img alt="A picture about the question" src="{{ url_for("static", filename=question_data[0]["image"]) }}">

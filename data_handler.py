@@ -100,7 +100,8 @@ def get_answers_by_question_id(cursor, question_id):
         SELECT answer.id, answer.submission_time, answer.vote_number, answer.message, answer.image FROM answer
         JOIN question
             ON answer.question_id = question.id
-        WHERE answer.question_id = %(question_id)s;
+        WHERE answer.question_id = %(question_id)s
+        ORDER BY answer.id;
     """
     cursor.execute(query, {"question_id": question_id})
     return cursor.fetchall()
@@ -240,6 +241,44 @@ def get_comment_by_id(cursor, comment_id):
         WHERE id = %(comment_id)s;
     """
     cursor.execute(query, {"comment_id": comment_id})
+    return cursor.fetchall()
+
+
+@connections.connection_handler
+def get_tag_names(cursor):
+    query = """
+        SELECT name FROM tag
+        ORDER BY name
+    """
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@connections.connection_handler
+def add_new_tag(cursor, tag_name):
+    query = """
+        INSERT INTO tag (name)
+        VALUES (%(tag_name)s)
+    """
+    cursor.execute(query, {"tag_name": tag_name})
+
+
+@connections.connection_handler
+def add_question_tag(cursor, question_id, tag_id):
+    query = f"""
+        INSERT INTO question_tag (question_id, tag_id)
+        VALUES ({question_id}, {tag_id})
+    """
+    cursor.execute(query)
+
+
+@connections.connection_handler
+def get_tag_id_by_name(cursor, tag_name):
+    query = """
+        SELECT id FROM tag
+        WHERE name = %(tag_name)s
+    """
+    cursor.execute(query, {"tag_name": tag_name})
     return cursor.fetchall()
 
 

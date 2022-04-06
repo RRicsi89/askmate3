@@ -200,6 +200,21 @@ def delete_comment(comment_id):
         return redirect(f'/question/{ question_id }')
 
 
+@app.route('/question/<question_id>/new-tag', methods=["GET", "POST"])
+def add_tag_to_question(question_id):
+    if request.method == "GET":
+        tags = data_handler.get_tag_names()
+        return render_template('add_tag.html', question_id=question_id, tags=tags)
+    if request.method == "POST":
+        tag_names = [tag["name"] for tag in data_handler.get_tag_names()]
+        tag_name = request.form.get("tag")
+        if tag_name not in tag_names:
+            data_handler.add_new_tag(tag_name)
+        tag_id = data_handler.get_tag_id_by_name(tag_name)
+        data_handler.add_question_tag(question_id, tag_id[0]["id"])
+        return redirect(f'/question/{ question_id }')
+
+
 if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
