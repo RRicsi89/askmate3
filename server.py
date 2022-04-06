@@ -120,12 +120,6 @@ def delete_answer(answer_id):
 
 @app.route("/question/<question_id>/<vote>")
 def change_vote_number(question_id=None, vote=None):
-    # current_question = data_handler.get_data(question_id, data_handler.QUESTIONS_PATH)
-    # number = data_handler.get_vote_number_from_file(current_question)
-    # if number == int(current_question["vote_number"]):
-    #     data_handler.edit_in_file(data_handler.QUESTIONS_PATH,
-    #                              data_handler.update_vote_number(current_question, vote),
-    #                              data_handler.QUESTION_HEADERS_CSV)
     question_data = data_handler.get_question_by_id(question_id)
     question_id = question_data[0]["id"]
     data_handler.update_question_vote(question_id, vote)
@@ -134,10 +128,6 @@ def change_vote_number(question_id=None, vote=None):
 
 @app.route("/answer/<answer_id>/<vote>")
 def change_vote_number_answer(answer_id=None, vote=None):
-    # current_answer = data_handler.get_data(answer_id, data_handler.ANSWERS_PATH)
-    # data_handler.edit_in_file(data_handler.ANSWERS_PATH,
-    #                          data_handler.update_vote_number(current_answer, vote),
-    #                          data_handler.ANSWER_HEADERS_CSV)
     answer_data = data_handler.get_answer_by_id(answer_id)
     question_id = answer_data[0]["question_id"]
     data_handler.update_answer_vote(answer_id, vote)
