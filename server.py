@@ -186,6 +186,7 @@ def edit_answer(answer_id):
 def search():
     headers = data_handler.LIST_HEADERS
     question = request.args.get("question_input")
+    print(question)
     searched_questions = data_handler.get_questions(question)
     return render_template("search-result.html", headers=headers, searched_questions=searched_questions)
 
