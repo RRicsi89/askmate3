@@ -27,7 +27,7 @@ DICT_KEYS = ["submission_time", "view_number", "vote_number", "title", "message"
 @connections.connection_handler
 def get_questions(cursor, searched_question):
     query = f"""
-        SELECT
+        SELECT DISTINCT
             question.id,
             question.submission_time,
             question.view_number,
@@ -37,9 +37,11 @@ def get_questions(cursor, searched_question):
             question.image
         FROM question FULL OUTER JOIN answer
         ON question.id = answer.question_id
-        WHERE LOWER(question.title) LIKE '%{searched_question.lower()}%' OR
-        LOWER(question.message) LIKE '%{searched_question.lower()}%' OR
-        LOWER(answer.message) LIKE '%{searched_question.lower()}%';
+        WHERE
+            LOWER(question.title) LIKE '%{searched_question.lower()}%' OR
+            LOWER(question.message) LIKE '%{searched_question.lower()}%' OR
+            LOWER(answer.message) LIKE '%{searched_question.lower()}%'
+        ORDER BY question.title;
     """
     cursor.execute(query)
     return cursor.fetchall()
