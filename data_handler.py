@@ -310,7 +310,7 @@ def get_latest_five_question(cursor):
 @connections.connection_handler
 def get_question_tags(cursor, question_id):
     query = """
-        SELECT DISTINCT name FROM tag
+        SELECT DISTINCT name, id FROM tag
         JOIN question_tag ON question_tag.tag_id = tag.id
         WHERE question_tag.question_id = %(question_id)s
     """

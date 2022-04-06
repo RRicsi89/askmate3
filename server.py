@@ -242,6 +242,13 @@ def search():
     return render_template("search-result.html", headers=headers, searched_questions=searched_questions)
 
 
+@app.route('/question/<question_id>/tag/<tag_id>/delete')
+def delete_question_tag(question_id, tag_id):
+    delete_functions.delete_tag_from_question(question_id, tag_id)
+    return redirect(f'/question/{ question_id }')
+
+
+
 if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
