@@ -19,6 +19,11 @@ ANSWER_HEADERS_CSV = ["id", "submission_time", "vote_number", "question_id", "me
 DICT_KEYS = ["submission_time", "view_number", "vote_number", "title", "message"]
 
 
+# def read_data_from_file(file=None):
+#     with open(file, "r") as csvfile:
+#         reader = csv.DictReader(csvfile)
+#         return [line for line in reader]
+
 @connections.connection_handler
 def get_questions(cursor, searched_question):
     query = f"""
@@ -59,6 +64,13 @@ def sort_all_questions(cursor, key, direction):
     """
     cursor.execute(query)
     return cursor.fetchall()
+
+
+# def get_data(data_id, file_to_read_from):
+#     datas = read_data_from_file(file_to_read_from)
+#     for data in datas:
+#         if data["id"] == data_id:
+#             return data
 
 
 @connections.connection_handler
@@ -229,3 +241,16 @@ def get_comment_by_id(cursor, comment_id):
     """
     cursor.execute(query, {"comment_id": comment_id})
     return cursor.fetchall()
+
+
+@connections.connection_handler
+def get_latest_five_question(cursor):
+    query = """
+    SELECT submission_time, view_number, vote_number, title, id
+    FROM question
+    ORDER BY submission_time desc
+    LIMIT 5
+    """
+    cursor.execute(query)
+    return cursor.fetchall()
+

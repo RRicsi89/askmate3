@@ -9,4 +9,24 @@
             <button id="browse-question-btn" type="submit">Browse Questions</button>
         </form>
     </section>
+
+    <section id="lastest_questions">
+    <h2>Latest five questions:</h2>
+    <table>
+    <tbody>
+    {% for dict in question_data %}
+    <tr>
+        {% for key, value in dict.items() %}
+            {% if loop.last %}
+            {% elif key == "title" %}
+                <td><a href="/question/{{ dict["id"] }}">{{ value }}</td>
+            {% else %}
+            <td>{{ value }}</td>
+            {% endif %}
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    </section>
 {% endblock %}
