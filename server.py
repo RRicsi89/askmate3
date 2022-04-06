@@ -41,7 +41,12 @@ def display_question(question_id):
     answer_headers = data_handler.ANSWER_HEADERS
     data_handler.update_question_view_number(question_id)
     q_comments = data_handler.get_comment_by_question_id(question_id)
-    return render_template("answers.html", question_data=question_data, answers=answers, answer_headers=answer_headers, q_comments=q_comments)
+    question_tags = data_handler.get_question_tags(question_id)
+    return render_template("answers.html", question_data=question_data,
+                           answers=answers,
+                           answer_headers=answer_headers,
+                           q_comments=q_comments,
+                           question_tags=question_tags)
 
 
 @app.route("/add-question", methods=["GET", "POST"])

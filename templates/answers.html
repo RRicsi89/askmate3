@@ -15,6 +15,7 @@
     <p>
       {{ question_data[0]["message"] }}
     </p>
+    <section class='table'>
     <table>
     <h6>
         {% for comment in q_comments %}
@@ -33,6 +34,14 @@
     </h6>
     </table>
     </section>
+    </section>
+    <span class="tags">
+        {% for tag in question_tags %}
+            {% for key, value in tag.items() %}
+                {{ value }}
+            {% endfor %}
+        {% endfor %}
+    </span>
     <a id="tag-link" href="{{ url_for('add_tag_to_question', question_id=question_data[0]['id']) }}">add tag</a>
     <section class="table">
         {% if question_data[0]["image"] %}
@@ -45,6 +54,8 @@
                     {%for header in answer_headers%}
                     <th>{{ header }}</th>
                     {% endfor %}
+                    <th></th>
+                    <th></th>
                     <th></th>
                 </thead>
                 <tbody>
@@ -74,9 +85,6 @@
                                 <td>{{ answer[key] }}</td>
                             {% endif %}
                         {% endfor %}
-                        <td><form action="/answer/{{ answer['id'] }}/delete">
-                            <button type="submit" class="trash-button"><img src="/static/icons/trash.png" alt=""></button></form>
-                        </td>
 
                         <td>
                             <form action="/answer/{{ answer['id'] }}/edit">
@@ -88,6 +96,9 @@
                         <a href='/answer/{{ answer['id'] }}/new-comment'>
                            <button type='submit' class='delete-button'>Add comment</button>
                         </a>
+                        </td>
+                        <td><form action="/answer/{{ answer['id'] }}/delete">
+                            <button type="submit" class="trash-button"><img src="/static/icons/trash.png" alt=""></button></form>
                         </td>
                     </tr>
                     {% endfor %}
