@@ -22,7 +22,7 @@ def delete_answer(cursor, answer_id):
 @connections.connection_handler
 def delete_comment(cursor, comment_id):
     query = """
-        DELETE FROM question
+        DELETE FROM comment
         WHERE id = %(comment_id)s
     """
     cursor.execute(query, {"comment_id": comment_id})

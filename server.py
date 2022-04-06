@@ -186,6 +186,18 @@ def search():
     return render_template("search-result.html", headers=headers, searched_questions=searched_questions)
 
 
+@app.route('/comment/<comment_id>/delete', methods=["GET", "POST"])
+def delete_comment(comment_id):
+    if request.method == "GET":
+        return render_template('confirmation.html', comment_id=comment_id)
+    elif request.method == "POST":
+        comment_data = data_handler.get_comment_by_id(comment_id)
+        question_id = comment_data[0]["question_id"]
+        if request.form.get("button") == "yes":
+            delete_functions.delete_comment(comment_id)
+        return redirect(f'/question/{ question_id }')
+
+
 if __name__ == "__main__":
     app.run(
         host="0.0.0.0",

@@ -155,7 +155,7 @@ def insert_into_a_comment(cursor, *args):
 @connections.connection_handler
 def get_comment_by_question_id(cursor, question_id):
     query = f"""
-        SELECT comment.submission_time, comment.message FROM comment
+        SELECT comment.id, comment.submission_time, comment.message FROM comment
         JOIN question
             ON comment.question_id = question.id
         WHERE comment.question_id = %(question_id)s;
@@ -219,3 +219,13 @@ def update_question_view_number(cursor, question_id):
         WHERE id = %(question_id)s
         """
     cursor.execute(query, {"question_id": question_id})
+
+
+@connections.connection_handler
+def get_comment_by_id(cursor, comment_id):
+    query = """
+        SELECT * FROM comment
+        WHERE id = %(comment_id)s;
+    """
+    cursor.execute(query, {"comment_id": comment_id})
+    return cursor.fetchall()

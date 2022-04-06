@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirm delete</title>
+</head>
+<body>
+    <h3>Are you sure?</h3>
+    <form action="/comment/{{ comment_id }}/delete" method="POST">
+                            <button type="submit" name="button" value="yes">YES</button></form>
+    <form action="/comment/{{ comment_id }}/delete" method="POST">
+                            <button type="submit" name="button" value="no">NO</button></form>
+</body>
+</html>
