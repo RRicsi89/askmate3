@@ -9,7 +9,7 @@
     <section class="add_edit_answer_form">
     <form action="/answer/{{ answer_id }}/edit" method="post" enctype="multipart/form-data" class="answer_form">
         <label for="answer_text">Edit your answer:</label><br>
-        <textarea name="answer_text" id="answer_text" cols="50" rows="5" required></textarea><br>
+        <textarea name="answer_text" id="answer_text" cols="50" rows="5" required>{{ answer_info[0]['message'] }}</textarea><br>
 
         <br>
         <label for="image">Select image</label><br>

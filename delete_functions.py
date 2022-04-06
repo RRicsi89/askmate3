@@ -16,7 +16,7 @@ def delete_answer(cursor, answer_id):
         DELETE FROM answer
         WHERE id = %(answer_id)s
     """
-    cursor.execute(query, {"question_id": answer_id})
+    cursor.execute(query, {"answer_id": answer_id})
 
 
 @connections.connection_handler
@@ -25,5 +25,5 @@ def delete_comment(cursor, comment_id):
         DELETE FROM question
         WHERE id = %(comment_id)s
     """
-    cursor.execute(query, {"question_id": comment_id})
+    cursor.execute(query, {"comment_id": comment_id})
 

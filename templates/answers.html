@@ -18,8 +18,8 @@
     </section>
 
     <section class="table">
-        {% if question_data.image %}
-            <img alt="A picture about the question" src="{{ url_for("static", filename=question_data["image"]) }}">
+        {% if question_data[0]["image"] %}
+            <img alt="A picture about the question" src="{{ url_for("static", filename=question_data[0]["image"]) }}">
         {% endif %}
 
         <section class="table">
@@ -34,7 +34,7 @@
                     {% for answer in answers %}
                     <tr>
                         {% for key in answer.keys() %}
-                            {% if loop.index == 2 %}
+                            {% if loop.index == 3 %}
                                 <td>
                                     <section class="field-with-sort">
                                         {{ answer[key] }}
@@ -47,20 +47,30 @@
                                         </section>
                                 </td>
 
-                            {% elif loop.index0 == 5 %}
+                            {% elif loop.index0 == 4 %}
                                 {% if answer.image %}
-                                <td><img alt="A picture about the answer" src="{{ url_for('static', filename=answer[key]) }}" class="answer-image"></td>
+                                <td><img alt="A picture about the answer" src="{{ url_for('static', filename=answer['image']) }}" class="answer-image"></td>
                                 {% else %}
                                     <td><img class="answer-image" alt="No picture for this answer" src="{{ url_for('static', filename="images/no_picture.png") }}"></td>
                                 {% endif %}
-                            {% elif not (loop.index0 == 0 or loop.index0 == 3) %}
-                                <td>{{answer[key]}}</td>
-                            {% else %}
+                            {% elif not loop.first %}
                                 <td>{{ answer[key] }}</td>
                             {% endif %}
                         {% endfor %}
                         <td><form action="/answer/{{ answer['id'] }}/delete">
                             <button type="submit" class="trash-button"><img src="/static/icons/trash.png" alt=""></button></form>
+                        </td>
+
+                        <td>
+                            <form action="/answer/{{ answer['id'] }}/edit">
+                                  <button type="submit" class="edit_button">EDIT ME</button>
+                            </form>
+                        </td>
+
+                        <td>
+                        <a href='/answer/{{ answer['id'] }}/new-comment'>
+                           <button type='submit' class='delete-button'>Add comment</button>
+                        </a>
                         </td>
                     </tr>
                     {% endfor %}
