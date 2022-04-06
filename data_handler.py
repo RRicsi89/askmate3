@@ -19,11 +19,6 @@ ANSWER_HEADERS_CSV = ["id", "submission_time", "vote_number", "question_id", "me
 DICT_KEYS = ["submission_time", "view_number", "vote_number", "title", "message"]
 
 
-# def read_data_from_file(file=None):
-#     with open(file, "r") as csvfile:
-#         reader = csv.DictReader(csvfile)
-#         return [line for line in reader]
-
 @connections.connection_handler
 def get_questions(cursor, searched_question):
     query = f"""
@@ -45,6 +40,7 @@ def get_questions(cursor, searched_question):
     cursor.execute(query)
     return cursor.fetchall()
 
+
 @connections.connection_handler
 def get_all_questions(cursor):
     query = """
@@ -63,13 +59,6 @@ def sort_all_questions(cursor, key, direction):
     """
     cursor.execute(query)
     return cursor.fetchall()
-
-
-# def get_data(data_id, file_to_read_from):
-#     datas = read_data_from_file(file_to_read_from)
-#     for data in datas:
-#         if data["id"] == data_id:
-#             return data
 
 
 @connections.connection_handler
@@ -103,33 +92,6 @@ def get_answers_by_question_id(cursor, question_id):
     """
     cursor.execute(query, {"question_id": question_id})
     return cursor.fetchall()
-
-
-def get_answers_from_file(question_id, file_to_read_from=ANSWERS_PATH):
-    answer_data = read_data_from_file(file_to_read_from)
-    answers = []
-    for data in answer_data:
-        if data["question_id"] == question_id:
-            answers.append(data)
-    return answers
-
-
-def write_to_file(file, new_dictionary, field_name):
-    datas = read_data_from_file(file)
-    with open(file, "w", newline="") as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=field_name)
-        writer.writeheader()
-        for data in datas:
-            writer.writerow(data)
-        writer.writerow(new_dictionary)
-
-
-def save_data_to_file(dictionaries, field_name,  file=QUESTIONS_PATH):
-    with open(file, "w") as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=field_name)
-        writer.writeheader()
-        for dictionary in dictionaries:
-            writer.writerow(dictionary)
 
 
 @connections.connection_handler
@@ -172,101 +134,8 @@ def save_edited_answer_to_db(cursor, sub_time, message, image, question_id):
     cursor.execute(query)
 
 
-def delete_in_file(file, line_to_delete, field_name):
-    datas = read_data_from_file(file)
-    with open(file, "w", newline="") as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=field_name)
-        writer.writeheader()
-        for data in datas:
-            if data["id"] == line_to_delete["id"]:
-                if data["image"]:
-                    os.remove(f"{STATIC_FOLDER_PATH}/{data['image']}")
-                else:
-                    pass
-            else:
-                writer.writerow(data)
-
-
-def edit_in_file(file, line_to_be_edited, field_name):
-    datas = read_data_from_file(file)
-    with open(file, "w", newline="") as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=field_name)
-        writer.writeheader()
-        for data in datas:
-            if data["id"] == line_to_be_edited["id"]:
-                writer.writerow(line_to_be_edited)
-            else:
-                writer.writerow(data)
-
-
-def sort_data(list_of_dicts, order_direction, order_by):
-    if order_direction == "asc":
-        direction = False
-    else:
-        direction = True
-    if order_by == "submission_time":
-        sorted_list = sorted(list_of_dicts, key=lambda dicti: dicti[order_by], reverse=direction)
-    else:
-        numbers = 0
-        for dictionary in list_of_dicts:
-            if dictionary[order_by].lstrip("-").isnumeric():
-                numbers += 1
-        if numbers == len(list_of_dicts):
-            sorted_list = sorted(list_of_dicts, key=lambda dicti: int(dicti[order_by]), reverse=direction)
-        else:
-            sorted_list = sorted(list_of_dicts, key=lambda dicti: dicti[order_by].lower(), reverse=direction)
-    return sorted_list
-
-
-# def update_vote_number(dictionary, vote):
-#     number = int((dictionary["vote_number"]))
-#     if vote == "vote_up":
-#         number += 1
-#     elif vote == "vote_down":
-#         number -= 1
-#     dictionary["vote_number"] = number
-#     return dictionary
-
-
-def save_original_vote_numbers(file_to_save=VOTE_NUMBERS_PATH, file_to_read=QUESTIONS_PATH):
-    datas = read_data_from_file(file_to_read)
-    dictionaries = []
-    for data in datas:
-        dictionary = {}
-        dictionary["id"] = data["id"]
-        dictionary["vote_number"] = data["vote_number"]
-        dictionaries.append(dictionary)
-    with open(file_to_save, "w", newline="") as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=["id", "vote_number"])
-        writer.writeheader()
-        for dicti in dictionaries:
-            writer.writerow(dicti)
-
-
-def get_vote_number_from_file(dictionary, file=VOTE_NUMBERS_PATH):
-    with open(file, "r") as csvfile:
-        reader = csv.DictReader(csvfile)
-        data = [line for line in reader]
-        for elem in data:
-            if elem["id"] == dictionary["id"]:
-                number = elem["vote_number"]
-                return int(number)
-
-
-def save_new_input(new_data, image, items, answer=False):
-    for key, value in items:
-        new_data[key] = value
-    if image:
-        image.save(os.path.join(IMAGE_FOLDER_PATH, image.filename))
-        new_data["image"] = f"images/{image.filename}"
-    if answer:
-        write_to_file(ANSWERS_PATH, new_data, ANSWER_HEADERS_CSV)
-    else:
-        write_to_file(QUESTIONS_PATH, new_data, QUESTION_HEADERS_CSV)
-
-
 @connections.connection_handler
-def insert_into_g_comment(cursor, *args):
+def insert_into_q_comment(cursor, *args):
     query = f"""
         INSERT INTO comment (question_id, message, submission_time)
         VALUES {args}
@@ -284,6 +153,18 @@ def insert_into_a_comment(cursor, *args):
 
 
 @connections.connection_handler
+def get_comment_by_question_id(cursor, question_id):
+    query = f"""
+        SELECT comment.submission_time, comment.message FROM comment
+        JOIN question
+            ON comment.question_id = question.id
+        WHERE comment.question_id = %(question_id)s;
+    """
+    cursor.execute(query, {"question_id": question_id})
+    return cursor.fetchall()
+
+
+@connections.connection_handler
 def edit_question(cursor, question_id, title, message, image, submission_time):
     query = """
         UPDATE question
@@ -297,7 +178,7 @@ def edit_question(cursor, question_id, title, message, image, submission_time):
 
 
 @connections.connection_handler
-def update_vote_number(cursor, question_id, vote):
+def update_question_vote(cursor, question_id, vote):
     if vote == "vote_up":
         query = """
             UPDATE question
@@ -309,5 +190,32 @@ def update_vote_number(cursor, question_id, vote):
             UPDATE question
             SET vote_number = vote_number - 1
             WHERE id = %(question_id)s
+        """
+    cursor.execute(query, {"question_id": question_id})
+
+
+@connections.connection_handler
+def update_answer_vote(cursor, answer_id, vote):
+    if vote == "vote_up":
+        query = """
+            UPDATE answer
+            SET vote_number = vote_number + 1
+            WHERE id = %(answer_id)s
+    """
+    elif vote == "vote_down":
+        query = """
+            UPDATE answer
+            SET vote_number = vote_number - 1
+            WHERE id = %(answer_id)s
+        """
+    cursor.execute(query, {"answer_id": answer_id})
+
+
+@connections.connection_handler
+def update_question_view_number(cursor, question_id):
+    query = """
+        UPDATE question
+        SET view_number = view_number + 1
+        WHERE id = %(question_id)s
         """
     cursor.execute(query, {"question_id": question_id})

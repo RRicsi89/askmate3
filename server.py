@@ -37,7 +37,9 @@ def display_question(question_id):
     question_data = data_handler.get_question_by_id(question_id)
     answers = data_handler.get_answers_by_question_id(question_id)
     answer_headers = data_handler.ANSWER_HEADERS
-    return render_template("answers.html", question_data=question_data, answers=answers, answer_headers=answer_headers)
+    data_handler.update_question_view_number(question_id)
+    q_comments = data_handler.get_comment_by_question_id(question_id)
+    return render_template("answers.html", question_data=question_data, answers=answers, answer_headers=answer_headers, q_comments=q_comments)
 
 
 @app.route("/add-question", methods=["GET", "POST"])
@@ -119,25 +121,18 @@ def delete_answer(answer_id):
 
 @app.route("/question/<question_id>/<vote>")
 def change_vote_number(question_id=None, vote=None):
-    # current_question = data_handler.get_data(question_id, data_handler.QUESTIONS_PATH)
-    # number = data_handler.get_vote_number_from_file(current_question)
-    # if number == int(current_question["vote_number"]):
-    #     data_handler.edit_in_file(data_handler.QUESTIONS_PATH,
-    #                              data_handler.update_vote_number(current_question, vote),
-    #                              data_handler.QUESTION_HEADERS_CSV)
     question_data = data_handler.get_question_by_id(question_id)
     question_id = question_data[0]["id"]
-    data_handler.update_vote_number(question_id, vote)
+    data_handler.update_question_vote(question_id, vote)
     return redirect("/list")
 
 
 @app.route("/answer/<answer_id>/<vote>")
 def change_vote_number_answer(answer_id=None, vote=None):
-    current_answer = data_handler.get_data(answer_id, data_handler.ANSWERS_PATH)
-    data_handler.edit_in_file(data_handler.ANSWERS_PATH,
-                             data_handler.update_vote_number(current_answer, vote),
-                             data_handler.ANSWER_HEADERS_CSV)
-    return redirect(url_for('display_question', question_id=current_answer["question_id"]))
+    answer_data = data_handler.get_answer_by_id(answer_id)
+    question_id = answer_data[0]["question_id"]
+    data_handler.update_answer_vote(answer_id, vote)
+    return redirect(url_for('display_question', question_id=question_id))
 
 
 @app.route('/question/<question_id>/new-comment', methods=['GET', 'POST'])
@@ -147,7 +142,7 @@ def add_comment_to_the_question(question_id):
     elif request.method == 'POST':
         comment = request.form['message']
         time = utils.get_time()
-        data_handler.insert_into_g_comment(*[question_id, comment, time])
+        data_handler.insert_into_q_comment(*[question_id, comment, time])
         return redirect(f'/question/{ question_id }')
 
 
