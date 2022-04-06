@@ -136,13 +136,13 @@ def save_answer_to_db(cursor, *args):
 
 
 @connections.connection_handler
-def save_edited_answer_to_db(cursor, sub_time, message, image, question_id):
+def save_edited_answer_to_db(cursor, sub_time, message, image, answer_id):
     query = f"""
     UPDATE answer
     SET submission_time = '{sub_time}',
     message = '{message}',
     image = '{image}'
-    WHERE id = '{question_id}'
+    WHERE id = '{answer_id}'
     """
     cursor.execute(query)
 

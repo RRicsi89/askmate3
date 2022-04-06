@@ -180,7 +180,7 @@ def edit_answer(answer_id):
             answer_image = f"images/{image.filename}"
         else:
             answer_image = "images/no_picture.png"
-        data_handler.save_edited_answer_to_db(sub_time=submission_time, message=new_info, image=answer_image, question_id=answer_info[0]['question_id'])
+        data_handler.save_edited_answer_to_db(sub_time=submission_time, message=new_info, image=answer_image, answer_id=answer_id)
         return redirect(f'/question/{answer_info[0]["question_id"]}')
 
 
