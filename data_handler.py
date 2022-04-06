@@ -46,6 +46,7 @@ def get_questions(cursor, searched_question):
     cursor.execute(query)
     return cursor.fetchall()
 
+
 @connections.connection_handler
 def get_all_questions(cursor):
     query = """
@@ -298,7 +299,7 @@ def edit_question(cursor, question_id, title, message, image, submission_time):
 
 
 @connections.connection_handler
-def update_vote_number(cursor, question_id, vote):
+def update_question_vote(cursor, question_id, vote):
     if vote == "vote_up":
         query = """
             UPDATE question
@@ -312,3 +313,20 @@ def update_vote_number(cursor, question_id, vote):
             WHERE id = %(question_id)s
         """
     cursor.execute(query, {"question_id": question_id})
+
+
+@connections.connection_handler
+def update_answer_vote(cursor, answer_id, vote):
+    if vote == "vote_up":
+        query = """
+            UPDATE answer
+            SET vote_number = vote_number + 1
+            WHERE id = %(answer_id)s
+    """
+    elif vote == "vote_down":
+        query = """
+            UPDATE answer
+            SET vote_number = vote_number - 1
+            WHERE id = %(answer_id)s
+        """
+    cursor.execute(query, {"answer_id": answer_id})
