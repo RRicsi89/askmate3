@@ -37,6 +37,7 @@ def display_question(question_id):
     question_data = data_handler.get_question_by_id(question_id)
     answers = data_handler.get_answers_by_question_id(question_id)
     answer_headers = data_handler.ANSWER_HEADERS
+    data_handler.update_question_view_number(question_id)
     return render_template("answers.html", question_data=question_data, answers=answers, answer_headers=answer_headers)
 
 
