@@ -250,6 +250,68 @@ footer {
     padding-left: 20px;
 }
 
+.tags {
+    display: grid;
+    grid-template-columns: repeat(10, minmax(5px, max-content));
+    max-width: max-content;
+    gap: 5px;
+    margin-left: 25px;
+}
 
+.tag-element {
+    max-width: max-content;
+    font-weight: bold;
+}
 
+#delete-tag, #delete-tag:hover {
+    display: inline;
+    all: revert;
+    cursor: pointer;
+    color: red;
+}
 
+.tag-selectors {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, max-content);
+    position: center;
+    width: 100vw;
+}
+
+.thugs {
+    max-width: max-content;
+    justify-self: center;
+}
+
+.child1 {
+    grid-column-start: 2;
+}
+
+.child2 {
+    grid-column-start: 2;
+    grid-row-start: 2;
+}
+
+.tag-list {
+    font-size: 30px;
+}
+
+.confirmation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10vh;
+    flex-wrap: wrap;
+}
+
+#sure {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.answer-buttons {
+    display: flex;
+    width: 100vw;
+    align-content: center;
+    justify-content: center;
+}

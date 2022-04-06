@@ -36,11 +36,13 @@
     </section>
     </section>
 
-    <span class="tags">
+    <div class="tags">
         {% for tag in question_tags %}
-            <dic>{{ tag["name"] }} <span><form action="{{ url_for('delete_question_tag', question_id=question_data[0]["id"], tag_id=tag['id']) }}"><button type="submit">X</button></form></span>
+            <div class="tag-element">{{ tag["name"] }}</div>
+             <div><form action="{{ url_for('delete_question_tag', question_id=question_data[0]["id"], tag_id=tag['id']) }}">
+                 <button class="tag-element" type="submit" id="delete-tag"> X </button></form></div>
         {% endfor %}
-    </span>
+    </div>
     <a id="tag-link" href="{{ url_for('add_tag_to_question', question_id=question_data[0]['id']) }}"><button type='submit' class='any-button'>add tag</button></a>
 
     <section class="table">

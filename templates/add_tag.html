@@ -5,18 +5,26 @@
 {% endblock %}
 
 {% block body %}
-    <form action="{{ url_for('add_tag_to_question', question_id=question_id) }}" method="POST">
-        <select class="tag-list" name="tag">
-            {% for tag in tags %}
-                <option value="{{ tag.name }}">{{ tag.name }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit">Select</button>
-    </form><br>
+    {% include "header.html" %}
+    <form action="/question/{{ question_id }}"><button type="submit" class="previous-button"><img src="/static/icons/previous.png" alt="previous-button"></button></form>
+    <div class="tag-selectors">
+        <div class="thugs child1">
+        <form action="{{ url_for('add_tag_to_question', question_id=question_id) }}" method="POST">
+            <select class="tag-list" name="tag">
+                {% for tag in tags %}
+                    <option value="{{ tag.name }}">{{ tag.name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Select</button>
+        </form>
+        </div>
 
-    <form action="{{ url_for('add_tag_to_question', question_id=question_id) }}" method="POST">
-        <label for="add-tag">Write your own tag</label>
-        <input type="text" name="tag" id="add-tag">
-        <button type="submit">Select</button>
-    </form>
+        <div class="thugs child2">
+        <form action="{{ url_for('add_tag_to_question', question_id=question_id) }}" method="POST">
+            <label for="add-tag">Write your own tag</label>
+            <input type="text" name="tag" id="add-tag">
+            <button type="submit">Select</button>
+        </form>
+        </div>
+    </div>
 {% endblock %}
