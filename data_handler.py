@@ -37,9 +37,9 @@ def get_questions(cursor, searched_question):
             question.image
         FROM question FULL OUTER JOIN answer
         ON question.id = answer.question_id
-        WHERE question.title LIKE '%{searched_question}%' OR
-        question.message LIKE '%{searched_question}%' OR
-        answer.message LIKE '%{searched_question}%';
+        WHERE LOWER(question.title) LIKE '%{searched_question.lower()}%' OR
+        LOWER(question.message) LIKE '%{searched_question.lower()}%' OR
+        LOWER(answer.message) LIKE '%{searched_question.lower()}%';
     """
     cursor.execute(query)
     return cursor.fetchall()
