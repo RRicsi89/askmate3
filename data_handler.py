@@ -293,3 +293,13 @@ def get_latest_five_question(cursor):
     cursor.execute(query)
     return cursor.fetchall()
 
+
+@connections.connection_handler
+def get_question_tags(cursor, question_id):
+    query = """
+        SELECT DISTINCT name FROM tag
+        JOIN question_tag ON question_tag.tag_id = tag.id
+        WHERE question_tag.question_id = %(question_id)s
+    """
+    cursor.execute(query, {"question_id": question_id})
+    return cursor.fetchall()
