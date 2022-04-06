@@ -191,6 +191,19 @@ def edit_question(cursor, question_id, title, message, image, submission_time):
 
 
 @connections.connection_handler
+def edit_comment(cursor, comment_id, message, submission_time, edited_count):
+    query = """
+    UPDATE comment
+    SET message = %(message)s,
+        edited_count = %(edited_count)s,
+        submission_time = %(submission_time)s
+    WHERE id = %(comment_id)s
+    
+    """
+    cursor.execute(query, {"comment_id": comment_id, "message": message, "submission_time": submission_time, "edited_count": edited_count})
+
+
+@connections.connection_handler
 def update_question_vote(cursor, question_id, vote):
     if vote == "vote_up":
         query = """

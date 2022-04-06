@@ -179,13 +179,26 @@ def edit_answer(answer_id):
         return redirect(f'/question/{answer_info[0]["question_id"]}')
 
 
-@app.route('/search', methods=['GET', 'POST'])
-def search():
-    headers = data_handler.LIST_HEADERS
-    question = request.args.get("question_input")
-    print(question)
-    searched_questions = data_handler.get_questions(question)
-    return render_template("search-result.html", headers=headers, searched_questions=searched_questions)
+@app.route('/comment/<comment_id>/edit', methods=["GET", "POST"])
+def edit_comment(comment_id):
+    comment_info = data_handler.get_comment_by_id(comment_id)
+    if comment_info[0]["question_id"] is None:
+        answer_data = data_handler.get_answer_by_id(comment_info[0]["answer_id"])
+        redirect_info = answer_data[0]["question_id"]
+    else:
+        redirect_info = comment_info[0]["question_id"]
+
+    if request.method == "GET":
+        return render_template('edit_comment.html', comment_id=comment_id, comment_info=comment_info)
+    elif request.method == "POST":
+        new_info = request.form["comment_text"]
+        submission_time = utils.get_time()
+        if comment_info[0]["edited_count"] is None:
+            edit_count = 1
+        else:
+            edit_count = comment_info[0]["edited_count"] + 1
+        data_handler.edit_comment(message=new_info, submission_time=submission_time, comment_id=comment_id, edited_count=edit_count)
+        return redirect(f'/question/{redirect_info}')
 
 
 @app.route('/comment/<comment_id>/delete', methods=["GET", "POST"])
@@ -213,6 +226,15 @@ def add_tag_to_question(question_id):
         tag_id = data_handler.get_tag_id_by_name(tag_name)
         data_handler.add_question_tag(question_id, tag_id[0]["id"])
         return redirect(f'/question/{ question_id }')
+
+
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    headers = data_handler.LIST_HEADERS
+    question = request.args.get("question_input")
+    print(question)
+    searched_questions = data_handler.get_questions(question)
+    return render_template("search-result.html", headers=headers, searched_questions=searched_questions)
 
 
 if __name__ == "__main__":
