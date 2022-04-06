@@ -119,7 +119,7 @@
         <button type='submit' class='delete-button'>Add comment</button>
     </a>
     <form action="/question/{{ question_data[0]['id'] }}/delete"><button type="submit" class="delete-button">Delete question</button></form>
+    {% include "footer.html" %}
 </section>
-{% include "footer.html" %}
 {% endblock %}
 
