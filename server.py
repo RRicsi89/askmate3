@@ -228,8 +228,10 @@ def add_tag_to_question(question_id):
         tag_name = request.form.get("tag")
         if tag_name not in tag_names:
             data_handler.add_new_tag(tag_name)
+        question_tags = [tag["id"] for tag in data_handler.get_question_tags(question_id)]
         tag_id = data_handler.get_tag_id_by_name(tag_name)
-        data_handler.add_question_tag(question_id, tag_id[0]["id"])
+        if tag_id[0]["id"] not in question_tags:
+            data_handler.add_question_tag(question_id, tag_id[0]["id"])
         return redirect(f'/question/{ question_id }')
 
 
