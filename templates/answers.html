@@ -15,6 +15,19 @@
     <p>
       {{ question_data[0]["message"] }}
     </p>
+    <table>
+    <h6>
+        {% for comment in q_comments %}
+            <tr>
+            {% for key in comment.keys() %}
+                <td>
+                {{ comment[key] }}
+                </td>
+            {% endfor %}
+            </tr>
+        {% endfor %}
+    </h6>
+    </table>
     </section>
 
     <section class="table">

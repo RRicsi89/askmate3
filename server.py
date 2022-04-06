@@ -38,7 +38,8 @@ def display_question(question_id):
     answers = data_handler.get_answers_by_question_id(question_id)
     answer_headers = data_handler.ANSWER_HEADERS
     data_handler.update_question_view_number(question_id)
-    return render_template("answers.html", question_data=question_data, answers=answers, answer_headers=answer_headers)
+    q_comments = data_handler.get_comment_by_question_id(question_id)
+    return render_template("answers.html", question_data=question_data, answers=answers, answer_headers=answer_headers, q_comments=q_comments)
 
 
 @app.route("/add-question", methods=["GET", "POST"])
@@ -141,7 +142,7 @@ def add_comment_to_the_question(question_id):
     elif request.method == 'POST':
         comment = request.form['message']
         time = utils.get_time()
-        data_handler.insert_into_g_comment(*[question_id, comment, time])
+        data_handler.insert_into_q_comment(*[question_id, comment, time])
         return redirect(f'/question/{ question_id }')
 
 

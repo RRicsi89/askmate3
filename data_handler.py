@@ -136,7 +136,7 @@ def save_edited_answer_to_db(cursor, sub_time, message, image, question_id):
 
 
 @connections.connection_handler
-def insert_into_g_comment(cursor, *args):
+def insert_into_q_comment(cursor, *args):
     query = f"""
         INSERT INTO comment (question_id, message, submission_time)
         VALUES {args}
@@ -151,6 +151,18 @@ def insert_into_a_comment(cursor, *args):
         VALUES {args}
     """
     cursor.execute(query)
+
+
+@connections.connection_handler
+def get_comment_by_question_id(cursor, question_id):
+    query = f"""
+        SELECT comment.submission_time, comment.message FROM comment
+        JOIN question
+            ON comment.question_id = question.id
+        WHERE comment.question_id = %(question_id)s;
+    """
+    cursor.execute(query, {"question_id": question_id})
+    return cursor.fetchall()
 
 
 @connections.connection_handler
