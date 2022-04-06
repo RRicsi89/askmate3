@@ -252,15 +252,19 @@ footer {
 
 .tags {
     display: grid;
-    grid-template-columns: repeat(10, minmax(5px, max-content));
-    max-width: max-content;
-    gap: 5px;
-    margin-left: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(5px, max-content));
+    max-width: 68vw;
+    gap: 10px;
+    margin-left: 30vh;
 }
 
 .tag-element {
     max-width: max-content;
     font-weight: bold;
+}
+#tag-link {
+    grid-column: -1;
+    margin-left: 85%;
 }
 
 #delete-tag, #delete-tag:hover {
