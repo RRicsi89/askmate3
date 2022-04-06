@@ -181,6 +181,10 @@ footer {
     padding: 20px;
 }
 
+.question_form > button, .any-button {
+    padding: 10px;
+}
+
 .page-title {
     text-align: center;
     font-family: 'Bungee', cursive;

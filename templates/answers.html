@@ -41,7 +41,7 @@
             <dic>{{ tag["name"] }} <span><form action="{{ url_for('delete_question_tag', question_id=question_data[0]["id"], tag_id=tag['id']) }}"><button type="submit">X</button></form></span>
         {% endfor %}
     </span>
-    <a id="tag-link" href="{{ url_for('add_tag_to_question', question_id=question_data[0]['id']) }}">add tag</a>
+    <a id="tag-link" href="{{ url_for('add_tag_to_question', question_id=question_data[0]['id']) }}"><button type='submit' class='any-button'>add tag</button></a>
 
     <section class="table">
         {% if question_data[0]["image"] %}
@@ -88,13 +88,13 @@
 
                         <td>
                             <form action="/answer/{{ answer['id'] }}/edit">
-                                  <button type="submit" class="edit_button">EDIT ME</button>
+                                  <button type="submit" class="any-button">EDIT ME</button>
                             </form>
                         </td>
 
                         <td>
                         <a href='/answer/{{ answer['id'] }}/new-comment'>
-                           <button type='submit' class='delete-button'>Add comment</button>
+                           <button type='submit' class='any-button'>Add comment</button>
                         </a>
                         </td>
                         <td><form action="/answer/{{ answer['id'] }}/delete">
