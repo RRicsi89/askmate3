@@ -48,6 +48,8 @@
                     <th>{{ header }}</th>
                     {% endfor %}
                     <th></th>
+                    <th></th>
+                    <th></th>
                 </thead>
                 <tbody>
                     {% for answer in answers %}
@@ -76,9 +78,6 @@
                                 <td>{{ answer[key] }}</td>
                             {% endif %}
                         {% endfor %}
-                        <td><form action="/answer/{{ answer['id'] }}/delete">
-                            <button type="submit" class="trash-button"><img src="/static/icons/trash.png" alt=""></button></form>
-                        </td>
 
                         <td>
                             <form action="/answer/{{ answer['id'] }}/edit">
@@ -90,6 +89,9 @@
                         <a href='/answer/{{ answer['id'] }}/new-comment'>
                            <button type='submit' class='delete-button'>Add comment</button>
                         </a>
+                        </td>
+                        <td><form action="/answer/{{ answer['id'] }}/delete">
+                            <button type="submit" class="trash-button"><img src="/static/icons/trash.png" alt=""></button></form>
                         </td>
                     </tr>
                     {% endfor %}
