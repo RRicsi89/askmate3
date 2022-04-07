@@ -3,7 +3,6 @@ from flask import Flask, render_template, request, redirect, url_for
 import data_handler
 import delete_functions
 import utils
-import re
 
 app = Flask(__name__)
 
@@ -183,7 +182,8 @@ def edit_answer(answer_id):
             answer_image = f"images/{image.filename}"
         else:
             answer_image = "images/no_picture.png"
-        data_handler.save_edited_answer_to_db(sub_time=submission_time, message=new_info, image=answer_image, answer_id=answer_id)
+        data_handler.save_edited_answer_to_db(sub_time=submission_time, message=new_info, image=answer_image,
+                                              answer_id=answer_id)
         return redirect(f'/question/{answer_info[0]["question_id"]}')
 
 
@@ -205,7 +205,8 @@ def edit_comment(comment_id):
             edit_count = 1
         else:
             edit_count = comment_info[0]["edited_count"] + 1
-        data_handler.edit_comment(message=new_info, submission_time=submission_time, comment_id=comment_id, edited_count=edit_count)
+        data_handler.edit_comment(message=new_info, submission_time=submission_time, comment_id=comment_id,
+                                  edited_count=edit_count)
         return redirect(f'/question/{redirect_info}')
 
 
@@ -214,13 +215,6 @@ def delete_comment(comment_id):
     if request.method == "GET":
         return render_template('confirmation.html', comment_id=comment_id)
     elif request.method == "POST":
-        comment_data = data_handler.get_comment_by_id(comment_id)
-        if comment_data[0]["answer_id"]:
-            answer_id = comment_data[0]["answer_id"]
-            answer_data = data_handler.get_answer_by_id(answer_id)
-            question_id = answer_data[0]["question_id"]
-        else:
-            question_id = comment_data[0]["question_id"]
         if request.form.get("button") == "yes":
             delete_functions.delete_comment(comment_id)
         return redirect('/list')
@@ -251,23 +245,16 @@ def search():
     search_data = request.args.get("question_input")
     searched_questions = data_handler.get_searched_questions(search_data)
     searched_answers = data_handler.get_searched_answers(search_data)
-
     length_of_search_data = len(search_data)
-    for result_row in searched_questions:
-        title_result = [m.start() for m in re.finditer(search_data.lower(), result_row["title"].lower())]
-        for number in title_result[::-1]:
-            result_row["title"] = result_row["title"][:(number+length_of_search_data)] + highlight_end + result_row["title"][(number+length_of_search_data):]
-            result_row["title"] = result_row["title"][:number] + highlight_start + result_row["title"][number:]
-        message_result = [m.start() for m in re.finditer(search_data.lower(), result_row["message"].lower())]
-        for number in message_result[::-1]:
-            result_row["message"] = result_row["message"][:(number + length_of_search_data)] + highlight_end + result_row["message"][(number + length_of_search_data):]
-            result_row["message"] = result_row["message"][:number] + highlight_start + result_row["message"][number:]
-    for result_row in searched_answers:
-        answer_message_result = [m.start() for m in re.finditer(search_data.lower(), result_row["message"].lower())]
-        for number in answer_message_result[::-1]:
-            result_row["message"] = result_row["message"][:(number + length_of_search_data)] + highlight_end + result_row["message"][(number + length_of_search_data):]
-            result_row["message"] = result_row["message"][:number] + highlight_start + result_row["message"][number:]
-    return render_template("search-result.html", headers=headers, searched_questions=searched_questions, searched_answers=searched_answers)
+
+    utils.insert_highlight_tags(searched_questions, search_data, "title", length_of_search_data, highlight_start,
+                                highlight_end)
+    utils.insert_highlight_tags(searched_questions, search_data, "message", length_of_search_data, highlight_start,
+                                highlight_end)
+    utils.insert_highlight_tags(searched_answers, search_data, "message", length_of_search_data, highlight_start,
+                                highlight_end)
+    return render_template("search-result.html", headers=headers, searched_questions=searched_questions,
+                           searched_answers=searched_answers)
 
 
 @app.route('/question/<question_id>/tag/<tag_id>/delete')
