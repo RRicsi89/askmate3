@@ -156,8 +156,8 @@ def add_comment_to_the_question(question_id):
 
 @app.route('/answer/<answer_id>/new-comment', methods=['GET', 'POST'])
 def add_comment_to_the_answer(answer_id):
-    answer_data=data_handler.get_answer_by_id(answer_id)
-    question_id=answer_data[0]['question_id']
+    answer_data = data_handler.get_answer_by_id(answer_id)
+    question_id = answer_data[0]['question_id']
     if request.method == 'GET':
         return render_template('new_a_comment.html', answer_id=answer_id, question_id=question_id)
     elif request.method == 'POST':

@@ -1,6 +1,5 @@
 import datetime
 import uuid
-import time
 
 
 def generate_uuid():
@@ -10,4 +9,3 @@ def generate_uuid():
 
 def get_time():
     return datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
