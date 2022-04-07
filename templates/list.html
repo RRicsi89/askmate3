@@ -37,6 +37,7 @@
                     </th>
                     {% endfor %}
                     <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody class="table-content">
@@ -62,6 +63,11 @@
                         {% endif %}
                     {% endfor %}
                             <td><a href="/question/{{ question["id"] }}/edit"><img alt="Edit question button" src="/static/icons/edit.png" class="edit-image"></a></td>
+                            <td>
+                                <a href='/question/{{ question['id'] }}/new-comment'>
+                                    <button type='submit' class='comment-button'><img src="../static/icons/comment.png" class="edit-image"></button>
+                                </a>
+                            </td>
                         </tr>
 
                         {% for comment in comments %}
@@ -70,7 +76,7 @@
                             <td colspan="2" class="comment-date">
                                {{ comment.submission_time }}
                             </td>
-                            <td colspan="3" class="comment-message">
+                            <td colspan="4" class="comment-message">
                                 {{ comment.message }}
                             </td>
                             <td>

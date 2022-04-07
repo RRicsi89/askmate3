@@ -43,11 +43,13 @@ def display_question(question_id):
     data_handler.update_question_view_number(question_id)
     q_comments = data_handler.get_comment_by_question_id(question_id)
     question_tags = data_handler.get_question_tags(question_id)
+    comment_data = data_handler.get_comments()
     return render_template("answers.html", question_data=question_data,
                            answers=answers,
                            answer_headers=answer_headers,
                            q_comments=q_comments,
-                           question_tags=question_tags)
+                           question_tags=question_tags,
+                           comments=comment_data)
 
 
 @app.route("/add-question", methods=["GET", "POST"])
@@ -151,7 +153,7 @@ def add_comment_to_the_question(question_id):
         comment = request.form['message']
         time = utils.get_time()
         data_handler.insert_into_q_comment(*[question_id, comment, time])
-        return redirect(f'/question/{question_id}')
+        return redirect('/list')
 
 
 @app.route('/answer/<answer_id>/new-comment', methods=['GET', 'POST'])
@@ -164,7 +166,7 @@ def add_comment_to_the_answer(answer_id):
         comment = request.form['message']
         time = utils.get_time()
         data_handler.insert_into_a_comment(*[answer_id, comment, time])
-        return redirect(f'/question/{question_id}')
+        return redirect(f'/question/{ question_id }')
 
 
 @app.route('/answer/<answer_id>/edit', methods=['GET', 'POST'])
@@ -215,10 +217,15 @@ def delete_comment(comment_id):
         return render_template('confirmation.html', comment_id=comment_id)
     elif request.method == "POST":
         comment_data = data_handler.get_comment_by_id(comment_id)
-        question_id = comment_data[0]["question_id"]
+        if comment_data[0]["answer_id"]:
+            answer_id = comment_data[0]["answer_id"]
+            answer_data = data_handler.get_answer_by_id(answer_id)
+            question_id = answer_data[0]["question_id"]
+        else:
+            question_id = comment_data[0]["question_id"]
         if request.form.get("button") == "yes":
             delete_functions.delete_comment(comment_id)
-        return redirect(f'/question/{question_id}')
+        return redirect('/list')
 
 
 @app.route('/question/<question_id>/new-tag', methods=["GET", "POST"])
@@ -235,7 +242,7 @@ def add_tag_to_question(question_id):
         tag_id = data_handler.get_tag_id_by_name(tag_name)
         if tag_id[0]["id"] not in question_tags:
             data_handler.add_question_tag(question_id, tag_id[0]["id"])
-        return redirect(f'/question/{question_id}')
+        return redirect(f'/question/{ question_id }')
 
 
 @app.route('/search', methods=['GET', 'POST'])
@@ -261,7 +268,7 @@ def search():
 @app.route('/question/<question_id>/tag/<tag_id>/delete')
 def delete_question_tag(question_id, tag_id):
     delete_functions.delete_tag_from_question(question_id, tag_id)
-    return redirect(f'/question/{question_id}')
+    return redirect(f'/question/{ question_id }')
 
 
 if __name__ == "__main__":
