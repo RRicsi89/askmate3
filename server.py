@@ -43,7 +43,7 @@ def display_question(question_id):
     q_comments = data_handler.get_comment_by_question_id(question_id)
     question_tags = data_handler.get_question_tags(question_id)
     comment_data = data_handler.get_comments()
-    return render_template("answers.html", question_data=question_data,
+    return render_template("question_detail.html", question_data=question_data,
                            answers=answers,
                            answer_headers=answer_headers,
                            q_comments=q_comments,
@@ -207,7 +207,11 @@ def edit_comment(comment_id):
             edit_count = comment_info[0]["edited_count"] + 1
         data_handler.edit_comment(message=new_info, submission_time=submission_time, comment_id=comment_id,
                                   edited_count=edit_count)
-        return redirect(f'/question/{redirect_info}')
+
+        if comment_info[0]['question_id'] is not None:
+            return redirect(f'/list')
+        else:
+            return redirect(f'/question/{redirect_info}')
 
 
 @app.route('/comment/<comment_id>/delete', methods=["GET", "POST"])
