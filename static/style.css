@@ -156,6 +156,10 @@ footer {
     padding: 10px;
 }
 
+.comment-image {
+    width: 1.8em;
+}
+
 .animate__zoomIn {
     --animate-delay: 2s;
 }
@@ -224,7 +228,18 @@ footer {
     width: 10px;
 }
 
-.sort-button, .sort-button:hover, .plus-button, .plus-button:hover, .previous-button, .previous-button:hover, .trash-button, .trash-button:hover {
+.sort-button,
+.sort-button:hover,
+.plus-button,
+.plus-button:hover,
+.previous-button,
+.previous-button:hover,
+.trash-button,
+.trash-button:hover,
+.edit-button,
+.edit-button:hover,
+.comment-button,
+.comment-button:hover {
     background-color: transparent;
     border: none;
     padding: 0;
