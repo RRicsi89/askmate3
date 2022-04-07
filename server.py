@@ -151,7 +151,7 @@ def add_comment_to_the_question(question_id):
         comment = request.form['message']
         time = utils.get_time()
         data_handler.insert_into_q_comment(*[question_id, comment, time])
-        return redirect(f'/question/{ question_id }')
+        return redirect('/list')
 
 
 @app.route('/answer/<answer_id>/new-comment', methods=['GET', 'POST'])
@@ -216,7 +216,7 @@ def delete_comment(comment_id):
         question_id = comment_data[0]["question_id"]
         if request.form.get("button") == "yes":
             delete_functions.delete_comment(comment_id)
-        return redirect(f'/question/{ question_id }')
+        return redirect('/list')
 
 
 @app.route('/question/<question_id>/new-tag', methods=["GET", "POST"])
