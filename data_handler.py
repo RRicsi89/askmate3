@@ -25,7 +25,7 @@ DICT_KEYS = ["submission_time", "view_number", "vote_number", "title", "message"
 #         return [line for line in reader]
 
 @connections.connection_handler
-def get_questions(cursor, searched_question):
+def get_searched_questions(cursor, searched_question):
     query = f"""
         SELECT DISTINCT
             question.id,
@@ -35,12 +35,26 @@ def get_questions(cursor, searched_question):
             question.title,
             question.message,
             question.image
-        FROM question FULL OUTER JOIN answer
-        ON question.id = answer.question_id
+        FROM question
         WHERE
             LOWER(question.title) LIKE '%{searched_question.lower()}%' OR
-            LOWER(question.message) LIKE '%{searched_question.lower()}%' OR
-            LOWER(answer.message) LIKE '%{searched_question.lower()}%';
+            LOWER(question.message) LIKE '%{searched_question.lower()}%'
+    """
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@connections.connection_handler
+def get_searched_answers(cursor, searched_question):
+    query = f"""
+        SELECT DISTINCT
+        answer.id,
+        answer.submission_time,
+        answer.vote_number,
+        answer.message
+        FROM answer
+        WHERE
+        LOWER(answer.message) LIKE '%{searched_question.lower()}%'
     """
     cursor.execute(query)
     return cursor.fetchall()
@@ -64,13 +78,6 @@ def sort_all_questions(cursor, key, direction):
     """
     cursor.execute(query)
     return cursor.fetchall()
-
-
-# def get_data(data_id, file_to_read_from):
-#     datas = read_data_from_file(file_to_read_from)
-#     for data in datas:
-#         if data["id"] == data_id:
-#             return data
 
 
 @connections.connection_handler

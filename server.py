@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import data_handler
 import delete_functions
 import utils
+import re
 
 app = Flask(__name__)
 
@@ -18,7 +19,6 @@ def hello():
     #     questions.sort(key=lambda dicti: dicti["submission_time"])
     #     data_handler.save_data_to_file(questions, data_handler.QUESTION_HEADERS_CSV)
     latest_five_question = data_handler.get_latest_five_question()
-    print(latest_five_question)
     return render_template("index.html", question_data=latest_five_question)
 
 
@@ -238,10 +238,28 @@ def add_tag_to_question(question_id):
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
+    highlight_start = r"<mark>"
+    highlight_end = r"</mark>"
     headers = data_handler.LIST_HEADERS
-    question = request.args.get("question_input")
-    print(question)
-    searched_questions = data_handler.get_questions(question)
+    search_data = request.args.get("question_input")
+    searched_questions = data_handler.get_searched_questions(search_data)
+    searched_answers = data_handler.get_searched_answers(search_data)
+
+    length_of_search_data = len(search_data)
+    for result_row in searched_questions:
+        title_result = [m.start() for m in re.finditer(search_data.lower(), result_row["title"].lower())]
+        for number in title_result[::-1]:
+            result_row["title"] = result_row["title"][:(number+length_of_search_data)] + highlight_end + result_row["title"][(number+length_of_search_data):]
+            result_row["title"] = result_row["title"][:number] + highlight_start + result_row["title"][number:]
+        message_result = [m.start() for m in re.finditer(search_data.lower(), result_row["message"].lower())]
+        for number in message_result[::-1]:
+            result_row["message"] = result_row["message"][:(number + length_of_search_data)] + highlight_end + result_row["message"][(number + length_of_search_data):]
+            result_row["message"] = result_row["message"][:number] + highlight_start + result_row["message"][number:]
+    for result_row in searched_answers:
+        answer_message_result = [m.start() for m in re.finditer(search_data.lower(), result_row["message"].lower())]
+        for number in answer_message_result[::-1]:
+            result_row["message"] = result_row["message"][:(number + length_of_search_data)] + highlight_end + result_row["message"][(number + length_of_search_data):]
+            result_row["message"] = result_row["message"][:number] + highlight_start + result_row["message"][number:]
     return render_template("search-result.html", headers=headers, searched_questions=searched_questions)
 
 
@@ -249,7 +267,6 @@ def search():
 def delete_question_tag(question_id, tag_id):
     delete_functions.delete_tag_from_question(question_id, tag_id)
     return redirect(f'/question/{ question_id }')
-
 
 
 if __name__ == "__main__":
