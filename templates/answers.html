@@ -9,7 +9,6 @@
 
 <h1 class="page-title">Answers of the question</h1>
 
-<section id="answers-content">
     <section class="question">
     <h3>{{ question_data[0]["title"] }}</h3>
     <p>
@@ -122,6 +121,5 @@
     </a>
     <form action="/question/{{ question_data[0]['id'] }}/delete"><button type="submit" class="delete-button">Delete question</button></form>
     {% include "footer.html" %}
-</section>
 {% endblock %}
 

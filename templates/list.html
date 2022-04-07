@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 {% block title %}List Questions{% endblock %}
 {% block body %}
-<section id="questions-content">
 {% include "header.html" %}
 <form action="/"><button type="submit" class="previous-button"><img src="/static/icons/previous.png" alt="previous-button"></button></form>
     <h1 class="page-title">Questions</h1>
@@ -64,18 +63,19 @@
                     {% endfor %}
                             <td><a href="/question/{{ question["id"] }}/edit"><img alt="Edit question button" src="/static/icons/edit.png" class="edit-image"></a></td>
                         </tr>
-                        <tr>
-                            {% for comment in comments %}
+
+                        {% for comment in comments %}
+                        <tr class="comment-section">
                             {% if question.id == comment.question_id %}
-                            <td colspan="2">
+                            <td colspan="2" class="comment-date">
                                {{ comment.submission_time }}
                             </td>
-                            <td colspan="4">
+                            <td colspan="4" class="comment-message">
                                 {{ comment.message }}
                             </td>
                             {% endif %}
-                            {% endfor %}
                         </tr>
+                        {% endfor %}
                     {% endfor %}
                 </tbody>
         </table>
@@ -85,7 +85,6 @@
             </a>
         </section>
     </section>
-</section>
 {% include 'footer.html' %}
 {% endblock %}
 
