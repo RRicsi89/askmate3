@@ -1,5 +1,6 @@
 import os
 import connections
+from psycopg2 import sql
 
 
 QUESTIONS_PATH = os.getenv('QUESTIONS_PATH') if "QUESTIONS_PATH" in os.environ else "data/questions.csv"
@@ -119,10 +120,10 @@ def get_answers_by_question_id(cursor, question_id):
 
 @connections.connection_handler
 def save_question_to_db(cursor, *args):
-    query = f"""
+    query = sql.SQL("""
         INSERT INTO question (submission_time, view_number, vote_number, title, message, image) 
         VALUES {args}
-    """
+    """).format(args=sql.Literal(args))
     cursor.execute(query)
 
 
@@ -138,10 +139,10 @@ def get_question_id(cursor, title):
 
 @connections.connection_handler
 def save_answer_to_db(cursor, *args):
-    query = f"""
+    query = sql.SQL("""
         INSERT INTO answer (submission_time, vote_number, question_id, message, image) 
         VALUES {args}
-    """
+    """).format(args=sql.Literal(args))
     cursor.execute(query)
 
 
