@@ -237,8 +237,13 @@ footer {
     height: 10px;
 }
 
-.plus-button > img, .previous-button > img, .trash-button > img {
+.plus-button > img, .previous-button > img {
     width: 30px;
+}
+
+.trash-button > img {
+    width: 1.2em;
+    text-align: center;
 }
 
 .add-new, .previous-button, .previous-button:hover {
@@ -248,7 +253,7 @@ footer {
     padding: 10px;
 }
 
-.previous-button, .previous-button:hover, .trash-button, .trash-button:hover {
+.previous-button, .previous-button:hover {
     padding-left: 20px;
 }
 
