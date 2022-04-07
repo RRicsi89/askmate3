@@ -359,5 +359,5 @@ footer {
 }
 
 .header-width {
-    max-width: 80px;
+    max-width: min-content;
 }
