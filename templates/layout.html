@@ -7,12 +7,23 @@
         <title>AskMate | {% block title %}{% endblock %}</title>
         <script src="https://kit.fontawesome.com/82a8de7507.js" crossorigin="anonymous"></script>
         <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+            rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
         />
+
+        <script>
+            function toggleTheme() {
+                var theme = document.getElementsByTagName('link')[0];
+                if (theme.getAttribute('href') == '/static/style.css') {
+                    theme.setAttribute('href', '/static/style-2.css');
+                } else {
+                    theme.setAttribute('href', '/static/style.css');
+                }
+            }
+        </script>
     </head>
     <body>
         {% block body %}
         {% endblock %}
+    <button onclick="toggleTheme()">theme</button>
     </body>
 </html>
