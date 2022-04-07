@@ -6,16 +6,18 @@
 {% block body %}
     <button onclick="history.back()" class="previous-button"><img src="/static/icons/previous.png" alt="previous-button"></button>
     <h1 class="page-title">Edit answer</h1>
-    <section class="add_edit_answer_form">
-    <form action="/answer/{{ answer_id }}/edit" method="post" enctype="multipart/form-data" class="answer_form">
-        <label for="answer_text">Edit your answer:</label><br>
-        <textarea name="answer_text" id="answer_text" cols="50" rows="5" required>{{ answer_info[0]['message'] }}</textarea><br>
 
-        <br>
-        <label for="image">Select image</label><br>
-        <input type="file" name="image" id="image" accept="image/jpeg, image/png">
-        <button type="submit">Edit answer</button>
-    </form>
+    <section class="edit_answer_page">
+        <form action="/answer/{{ answer_id }}/edit" method="post" enctype="multipart/form-data" class="answer_form">
+                <label for="answer_text">Edit your answer:</label><br>
+                <textarea name="answer_text" id="answer_text" cols="50" rows="5" required>{{ answer_info[0]['message'] }}</textarea><br>
+
+                <br>
+                <label for="image">Select image</label><br>
+                <input type="file" name="image" id="image" accept="image/jpeg, image/png">
+                <button type="submit">Edit answer</button>
+            </form>
     </section>
+
 {% include "footer.html" %}
 {% endblock %}

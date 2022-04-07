@@ -164,7 +164,16 @@ footer {
     --animate-delay: 2s;
 }
 
-.question_form {
+.edit_answer_page {
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    text-transform: uppercase;
+}
+
+
+
+.question_form, .answer_form {
     display: flex;
     flex-direction: column;
     padding: 40px;
