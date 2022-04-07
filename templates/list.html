@@ -14,7 +14,7 @@
                         <section class="field-with-sort">
                         {{ header }}
                         {% if count < 5 %}
-                            <form action="./list">
+                            <form action="/list">
                                 <input  type="hidden"
                                         name="order_direction"
                                         value="desc">
@@ -23,7 +23,7 @@
                                         value="{{ dict_keys[count] }}">
                                 <button type="submit" class="sort-button"><img src="/static/icons/arrow-up.png" alt=""></button>
                             </form>
-                            <form action="./list">
+                            <form action="/list">
                                 <input  type="hidden"
                                         name="order_direction"
                                         value="asc">

@@ -1,4 +1,3 @@
-import csv
 import os
 import connections
 
@@ -35,10 +34,13 @@ def get_searched_questions(cursor, searched_question):
             question.title,
             question.message,
             question.image
-        FROM question
+        FROM question FULL OUTER JOIN answer
+        ON question.id = answer.question_id
         WHERE
             LOWER(question.title) LIKE '%{searched_question.lower()}%' OR
-            LOWER(question.message) LIKE '%{searched_question.lower()}%'
+            LOWER(question.message) LIKE '%{searched_question.lower()}%' OR
+            LOWER(answer.message) LIKE '%{searched_question.lower()}%';
+
     """
     cursor.execute(query)
     return cursor.fetchall()
@@ -182,6 +184,7 @@ def get_comment_by_question_id(cursor, question_id):
     """
     cursor.execute(query, {"question_id": question_id})
     return cursor.fetchall()
+
 
 @connections.connection_handler
 def get_comments(cursor):
