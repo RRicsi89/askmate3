@@ -232,6 +232,10 @@ input {
     padding: 10px;
 }
 
+.theme-button {
+    width: 150px;
+}
+
 .page-title {
     text-align: center;
     font-family: 'Bungee', cursive;
@@ -325,6 +329,7 @@ input {
     max-width: max-content;
     font-weight: bold;
 }
+
 #tag-link {
     grid-column: -1;
     margin-left: 85%;
