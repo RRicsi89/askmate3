@@ -41,6 +41,14 @@
                                 <img src="{{ question.image }}" alt="question-image">
                             </td>
                         </tr>
+                        {% for answer in searched_answers %}
+                            {% if answer['question_id'] == question['id'] %}
+                                <tr class="comment-section">
+                                    <td colspan="2" class="comment-date">{{ answer['submission_time'] }}</td>
+                                    <td colspan="4" class="comment-message">{{ answer['message'] | safe }}</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
                     {% endfor %}
                 </tbody>
             </table>

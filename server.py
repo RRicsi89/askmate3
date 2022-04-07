@@ -43,11 +43,13 @@ def display_question(question_id):
     data_handler.update_question_view_number(question_id)
     q_comments = data_handler.get_comment_by_question_id(question_id)
     question_tags = data_handler.get_question_tags(question_id)
+    comment_data = data_handler.get_comments()
     return render_template("answers.html", question_data=question_data,
                            answers=answers,
                            answer_headers=answer_headers,
                            q_comments=q_comments,
-                           question_tags=question_tags)
+                           question_tags=question_tags,
+                           comments=comment_data)
 
 
 @app.route("/add-question", methods=["GET", "POST"])
@@ -213,7 +215,12 @@ def delete_comment(comment_id):
         return render_template('confirmation.html', comment_id=comment_id)
     elif request.method == "POST":
         comment_data = data_handler.get_comment_by_id(comment_id)
-        question_id = comment_data[0]["question_id"]
+        if comment_data[0]["answer_id"]:
+            answer_id = comment_data[0]["answer_id"]
+            answer_data = data_handler.get_answer_by_id(answer_id)
+            question_id = answer_data[0]["question_id"]
+        else:
+            question_id = comment_data[0]["question_id"]
         if request.form.get("button") == "yes":
             delete_functions.delete_comment(comment_id)
         return redirect('/list')
@@ -260,7 +267,7 @@ def search():
         for number in answer_message_result[::-1]:
             result_row["message"] = result_row["message"][:(number + length_of_search_data)] + highlight_end + result_row["message"][(number + length_of_search_data):]
             result_row["message"] = result_row["message"][:number] + highlight_start + result_row["message"][number:]
-    return render_template("search-result.html", headers=headers, searched_questions=searched_questions)
+    return render_template("search-result.html", headers=headers, searched_questions=searched_questions, searched_answers=searched_answers)
 
 
 @app.route('/question/<question_id>/tag/<tag_id>/delete')

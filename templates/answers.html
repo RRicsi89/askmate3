@@ -88,8 +88,23 @@
                         <td><form action="/answer/{{ answer['id'] }}/delete">
                             <button type="submit" class="trash-button"><img src="/static/icons/trash.png" alt=""></button></form>
                         </td>
-                    </tr>
+
+                        {% for comment in comments %}
+                            <tr class="comment-section">
+                            {% if comment['answer_id'] == answer['id'] %}
+                                <td class="comment-date" colspan="1">{{ comment['submission_time'] }}</td>
+                                <td class="comment-message" colspan="5">{{ comment['message'] }}</td>
+                                <td>
+                                    <form action="/comment/{{ comment['id'] }}/delete">
+                                    <button type="submit" class="trash-button"><img src="/static/icons/trash.png" alt=""></button>
+                                    </form>
+                                </td>
+                            {% endif %}
+                            </tr>
+                        {% endfor %}
+
                     {% endfor %}
+
                 <tr>
                 </tr>
                 </tbody>

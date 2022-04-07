@@ -353,3 +353,11 @@ footer {
 .comment-message {
     text-align: start;
 }
+
+.short {
+    max-block-size: max-content;
+}
+
+.header-width {
+    max-width: min-content;
+}
