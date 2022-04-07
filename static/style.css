@@ -9,11 +9,15 @@ body {
     flex-direction: column;
 }
 
-h2 {
+h2, h3 {
     color: #E696B2;
     font-family: 'Bungee', cursive;
     font-size: 2em;
     text-shadow: 2px 2px 2px #B6A9AD;
+}
+
+h3 {
+    padding: 10px;
 }
 
 header {
