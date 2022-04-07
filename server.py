@@ -3,7 +3,6 @@ from flask import Flask, render_template, request, redirect, url_for
 import data_handler
 import delete_functions
 import utils
-import re
 
 app = Flask(__name__)
 
@@ -216,13 +215,6 @@ def delete_comment(comment_id):
     if request.method == "GET":
         return render_template('confirmation.html', comment_id=comment_id)
     elif request.method == "POST":
-        comment_data = data_handler.get_comment_by_id(comment_id)
-        if comment_data[0]["answer_id"]:
-            answer_id = comment_data[0]["answer_id"]
-            answer_data = data_handler.get_answer_by_id(answer_id)
-            question_id = answer_data[0]["question_id"]
-        else:
-            question_id = comment_data[0]["question_id"]
         if request.form.get("button") == "yes":
             delete_functions.delete_comment(comment_id)
         return redirect('/list')
