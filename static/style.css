@@ -9,14 +9,14 @@ body {
     flex-direction: column;
 }
 
-h2, h3 {
+h2, .latest_questions_title {
     color: #E696B2;
     font-family: 'Bungee', cursive;
     font-size: 2em;
     text-shadow: 2px 2px 2px #B6A9AD;
 }
 
-h3 {
+.latest_questions_title {
     padding: 10px;
 }
 
@@ -122,6 +122,10 @@ footer {
     text-shadow: 4px 4px 2px #B6A9AD;
 }
 
+.latest_questions_title {
+
+}
+
 #browse-question-btn {
     margin-top: 30px;
     font-size: 1.2em;
@@ -178,9 +182,7 @@ footer {
     text-transform: uppercase;
 }
 
-
-
-.question_form, .answer_form {
+.question_form, .answer_form, .comment_form {
     display: flex;
     flex-direction: column;
     padding: 40px;
@@ -189,8 +191,15 @@ footer {
     font-family: 'Exo', sans-serif;
 }
 
+.add_edit_comment_form {
+    display: flex;
+    width: 100vw;
+    justify-content: center;
+    text-transform: uppercase;
+}
+
 .question_form > input, label, textarea, button {
-    padding: 10px 0;
+    padding: 10px;
     font-size: 1.2em;
 }
 

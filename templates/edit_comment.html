@@ -2,8 +2,11 @@
 {% block title %}Edit comment{% endblock %}
 
 {% block body %}
+{% include "header.html" %}
+
     <button onclick="history.back()" class="previous-button"><img src="/static/icons/previous.png" alt="previous-button"></button>
     <h1 class="page-title">Edit comment</h1>
+
     <section class="add_edit_comment_form">
     <form action="/comment/{{ comment_id }}/edit" method="post" class="comment_form">
         <label for="comment_text">Edit your comment:</label><br><br>
