@@ -27,6 +27,9 @@ header {
 nav {
     display: flex;
     justify-content: flex-end;
+    position: absolute;
+    right: 0;
+    margin-top: 0;
 }
 
 #question-input {
@@ -369,10 +372,4 @@ footer {
 
 .header-width {
     max-width: min-content;
-}
-
-.search-bar {
-    position: absolute;
-    right: 0;
-    margin-top: 0;
 }
