@@ -2,6 +2,7 @@
 {% block title %}List Questions{% endblock %}
 {% block body %}
 {% include "header.html" %}
+{% include "navbar.html" %}
 <form action="/"><button type="submit" class="previous-button"><img src="/static/icons/previous.png" alt="previous-button"></button></form>
     <h1 class="page-title">Questions</h1>
     <section class="table">
@@ -76,7 +77,7 @@
                             <td colspan="2" class="comment-date">
                                {{ comment.submission_time }}
                             </td>
-                            <td colspan="4" class="comment-message">
+                            <td colspan="3" class="comment-message">
                                 {{ comment.message }}
                             </td>
                             <td>
