@@ -14,25 +14,6 @@
     <p>
       {{ question_data[0]["message"] }}
     </p>
-    <section class='table'>
-    <table>
-    <h6>
-        {% for comment in q_comments %}
-            <tr>
-            {% for key in comment.keys() %}
-                {% if not loop.first %}
-                <td>
-                {{ comment[key] }}
-                </td>
-                {% endif %}
-            {% endfor %}
-                <td><form action="/comment/{{ comment['id'] }}/delete">
-                            <button type="submit" class="trash-button"><img src="/static/icons/trash.png" alt=""></button></form></td>
-            </tr>
-        {% endfor %}
-    </h6>
-    </table>
-    </section>
     </section>
 
     <div class="tags">
