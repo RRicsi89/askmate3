@@ -20,7 +20,10 @@ def list_questions():
     dict_keys = data_handler.DICT_KEYS
     comments = data_handler.get_comments()
     if "order_direction" in request.args.keys():
-        order_direction = request.args.get("order_direction")
+        if request.args.get("order_direction") == "asc":
+            order_direction = "asc"
+        else:
+            order_direction = "desc"
         order_by = request.args.get("order_by")
         questions = data_handler.sort_all_questions(order_by, order_direction)
     return render_template("list.html", questions=questions, headers=headers, dict_keys=dict_keys, comments=comments)

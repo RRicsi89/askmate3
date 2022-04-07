@@ -76,10 +76,10 @@ def get_all_questions(cursor):
 
 @connections.connection_handler
 def sort_all_questions(cursor, key, direction):
-    query = f"""
+    query = sql.SQL("""
         SELECT * FROM question
         ORDER BY {key} {direction};
-    """
+    """).format(key=sql.Identifier(key), direction=sql.SQL(direction))
     cursor.execute(query)
     return cursor.fetchall()
 
