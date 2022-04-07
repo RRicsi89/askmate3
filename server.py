@@ -260,7 +260,7 @@ def search():
         for number in answer_message_result[::-1]:
             result_row["message"] = result_row["message"][:(number + length_of_search_data)] + highlight_end + result_row["message"][(number + length_of_search_data):]
             result_row["message"] = result_row["message"][:number] + highlight_start + result_row["message"][number:]
-    return render_template("search-result.html", headers=headers, searched_questions=searched_questions)
+    return render_template("search-result.html", headers=headers, searched_questions=searched_questions, searched_answers=searched_answers)
 
 
 @app.route('/question/<question_id>/tag/<tag_id>/delete')

@@ -53,7 +53,8 @@ def get_searched_answers(cursor, searched_question):
         answer.id,
         answer.submission_time,
         answer.vote_number,
-        answer.message
+        answer.message,
+        answer.question_id
         FROM answer
         WHERE
         LOWER(answer.message) LIKE '%{searched_question.lower()}%'
