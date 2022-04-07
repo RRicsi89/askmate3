@@ -151,7 +151,7 @@ def add_comment_to_the_question(question_id):
         comment = request.form['message']
         time = utils.get_time()
         data_handler.insert_into_q_comment(*[question_id, comment, time])
-        return redirect(f'/question/{ question_id }')
+        return redirect(f'/question/{question_id}')
 
 
 @app.route('/answer/<answer_id>/new-comment', methods=['GET', 'POST'])
@@ -164,7 +164,7 @@ def add_comment_to_the_answer(answer_id):
         comment = request.form['message']
         time = utils.get_time()
         data_handler.insert_into_a_comment(*[answer_id, comment, time])
-        return redirect(f'/question/{ question_id }')
+        return redirect(f'/question/{question_id}')
 
 
 @app.route('/answer/<answer_id>/edit', methods=['GET', 'POST'])
@@ -181,7 +181,8 @@ def edit_answer(answer_id):
             answer_image = f"images/{image.filename}"
         else:
             answer_image = "images/no_picture.png"
-        data_handler.save_edited_answer_to_db(sub_time=submission_time, message=new_info, image=answer_image, answer_id=answer_id)
+        data_handler.save_edited_answer_to_db(sub_time=submission_time, message=new_info, image=answer_image,
+                                              answer_id=answer_id)
         return redirect(f'/question/{answer_info[0]["question_id"]}')
 
 
@@ -203,7 +204,8 @@ def edit_comment(comment_id):
             edit_count = 1
         else:
             edit_count = comment_info[0]["edited_count"] + 1
-        data_handler.edit_comment(message=new_info, submission_time=submission_time, comment_id=comment_id, edited_count=edit_count)
+        data_handler.edit_comment(message=new_info, submission_time=submission_time, comment_id=comment_id,
+                                  edited_count=edit_count)
         return redirect(f'/question/{redirect_info}')
 
 
@@ -216,7 +218,7 @@ def delete_comment(comment_id):
         question_id = comment_data[0]["question_id"]
         if request.form.get("button") == "yes":
             delete_functions.delete_comment(comment_id)
-        return redirect(f'/question/{ question_id }')
+        return redirect(f'/question/{question_id}')
 
 
 @app.route('/question/<question_id>/new-tag', methods=["GET", "POST"])
@@ -233,7 +235,7 @@ def add_tag_to_question(question_id):
         tag_id = data_handler.get_tag_id_by_name(tag_name)
         if tag_id[0]["id"] not in question_tags:
             data_handler.add_question_tag(question_id, tag_id[0]["id"])
-        return redirect(f'/question/{ question_id }')
+        return redirect(f'/question/{question_id}')
 
 
 @app.route('/search', methods=['GET', 'POST'])
@@ -244,29 +246,22 @@ def search():
     search_data = request.args.get("question_input")
     searched_questions = data_handler.get_searched_questions(search_data)
     searched_answers = data_handler.get_searched_answers(search_data)
-
     length_of_search_data = len(search_data)
-    for result_row in searched_questions:
-        title_result = [m.start() for m in re.finditer(search_data.lower(), result_row["title"].lower())]
-        for number in title_result[::-1]:
-            result_row["title"] = result_row["title"][:(number+length_of_search_data)] + highlight_end + result_row["title"][(number+length_of_search_data):]
-            result_row["title"] = result_row["title"][:number] + highlight_start + result_row["title"][number:]
-        message_result = [m.start() for m in re.finditer(search_data.lower(), result_row["message"].lower())]
-        for number in message_result[::-1]:
-            result_row["message"] = result_row["message"][:(number + length_of_search_data)] + highlight_end + result_row["message"][(number + length_of_search_data):]
-            result_row["message"] = result_row["message"][:number] + highlight_start + result_row["message"][number:]
-    for result_row in searched_answers:
-        answer_message_result = [m.start() for m in re.finditer(search_data.lower(), result_row["message"].lower())]
-        for number in answer_message_result[::-1]:
-            result_row["message"] = result_row["message"][:(number + length_of_search_data)] + highlight_end + result_row["message"][(number + length_of_search_data):]
-            result_row["message"] = result_row["message"][:number] + highlight_start + result_row["message"][number:]
-    return render_template("search-result.html", headers=headers, searched_questions=searched_questions, searched_answers=searched_answers)
+
+    utils.insert_highlight_tags(searched_questions, search_data, "title", length_of_search_data, highlight_start,
+                                highlight_end)
+    utils.insert_highlight_tags(searched_questions, search_data, "message", length_of_search_data, highlight_start,
+                                highlight_end)
+    utils.insert_highlight_tags(searched_answers, search_data, "message", length_of_search_data, highlight_start,
+                                highlight_end)
+    return render_template("search-result.html", headers=headers, searched_questions=searched_questions,
+                           searched_answers=searched_answers)
 
 
 @app.route('/question/<question_id>/tag/<tag_id>/delete')
 def delete_question_tag(question_id, tag_id):
     delete_functions.delete_tag_from_question(question_id, tag_id)
-    return redirect(f'/question/{ question_id }')
+    return redirect(f'/question/{question_id}')
 
 
 if __name__ == "__main__":
