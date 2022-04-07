@@ -102,7 +102,7 @@ def edit_question(question_id=None):
             image.save(os.path.join(data_handler.IMAGE_FOLDER_PATH, image.filename))
             question_image = f"images/{image.filename}"
         else:
-            question_image = "images/no_picture.png"
+            question_image = question[0]["image"]
         submission_time = utils.get_time()
         data_handler.edit_question(question_id, edited_title, edited_message, question_image, submission_time)
         return redirect("/list")
