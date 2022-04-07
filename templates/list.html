@@ -76,8 +76,13 @@
                             <td colspan="2" class="comment-date">
                                {{ comment.submission_time }}
                             </td>
-                            <td colspan="4" class="comment-message">
+                            <td colspan="3" class="comment-message">
                                 {{ comment.message }}
+                            </td>
+                            <td>
+                                <form action="/comment/{{ comment['id'] }}/edit">
+                                <button type="submit" class="trash-button"><img src="/static/icons/edit.png" alt=""></button>
+                                </form>
                             </td>
                             <td>
                                 <form action="/comment/{{ comment['id'] }}/delete">
