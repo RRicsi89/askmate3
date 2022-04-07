@@ -4,7 +4,7 @@
 <section id="questions-content">
 {% include "header.html" %}
 <form action="/"><button type="submit" class="previous-button"><img src="/static/icons/previous.png" alt="previous-button"></button></form>
-    <h1 class="page-title">Results</h1>
+    <h1 class="page-title">Question Results</h1>
         <section class="table">
             <table>
                 <thead>
@@ -32,10 +32,10 @@
                                 {{ question.vote_number }}
                             </td>
                             <td>
-                                <a href={{ url_for('display_question', question_id = question.id) }}>{{ question.title }}</a>
+                                <a href={{ url_for('display_question', question_id = question.id) }}>{{ question.title | safe }}</a>
                             </td>
                             <td>
-                                {{ question.message }}
+                                {{ question.message | safe}}
                             </td>
                             <td>
                                 <img src="{{ question.image }}" alt="question-image">
