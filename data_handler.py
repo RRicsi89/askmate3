@@ -1,4 +1,3 @@
-import csv
 import os
 import connections
 
@@ -185,6 +184,7 @@ def get_comment_by_question_id(cursor, question_id):
     """
     cursor.execute(query, {"question_id": question_id})
     return cursor.fetchall()
+
 
 @connections.connection_handler
 def get_comments(cursor):
