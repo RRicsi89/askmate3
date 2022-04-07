@@ -10,7 +10,7 @@
         </form>
     </section>
 
-    <section class="table" id="lastest_questions">
+    <section class="table" id="latest_questions">
     <h2>Latest five questions:</h2>
     <table>
     <tbody>
@@ -19,7 +19,7 @@
         {% for key, value in dict.items() %}
             {% if loop.last %}
             {% elif key == "title" %}
-                <td><a href="/question/{{ dict["id"] }}">{{ value }}</td>
+                <td><a href="/question/{{ dict["id"] }}">{{ value }}</a></td>
             {% else %}
             <td>{{ value }}</td>
             {% endif %}

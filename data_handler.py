@@ -35,10 +35,13 @@ def get_searched_questions(cursor, searched_question):
             question.title,
             question.message,
             question.image
-        FROM question
+        FROM question FULL OUTER JOIN answer
+        ON question.id = answer.question_id
         WHERE
             LOWER(question.title) LIKE '%{searched_question.lower()}%' OR
-            LOWER(question.message) LIKE '%{searched_question.lower()}%'
+            LOWER(question.message) LIKE '%{searched_question.lower()}%' OR
+            LOWER(answer.message) LIKE '%{searched_question.lower()}%';
+
     """
     cursor.execute(query)
     return cursor.fetchall()

@@ -14,7 +14,7 @@
 
     <h1 class="page-title">Tell us what do you think about this question!</h1>
     <section class="add_edit_question_form">
-        <form action="/question/{{ question_id }}/new-comment" method="POST", enctype="multipart/form-data" class="question_form">
+        <form action="/question/{{ question_id }}/new-comment" method="POST" enctype="multipart/form-data" class="question_form">
             <label for="question_content">Your comment</label>
             <textarea name="message" id="question_content" cols="50" rows="5" required></textarea><br>
             <button type="submit">Submit comment</button>
