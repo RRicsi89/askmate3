@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="../static/style.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
         <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Exo:wght@300&family=Inconsolata:wght@200&family=Roboto:wght@200&display=swap" rel="stylesheet">
         <title>AskMate | {% block title %}{% endblock %}</title>
         <script src="https://kit.fontawesome.com/82a8de7507.js" crossorigin="anonymous"></script>

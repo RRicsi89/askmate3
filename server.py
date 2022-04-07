@@ -9,14 +9,6 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
-    # data_handler.VISITS += 1
-    # with open("data/security.txt", "r") as file:
-    #     security_code = file.readline()
-    # if data_handler.VISITS == int(security_code):
-    #     data_handler.save_original_vote_numbers()
-    #     questions = data_handler.read_data_from_file(data_handler.QUESTIONS_PATH)
-    #     questions.sort(key=lambda dicti: dicti["submission_time"])
-    #     data_handler.save_data_to_file(questions, data_handler.QUESTION_HEADERS_CSV)
     latest_five_question = data_handler.get_latest_five_question()
     return render_template("index.html", question_data=latest_five_question)
 
