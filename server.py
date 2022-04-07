@@ -242,7 +242,9 @@ def search():
     highlight_end = r"</mark>"
     headers = data_handler.LIST_HEADERS
     search_data = request.args.get("question_input")
-    searched_questions = data_handler.get_questions(search_data)
+    searched_questions = data_handler.get_searched_questions(search_data)
+    searched_answers = data_handler.get_searched_answers(search_data)
+
     length_of_search_data = len(search_data)
     for result_row in searched_questions:
         title_result = [m.start() for m in re.finditer(search_data.lower(), result_row["title"].lower())]
@@ -253,14 +255,11 @@ def search():
         for number in message_result[::-1]:
             result_row["message"] = result_row["message"][:(number + length_of_search_data)] + highlight_end + result_row["message"][(number + length_of_search_data):]
             result_row["message"] = result_row["message"][:number] + highlight_start + result_row["message"][number:]
-
-
-
-
-
-
-
-
+    for result_row in searched_answers:
+        answer_message_result = [m.start() for m in re.finditer(search_data.lower(), result_row["message"].lower())]
+        for number in answer_message_result[::-1]:
+            result_row["message"] = result_row["message"][:(number + length_of_search_data)] + highlight_end + result_row["message"][(number + length_of_search_data):]
+            result_row["message"] = result_row["message"][:number] + highlight_start + result_row["message"][number:]
     return render_template("search-result.html", headers=headers, searched_questions=searched_questions)
 
 
