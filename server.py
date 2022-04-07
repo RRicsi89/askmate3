@@ -27,11 +27,12 @@ def list_questions():
     questions = data_handler.get_all_questions()
     headers = data_handler.LIST_HEADERS
     dict_keys = data_handler.DICT_KEYS
+    comments = data_handler.get_comments()
     if "order_direction" in request.args.keys():
         order_direction = request.args.get("order_direction")
         order_by = request.args.get("order_by")
         questions = data_handler.sort_all_questions(order_by, order_direction)
-    return render_template("list.html", questions=questions, headers=headers, dict_keys=dict_keys)
+    return render_template("list.html", questions=questions, headers=headers, dict_keys=dict_keys, comments=comments)
 
 
 @app.route("/question/<question_id>")

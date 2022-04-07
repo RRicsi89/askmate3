@@ -64,6 +64,18 @@
                     {% endfor %}
                             <td><a href="/question/{{ question["id"] }}/edit"><img alt="Edit question button" src="/static/icons/edit.png" class="edit-image"></a></td>
                         </tr>
+                        <tr>
+                            {% for comment in comments %}
+                            {% if question.id == comment.question_id %}
+                            <td colspan="2">
+                               {{ comment.submission_time }}
+                            </td>
+                            <td colspan="4">
+                                {{ comment.message }}
+                            </td>
+                            {% endif %}
+                            {% endfor %}
+                        </tr>
                     {% endfor %}
                 </tbody>
         </table>
