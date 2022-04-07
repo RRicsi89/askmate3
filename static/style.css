@@ -182,12 +182,23 @@ footer {
     text-transform: uppercase;
 }
 
-.question_form, .answer_form, .comment_form {
+.question_form, .answer_form, .comment_form, .tag-selectors {
     display: flex;
     flex-direction: column;
     padding: 40px;
     height: 90vh;
     width: 80vw;
+    font-family: 'Exo', sans-serif;
+}
+
+.tag-selectors {
+    width: 100vw;
+    background-color: rgba(182, 188, 197, 0.1);
+    height: 100%;
+    text-transform: uppercase;
+}
+
+.tag-list {
     font-family: 'Exo', sans-serif;
 }
 
@@ -201,6 +212,11 @@ footer {
 .question_form > input, label, textarea, button {
     padding: 10px;
     font-size: 1.2em;
+}
+
+input {
+    padding: 5px;
+    font-size: 14px;
 }
 
 .question_form > label {
