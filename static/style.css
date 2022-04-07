@@ -370,3 +370,9 @@ footer {
 .header-width {
     max-width: min-content;
 }
+
+.search-bar {
+    position: absolute;
+    right: 0;
+    margin-top: 0;
+}

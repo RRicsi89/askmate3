@@ -206,7 +206,8 @@ def edit_question(cursor, question_id, title, message, image, submission_time):
             submission_time = %(submission_time)s
         WHERE id = %(question_id)s
     """
-    cursor.execute(query, {"title": title, "message": message, "question_id": question_id, "image": image, "submission_time": submission_time})
+    cursor.execute(query, {"title": title, "message": message, "question_id": question_id, "image": image,
+                           "submission_time": submission_time})
 
 
 @connections.connection_handler
@@ -219,7 +220,8 @@ def edit_comment(cursor, comment_id, message, submission_time, edited_count):
     WHERE id = %(comment_id)s
     
     """
-    cursor.execute(query, {"comment_id": comment_id, "message": message, "submission_time": submission_time, "edited_count": edited_count})
+    cursor.execute(query, {"comment_id": comment_id, "message": message, "submission_time": submission_time,
+                           "edited_count": edited_count})
 
 
 @connections.connection_handler
