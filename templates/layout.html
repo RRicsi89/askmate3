@@ -13,7 +13,7 @@
         <script>
             function toggleTheme() {
                 var theme = document.getElementsByTagName('link')[0];
-                if (theme.getAttribute('href') == '/static/style.css') {
+                if (theme.getAttribute('href') === '/static/style.css') {
                     theme.setAttribute('href', '/static/style-2.css');
                 } else {
                     theme.setAttribute('href', '/static/style.css');

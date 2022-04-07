@@ -148,31 +148,36 @@ def save_answer_to_db(cursor, *args):
 
 @connections.connection_handler
 def save_edited_answer_to_db(cursor, sub_time, message, image, answer_id):
-    query = f"""
+    query = sql.SQL("""
     UPDATE answer
-    SET submission_time = '{sub_time}',
-    message = '{message}',
-    image = '{image}'
-    WHERE id = '{answer_id}'
-    """
+    SET submission_time = {sub_time},
+    message = {message},
+    image = {image}
+    WHERE id = {answer_id}
+    """).format(
+            sub_time=sql.Literal(sub_time),
+            message=sql.Literal(message),
+            image=sql.Literal(image),
+            answer_id=sql.Literal(answer_id)
+    )
     cursor.execute(query)
 
 
 @connections.connection_handler
 def insert_into_q_comment(cursor, *args):
-    query = f"""
+    query = sql.SQL("""
         INSERT INTO comment (question_id, message, submission_time)
         VALUES {args}
-    """
+    """).format(args=sql.Literal(args))
     cursor.execute(query)
 
 
 @connections.connection_handler
 def insert_into_a_comment(cursor, *args):
-    query = f"""
+    query = sql.SQL("""
         INSERT INTO comment (answer_id, message, submission_time)
         VALUES {args}
-    """
+    """).format(args=sql.Literal(args))
     cursor.execute(query)
 
 
@@ -283,7 +288,7 @@ def get_comment_by_id(cursor, comment_id):
 def get_tag_names(cursor):
     query = """
         SELECT name FROM tag
-        ORDER BY name
+        ORDER BY id
     """
     cursor.execute(query)
     return cursor.fetchall()
@@ -300,11 +305,11 @@ def add_new_tag(cursor, tag_name):
 
 @connections.connection_handler
 def add_question_tag(cursor, question_id, tag_id):
-    query = f"""
+    query = """
         INSERT INTO question_tag (question_id, tag_id)
-        VALUES ({question_id}, {tag_id})
+        VALUES (%(question_id)s, %(tag_id)s)
     """
-    cursor.execute(query)
+    cursor.execute(query, {"question_id": question_id, "tag_id": tag_id})
 
 
 @connections.connection_handler

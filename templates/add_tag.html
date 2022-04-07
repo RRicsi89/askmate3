@@ -12,7 +12,9 @@
                 <form action="{{ url_for('add_tag_to_question', question_id=question_id) }}" method="POST">
                     <select class="tag-list" name="tag">
                         {% for tag in tags %}
+                            {% if loop.index < 4 %}
                             <option value="{{ tag.name }}">{{ tag.name }}</option>
+                            {% endif %}
                         {% endfor %}
                     </select>
                     <button type="submit">Select</button>
