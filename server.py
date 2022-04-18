@@ -19,7 +19,7 @@ def list_questions():
     questions = data_handler.get_all_questions()
     headers = data_handler.LIST_HEADERS
     dict_keys = data_handler.DICT_KEYS
-    comments = data_handler.get_comments()
+    comments = data_handler.get_question_comments()
     if "order_direction" in request.args.keys():
         if request.args.get("order_direction") == "asc":
             order_direction = "asc"

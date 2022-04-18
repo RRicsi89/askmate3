@@ -30,91 +30,92 @@
             <button type='submit' class='any-button'>add tag</button>
         </a>
     </div>
+    <section class="question">
+        {% if question_data[0]["image"] != 'images/no_picture.png' %}
+                    <img alt="A picture about the question" src="{{ url_for("static", filename=question_data[0]["image"]) }}">
+        {% endif %}
+    </section>
 
     <section class="table">
-        {% if question_data[0]["image"] != 'images/no_picture.png' %}
-            <img alt="A picture about the question" src="{{ url_for("static", filename=question_data[0]["image"]) }}">
-        {% endif %}
+        <div class="table-content">
+            <div class="answer-headers">
+                {%for header in answer_headers%}
+                    {% if loop.index == 3 %}
+                        <div class="field-with-sort answer-message-header">{{ header }}</div>
+                    {% else %}
+                        <div class="field-with-sort">{{ header }}</div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {% for answer in answers %}
+                <div class="answer-row">
+                    {% for key in answer.keys() %}
 
-        <section class="table">
-            <table>
-                <thead>
-                    {%for header in answer_headers%}
-                    <th>{{ header }}</th>
-                    {% endfor %}
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </thead>
-                <tbody>
-                    {% for answer in answers %}
-                    <tr>
-                        {% for key in answer.keys() %}
-                            {% if loop.index == 3 %}
-                                <td>
-                                    <section class="field-with-sort">
-                                        {{ answer[key] }}
-                                            <form action="{{ url_for('change_vote_number_answer', answer_id=answer.id, vote="vote_up") }}">
-                                                <button type="submit" class="sort-button"><img src="/static/icons/arrow-up.png" alt=""></button>
-                                            </form>
-                                            <form action="{{ url_for('change_vote_number_answer', answer_id=answer.id, vote="vote_down") }}">
-                                                <button type="submit" class="sort-button"><img src="/static/icons/down-filled-triangular-arrow.png" alt=""></button>
-                                            </form>
-                                        </section>
-                                </td>
+                        {% if loop.index == 3 %}
+                            <div class="answer-short">
+                                <section class="field-with-sort">
+                                    {{ answer[key] }}
+                                    <form action="{{ url_for('change_vote_number_answer', answer_id=answer.id, vote="vote_up") }}">
+                                        <button type="submit" class="sort-button"><img src="/static/icons/arrow-up.png" alt=""></button>
+                                    </form>
+                                    <form action="{{ url_for('change_vote_number_answer', answer_id=answer.id, vote="vote_down") }}">
+                                        <button type="submit" class="sort-button"><img src="/static/icons/down-filled-triangular-arrow.png" alt=""></button>
+                                    </form>
+                                </section>
+                            </div>
 
-                            {% elif loop.index0 == 4 %}
-                                {% if answer.image %}
-                                <td><img alt="A picture about the answer" src="{{ url_for('static', filename=answer['image']) }}" class="answer-image"></td>
-                                {% else %}
-                                    <td><img class="answer-image" alt="No picture for this answer" src="{{ url_for('static', filename="images/no_picture.png") }}"></td>
-                                {% endif %}
-                            {% elif not loop.first %}
-                                <td>{{ answer[key] }}</td>
+                        {% elif loop.index == 4 %}
+                            <div class="answer-short answer-message">{{ answer[key] }}</div>
+
+                        {% elif loop.index0 == 4 %}
+                            {% if answer.image %}
+                                <div><img alt="A picture about the answer" src="{{ url_for('static', filename=answer['image']) }}" class="answer-image"></div>
+                            {% else %}
+                                <div><img class="answer-image" alt="No picture for this answer" src="{{ url_for('static', filename="images/no_picture.png") }}"></div>
                             {% endif %}
-                        {% endfor %}
 
-                        <td>
-                            <form action="/answer/{{ answer['id'] }}/edit">
-                                  <button type="submit" class="edit-button"><img src="../static/icons/edit.png" class="edit-image"></button>
-                            </form>
-                        </td>
+                        {% elif not loop.first %}
+                            <div class="answer-short">{{ answer[key] }}</div>
+                        {% endif %}
+                    {% endfor %}
 
-                        <td>
+                    <div class="answer-short">
+                        <form action="/answer/{{ answer['id'] }}/edit">
+                              <button type="submit" class="edit-button"><img src="../static/icons/edit.png" class="edit-image"></button>
+                        </form>
+                    </div>
+
+                    <div class="answer-short">
                         <a href='/answer/{{ answer['id'] }}/new-comment'>
                            <button type='submit' class='comment-button'><img src="../static/icons/comment.png" class="comment-image"></button>
                         </a>
-                        </td>
-                        <td><form action="/answer/{{ answer['id'] }}/delete">
-                            <button type="submit" class="trash-button"><img src="/static/icons/trash.png" alt=""></button></form>
-                        </td>
+                    </div>
+                    <div><form action="/answer/{{ answer['id'] }}/delete">
+                        <button type="submit" class="trash-button"><img src="/static/icons/trash.png" alt=""></button></form>
+                    </div>
+                </div>
 
-                        {% for comment in comments %}
-                            <tr class="comment-section">
-                            {% if comment['answer_id'] == answer['id'] %}
-                                <td class="comment-date" colspan="1">{{ comment['submission_time'] }}</td>
-                                <td class="comment-message" colspan="4">{{ comment['message'] }}</td>
-                                <td>
-                                    <form action="/comment/{{ comment['id'] }}/edit">
+                {% for comment in comments %}
+                    {% if comment['answer_id'] == answer['id'] %}
+                        <div class="comment-section">
+                            <div class="comment-date">{{ comment['submission_time'] }}</div>
+                            <div class="comment-message">{{ comment['message'] }}</div>
+                            <div>
+                                <form action="/comment/{{ comment['id'] }}/edit">
                                     <button type="submit" class="trash-button"><img src="/static/icons/edit.png" alt=""></button>
-                                    </form>
-                                </td>
-                                <td>
-                                    <form action="/comment/{{ comment['id'] }}/delete">
-                                    <button type="submit" class="trash-button"><img src="/static/icons/trash.png" alt=""></button>
-                                    </form>
-                                </td>
-                            {% endif %}
-                            </tr>
-                        {% endfor %}
+                                </form>
+                            </div>
+                            <div>
+                                <form action="/comment/{{ comment['id'] }}/delete">
+                                <button type="submit" class="trash-button"><img src="/static/icons/trash.png" alt=""></button>
+                                </form>
+                            </div>
+                        </div>
+                    {% endif %}
 
-                    {% endfor %}
-
-                <tr>
-                </tr>
-                </tbody>
-            </table>
-        </section>
+                {% endfor %}
+            {% endfor %}
+        </div>
 
         <section class="add-new">
             <a href="/question/{{ question_data[0]['id'] }}/new-answer">
@@ -126,7 +127,6 @@
         <form action="/question/{{ question_data[0]['id'] }}/delete">
             <button type="submit" class="delete-button">Delete question</button>
         </form>
-    <section>
 
 
     {% include "footer.html" %}
