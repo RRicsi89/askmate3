@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import data_handler
 import delete_functions
 import utils
+from bonus_questions import SAMPLE_QUESTIONS
 
 app = Flask(__name__)
 
@@ -260,6 +261,11 @@ def search():
 def delete_question_tag(question_id, tag_id):
     delete_functions.delete_tag_from_question(question_id, tag_id)
     return redirect(f'/question/{ question_id }')
+
+
+@app.route("/bonus-questions")
+def main():
+    return render_template('bonus_questions.html', questions=SAMPLE_QUESTIONS)
 
 
 if __name__ == "__main__":
