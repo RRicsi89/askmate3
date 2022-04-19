@@ -109,7 +109,14 @@ def get_answer_by_id(cursor, answer_id):
 @connections.connection_handler
 def get_answers_by_question_id(cursor, question_id):
     query = """
-        SELECT answer.id, answer.submission_time, answer.vote_number, answer.message, answer.image FROM answer
+        SELECT answer.id, 
+                answer.submission_time, 
+                answer.vote_number, 
+                answer.message, 
+                answer.image, 
+                answer.user_id,
+                answer.accepted
+                FROM answer
         JOIN question
             ON answer.question_id = question.id
         WHERE answer.question_id = %(question_id)s
@@ -425,3 +432,28 @@ def get_all_user_info_by_user_id(cursor, userid):
     """
     cursor.execute(query)
     return cursor.fetchall()
+
+
+@connections.connection_handler
+def update_reputation(cursor, user_id):
+    query = sql.SQL("""
+        UPDATE users
+        SET reputation = reputation + 15
+        WHERE id = {user_id}
+        """).format(user_id=sql.Literal(user_id))
+    cursor.execute(query)
+
+
+@connections.connection_handler
+def update_acceptance(cursor, answer_id, state):
+    if state:
+        query = sql.SQL("""
+            UPDATE answer SET accepted = TRUE
+            WHERE id = {answer_id}
+        """).format(answer_id=sql.Literal(answer_id))
+    else:
+        query = sql.SQL("""
+            UPDATE answer SET accepted = FALSE
+            WHERE id = {answer_id}
+        """).format(answer_id=sql.Literal(answer_id))
+    cursor.execute(query)

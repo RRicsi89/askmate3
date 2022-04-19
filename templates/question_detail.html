@@ -67,14 +67,14 @@
                         {% elif loop.index == 4 %}
                             <div class="answer-short answer-message">{{ answer[key] }}</div>
 
-                        {% elif loop.index0 == 4 %}
+                        {% elif loop.index == 5 %}
                             {% if answer.image %}
                                 <div><img alt="A picture about the answer" src="{{ url_for('static', filename=answer['image']) }}" class="answer-image"></div>
                             {% else %}
                                 <div><img class="answer-image" alt="No picture for this answer" src="{{ url_for('static', filename="images/no_picture.png") }}"></div>
                             {% endif %}
 
-                        {% elif not loop.first %}
+                        {% elif not loop.first and loop.index < 5 %}
                             <div class="answer-short">{{ answer[key] }}</div>
                         {% endif %}
                     {% endfor %}
@@ -92,6 +92,14 @@
                     </div>
                     <div><form action="/answer/{{ answer['id'] }}/delete">
                         <button type="submit" class="trash-button"><img src="/static/icons/trash.png" alt=""></button></form>
+                    </div>
+                    <div class="answer-short">
+                        {% if answer['accepted'] %}
+                            <input type="checkbox" id="accept" name="accepted" value="{{ answer['id'] }}" class="accept-answer" checked>
+                        {% else %}
+                            <input type="checkbox" id="accept" name="accepted" value="{{ answer['id'] }}" class="accept-answer">
+                        {% endif %}
+                        <label for="accept">Accept</label>
                     </div>
                 </div>
 
@@ -130,5 +138,6 @@
 
 
     {% include "footer.html" %}
+    <script src="/static/js/accept_answer.js"></script>
 {% endblock %}
 

@@ -319,6 +319,28 @@ def user_profile(user_id):
     return render_template("user_profile.html", user_details = user_details)
 
 
+@app.route('/accept-answer/<question_id>/<answer_id>')
+def accept_answer(question_id, answer_id):
+    answer_data = data_handler.get_answer_by_id(answer_id)
+    question_data = data_handler.get_question_by_id(question_id)
+    answer_user_id = answer_data[0]["user_id"]
+    question_user_id = question_data[0]["user_id"]
+    print(question_user_id)
+    if question_user_id == session["user_id"]:
+        data_handler.update_reputation(answer_user_id)
+        data_handler.update_acceptance(answer_id, True)
+    return redirect(url_for('display_question', question_id=question_id))
+
+
+@app.route('/decline-answer/<question_id>/<answer_id>')
+def decline_answer(question_id, answer_id):
+    question_data = data_handler.get_question_by_id(question_id)
+    question_user_id = question_data[0]["user_id"]
+    if question_user_id == session["user_id"]:
+        data_handler.update_acceptance(answer_id, False)
+    return redirect(url_for('display_question', question_id=question_id))
+
+
 if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
