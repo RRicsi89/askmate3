@@ -268,6 +268,11 @@ def main():
     return render_template('bonus_questions.html', questions=SAMPLE_QUESTIONS)
 
 
+@app.route('/registration', methods=['GET', 'POST'])
+def register_user():
+    return render_template('registration_page.html')
+
+
 if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
