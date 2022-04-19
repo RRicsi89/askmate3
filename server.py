@@ -282,15 +282,14 @@ def register_user():
             data_handler.create_user_information(email, password)
             return redirect(url_for('main'))
 
-
-@app.route("/user/<user_id>")
-def user_profile(user_id):
-    return render_template("user_profile.html")
-
 @app.route('/login', methods=['GET', 'POST'])
 def login_user():
     if request.method == 'GET':
         return render_template('login.html')
+
+@app.route("/user/<user_id>")
+def user_profile(user_id):
+    return render_template("user_profile.html")
 
 
 if __name__ == "__main__":
