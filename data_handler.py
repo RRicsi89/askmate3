@@ -377,11 +377,11 @@ def get_user_info_by_email(cursor, email):
     return cursor.fetchall()
 
 @connections.connection_handler
-def get_all_user_info_by_email(cursor, email):
-    query = sql.SQL("""
+def get_all_user_info_by_user_id(cursor, userid):
+    query = f"""
         SELECT *
         FROM users
-        WHERE username = {username}
-    """).format("username"= sql.Literal(username))
+        WHERE id = {userid}
+    """
     cursor.execute(query)
     return cursor.fetchall()

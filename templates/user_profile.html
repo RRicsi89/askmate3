@@ -5,17 +5,16 @@
 {% include "header.html" %}
 
     <section class="profile-form">
-
+        {% for detail in user_details %}
         <section class="profile-stats">
             <img src="../static/images/no_picture.png" alt="profile-pic">
             <section class="stats">
-                <h2>Username</h2>
-                <p>User ID</p>
+                <h2>{{ detail["username"] }}</h2>
                 <p>Asked questions: 10</p>
                 <p>Number of comments: 8</p>
                 <p>Answered questions: 12</p>
-                <p>Registration data: 2020-12-12</p>
-                <p>Reputation</p>
+                <p>Registration data: {{ detail["registration_date"].strftime('%Y-%m-%d') }}</p>
+                <p>Reputation: {{ detail["reputation"] }}</p>
             </section>
         </section>
 
@@ -68,5 +67,6 @@
         </section>
 
     </section>
+    {% endfor %}
 
 {% endblock %}

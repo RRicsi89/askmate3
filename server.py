@@ -289,8 +289,8 @@ def login_user():
 
 @app.route("/user/<user_id>")
 def user_profile(user_id):
-
-    return render_template("user_profile.html")
+    user_details = data_handler.get_all_user_info_by_user_id(user_id)
+    return render_template("user_profile.html", user_details = user_details)
 
 
 if __name__ == "__main__":
