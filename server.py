@@ -283,6 +283,10 @@ def register_user():
             return redirect(url_for('main'))
 
 
+@app.route("/user/<user_id>")
+def user_profile(user_id):
+    return render_template("user_profile.html")
+
 if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
