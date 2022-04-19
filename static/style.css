@@ -485,3 +485,13 @@ input {
 .header-width {
     max-width: min-content;
 }
+
+.users_row {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    column-gap: 15px;
+    align-items: center;
+    min-height: 75px;
+    max-height: 100px;
+    border: red solid 2px;
+}
