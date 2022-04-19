@@ -287,6 +287,12 @@ def register_user():
 def user_profile(user_id):
     return render_template("user_profile.html")
 
+@app.route('/login', methods=['GET', 'POST'])
+def login_user():
+    if request.method == 'GET':
+        return render_template('login.html')
+
+
 if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
