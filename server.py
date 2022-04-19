@@ -280,7 +280,7 @@ def register_user():
         else:
             password = utils.hash_password(request.form["password"])
             data_handler.create_user_information(email, password)
-            return redirect(url_for('list_questions'))
+            return redirect(url_for('main'))
 
 
 if __name__ == "__main__":
