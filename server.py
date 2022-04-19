@@ -289,6 +289,7 @@ def login_user():
 
 @app.route("/user/<user_id>")
 def user_profile(user_id):
+
     return render_template("user_profile.html")
 
 
