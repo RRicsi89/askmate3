@@ -488,6 +488,8 @@ input {
 
 .profile-stats {
     display: flex;
+}
+
 .users_row {
     display: grid;
     grid-template-columns: repeat(6, 1fr);

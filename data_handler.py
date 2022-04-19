@@ -357,6 +357,28 @@ def get_question_comments(cursor):
 
 
 @connections.connection_handler
+def create_user_information(cursor, username, password):
+    query = f"""
+        INSERT INTO users
+        (username, password)
+        VALUES ('{username}', '{password}')
+
+    """
+    cursor.execute(query)
+
+
+@connections.connection_handler
+def get_user_info_by_email(cursor, email):
+    query = f"""
+        SELECT username
+        FROM users
+        WHERE username = '{email}'
+    """
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@connections.connection_handler
 def get_users_data(cursor):
     query = sql.SQL("""
         SELECT users.username,
