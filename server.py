@@ -275,10 +275,10 @@ def register_user():
         return render_template('registration_page.html')
     elif request.method == 'POST':
         email = request.form["email"]
-        password = request.form["password"]
         if data_handler.get_user_info_by_email(email):
             return redirect(url_for('register_user'))
         else:
+            password = utils.hash_password(request.form["password"])
             data_handler.create_user_information(email, password)
             return redirect(url_for('list_questions'))
 
