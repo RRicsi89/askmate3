@@ -268,6 +268,10 @@ def main():
     return render_template('bonus_questions.html', questions=SAMPLE_QUESTIONS)
 
 
+@app.route("/user/<user_id>")
+def user_profile(user_id):
+    return render_template("user_profile.html")
+
 if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
