@@ -17,6 +17,7 @@ ANSWER_HEADERS = ["Submission Time", "Vote Number", "Message", "Image"]
 QUESTION_HEADERS_CSV = ["id", "submission_time", "view_number", "vote_number", "title", "message", "image"]
 ANSWER_HEADERS_CSV = ["id", "submission_time", "vote_number", "question_id", "message", "image"]
 DICT_KEYS = ["submission_time", "view_number", "vote_number", "title", "message"]
+USER_LIST_HEADERS = ["Username", "Registration", "Reputation", "Questions", "Answers", "Comments"]
 
 
 # def read_data_from_file(file=None):
@@ -356,22 +357,21 @@ def get_question_comments(cursor):
 
 
 @connections.connection_handler
-def create_user_information(cursor, username, password):
-    query = f"""
-        INSERT INTO users
-        (username, password)
-        VALUES ('{username}', '{password}')
-        
-    """
-    cursor.execute(query)
-
-
-@connections.connection_handler
-def get_user_info_by_email(cursor, email):
-    query = f"""
-        SELECT username
-        FROM users
-        WHERE username = '{email}'
-    """
+def get_users_data(cursor):
+    query = sql.SQL("""
+        SELECT users.username,
+                users.registration_date,
+                users.reputation,
+                (SELECT COUNT(question.id) FROM users 
+                    JOIN question ON users.id = question.user_id 
+                    GROUP BY users.id) AS "questions",
+                (SELECT COUNT(answer.id) FROM users 
+                    JOIN answer ON users.id = answer.user_id 
+                    GROUP BY users.id) AS answers,
+                (SELECT COUNT(comment.id) FROM users 
+                    JOIN comment ON users.id = comment.user_id 
+                    GROUP BY users.id)
+                FROM users
+    """)
     cursor.execute(query)
     return cursor.fetchall()

@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, session
 import data_handler
 import delete_functions
 import utils
@@ -262,6 +262,16 @@ def search():
 def delete_question_tag(question_id, tag_id):
     delete_functions.delete_tag_from_question(question_id, tag_id)
     return redirect(f'/question/{ question_id }')
+
+
+@app.route('/users')
+def list_users():
+    headers = data_handler.USER_LIST_HEADERS
+    session["user_id"] = 1
+    if session["user_id"]:
+        users = data_handler.get_users_data()
+        return render_template('users.html', users=users, headers=headers)
+    redirect('/')
 
 
 @app.route("/bonus-questions")
