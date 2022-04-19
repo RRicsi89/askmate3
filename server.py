@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, session
 import data_handler
 import delete_functions
 import utils
@@ -285,17 +285,31 @@ def register_user():
         return render_template('registration_page.html')
     elif request.method == 'POST':
         email = request.form["email"]
-        if data_handler.get_user_info_by_email(email):
+        if data_handler.check_user_in_database(email):
             return redirect(url_for('register_user'))
         else:
             password = utils.hash_password(request.form["password"])
             data_handler.create_user_information(email, password)
-            return redirect(url_for('main'))
+            return redirect(url_for('hello'))
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_user():
     if request.method == 'GET':
         return render_template('login.html')
+    elif request.method == 'POST':
+        email = request.form["username"]
+        password = request.form["password"]
+        if data_handler.check_user_in_database(email):
+            if utils.verify_password(password, data_handler.get_hashed_password_by_email(email)[0]["password"]):
+                print("belemegy")
+                session['email'] = email
+                return render_template('index.html', login_detail=email, email=email)
+            else:
+                return render_template('login.html')
+        else:
+            return render_template('login.html')
+
 
 @app.route("/user/<user_id>")
 def user_profile(user_id):

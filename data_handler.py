@@ -368,11 +368,22 @@ def create_user_information(cursor, username, password):
 
 
 @connections.connection_handler
-def get_user_info_by_email(cursor, email):
+def check_user_in_database(cursor, email):
     query = f"""
         SELECT username
         FROM users
         WHERE username = '{email}'
+    """
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@connections.connection_handler
+def get_hashed_password_by_email(cursor, username):
+    query = f"""
+        SELECT password
+        FROM users
+        WHERE username = '{username}'
     """
     cursor.execute(query)
     return cursor.fetchall()
