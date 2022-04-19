@@ -1,11 +1,12 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 import data_handler
 import delete_functions
 import utils
 from bonus_questions import SAMPLE_QUESTIONS
 
 app = Flask(__name__)
+app.secret_key = b'\xd0p\x89\xb5/\x1d\xa3hY}\x97b\xd7\x15\xc67'
 
 
 @app.route("/")
@@ -270,7 +271,13 @@ def main():
 
 @app.route('/registration', methods=['GET', 'POST'])
 def register_user():
-    return render_template('registration_page.html')
+    if request.method == 'GET':
+        return render_template('registration_page.html')
+    elif request.method == 'POST':
+        email = request.form["email"]
+        password = request.form["password"]
+        flash('You registered successfully')
+        return redirect(url_for("list_questions"))
 
 
 if __name__ == "__main__":
