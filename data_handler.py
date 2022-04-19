@@ -17,6 +17,7 @@ ANSWER_HEADERS = ["Submission Time", "Vote Number", "Message", "Image"]
 QUESTION_HEADERS_CSV = ["id", "submission_time", "view_number", "vote_number", "title", "message", "image"]
 ANSWER_HEADERS_CSV = ["id", "submission_time", "vote_number", "question_id", "message", "image"]
 DICT_KEYS = ["submission_time", "view_number", "vote_number", "title", "message"]
+USER_LIST_HEADERS = ["Username", "Registration", "Reputation", "Questions", "Answers", "Comments"]
 
 
 # def read_data_from_file(file=None):
@@ -361,18 +362,50 @@ def create_user_information(cursor, username, password):
         INSERT INTO users
         (username, password)
         VALUES ('{username}', '{password}')
-        
+
     """
     cursor.execute(query)
 
 
 @connections.connection_handler
-def get_user_info_by_email(cursor, email):
+def check_user_in_database(cursor, email):
     query = f"""
         SELECT username
         FROM users
         WHERE username = '{email}'
     """
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@connections.connection_handler
+def get_hashed_password_by_email(cursor, username):
+    query = f"""
+        SELECT password
+        FROM users
+        WHERE username = '{username}'
+    """
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@connections.connection_handler
+def get_users_data(cursor):
+    query = sql.SQL("""
+        SELECT users.username,
+                users.registration_date,
+                users.reputation,
+                (SELECT COUNT(question.id) FROM users
+                    JOIN question ON users.id = question.user_id
+                    GROUP BY users.id) AS "questions",
+                (SELECT COUNT(answer.id) FROM users
+                    JOIN answer ON users.id = answer.user_id
+                    GROUP BY users.id) AS answers,
+                (SELECT COUNT(comment.id) FROM users
+                    JOIN comment ON users.id = comment.user_id
+                    GROUP BY users.id)
+                FROM users
+    """)
     cursor.execute(query)
     return cursor.fetchall()
 

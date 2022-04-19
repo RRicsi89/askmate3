@@ -34,7 +34,8 @@ CREATE TABLE question (
     vote_number integer,
     title text,
     message text,
-    image text DEFAULT 'images/no_picture.png'
+    image text DEFAULT 'images/no_picture.png',
+    user_id integer
 );
 
 DROP TABLE IF EXISTS public.answer;
@@ -44,7 +45,8 @@ CREATE TABLE answer (
     vote_number integer,
     question_id integer,
     message text,
-    image text DEFAULT 'images/no_picture.png'
+    image text DEFAULT 'images/no_picture.png',
+    user_id integer
 );
 
 DROP TABLE IF EXISTS public.comment;
@@ -54,7 +56,8 @@ CREATE TABLE comment (
     answer_id integer,
     message text,
     submission_time timestamp without time zone,
-    edited_count integer
+    edited_count integer,
+    user_id integer
 );
 
 

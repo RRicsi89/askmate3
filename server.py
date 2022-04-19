@@ -1,12 +1,14 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 import data_handler
 import delete_functions
 import utils
 from bonus_questions import SAMPLE_QUESTIONS
+from datetime import timedelta
 
 app = Flask(__name__)
 app.secret_key = b'\xd0p\x89\xb5/\x1d\xa3hY}\x97b\xd7\x15\xc67'
+app.permanent_session_lifetime = timedelta(minutes=20)
 
 
 @app.route("/")
@@ -264,6 +266,16 @@ def delete_question_tag(question_id, tag_id):
     return redirect(f'/question/{ question_id }')
 
 
+@app.route('/users')
+def list_users():
+    headers = data_handler.USER_LIST_HEADERS
+    session["user_id"] = 1
+    if session["user_id"]:
+        users = data_handler.get_users_data()
+        return render_template('users.html', users=users, headers=headers)
+    redirect('/')
+
+
 @app.route("/bonus-questions")
 def main():
     return render_template('bonus_questions.html', questions=SAMPLE_QUESTIONS)
@@ -275,17 +287,31 @@ def register_user():
         return render_template('registration_page.html')
     elif request.method == 'POST':
         email = request.form["email"]
-        if data_handler.get_user_info_by_email(email):
+        if data_handler.check_user_in_database(email):
             return redirect(url_for('register_user'))
         else:
             password = utils.hash_password(request.form["password"])
             data_handler.create_user_information(email, password)
-            return redirect(url_for('main'))
+            return redirect(url_for('hello'))
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_user():
     if request.method == 'GET':
         return render_template('login.html')
+    elif request.method == 'POST':
+        email = request.form["username"]
+        password = request.form["password"]
+        if data_handler.check_user_in_database(email):
+            if utils.verify_password(password, data_handler.get_hashed_password_by_email(email)[0]["password"]):
+                session['email'] = email
+                session.permanent = True
+                return render_template('index.html', login_detail=email)
+            else:
+                return render_template('login.html')
+        else:
+            return render_template('login.html')
+
 
 @app.route("/user/<user_id>")
 def user_profile(user_id):
