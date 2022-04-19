@@ -1,11 +1,12 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 import data_handler
 import delete_functions
 import utils
 from bonus_questions import SAMPLE_QUESTIONS
 
 app = Flask(__name__)
+app.secret_key = b'\xd0p\x89\xb5/\x1d\xa3hY}\x97b\xd7\x15\xc67'
 
 
 @app.route("/")
@@ -266,6 +267,20 @@ def delete_question_tag(question_id, tag_id):
 @app.route("/bonus-questions")
 def main():
     return render_template('bonus_questions.html', questions=SAMPLE_QUESTIONS)
+
+
+@app.route('/registration', methods=['GET', 'POST'])
+def register_user():
+    if request.method == 'GET':
+        return render_template('registration_page.html')
+    elif request.method == 'POST':
+        email = request.form["email"]
+        if data_handler.get_user_info_by_email(email):
+            return redirect(url_for('register_user'))
+        else:
+            password = utils.hash_password(request.form["password"])
+            data_handler.create_user_information(email, password)
+            return redirect(url_for('list_questions'))
 
 
 if __name__ == "__main__":
