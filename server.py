@@ -306,7 +306,7 @@ def login_user():
             if utils.verify_password(password, data_handler.get_hashed_password_by_email(email)[0]["password"]):
                 session['email'] = email
                 session.permanent = True
-                return render_template('index.html', login_detail=email, email=email)
+                return render_template('index.html', login_detail=email)
             else:
                 return render_template('login.html')
         else:
