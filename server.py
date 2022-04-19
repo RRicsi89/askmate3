@@ -276,8 +276,11 @@ def register_user():
     elif request.method == 'POST':
         email = request.form["email"]
         password = request.form["password"]
-        flash('You registered successfully')
-        return redirect(url_for("list_questions"))
+        if data_handler.get_user_info_by_email(email):
+            return redirect(url_for('register_user'))
+        else:
+            data_handler.create_user_information(email, password)
+            return redirect(url_for('list_questions'))
 
 
 if __name__ == "__main__":
