@@ -5,54 +5,52 @@
 {% include "header.html" %}
 <form action="/"><button type="submit" class="previous-button"><img src="/static/icons/previous.png" alt="previous-button"></button></form>
     <h1 class="page-title">Question Results</h1>
+
         <section class="table">
-            <table>
-                <thead>
-                    <tr>
-                        {% for header in headers %}
-                        <th>
-                            {{ header }}
-                        </th>
-                        {% endfor %}
-                        <th>
-                            Image
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="table-content">
-                    {% for question in searched_questions %}
-                        <tr>
-                            <td>
-                                {{ question.submission_time }}
-                            </td>
-                            <td>
-                                {{ question.view_number }}
-                            </td>
-                            <td>
-                                {{ question.vote_number }}
-                            </td>
-                            <td>
-                                <a href={{ url_for('display_question', question_id = question.id) }}>{{ question.title | safe }}</a>
-                            </td>
-                            <td>
-                                {{ question.message | safe}}
-                            </td>
-                            <td>
-                                <img src="{{ question.image }}" alt="question-image">
-                            </td>
-                        </tr>
+            <div class="table-content">
+                <div class="searched-question-row">
+                    {% for header in headers %}
+                    <div class="field-with-sort">
+                        {{ header }}
+                    </div>
+                    {% endfor %}
+                    <div class="field-with-sort">
+                        Image
+                    </div>
+                </div>
+                {% for question in searched_questions %}
+                    <div class="searched-question-row">
+                        <div class="short">
+                            {{ question.submission_time }}
+                        </div>
+                        <div class="short">
+                            {{ question.view_number }}
+                        </div>
+                        <div class="short">
+                            {{ question.vote_number }}
+                        </div>
+                        <div class="short">
+                            <a href={{ url_for('display_question', question_id = question.id) }}>{{ question.title | safe }}</a>
+                        </div>
+                        <div class="short">
+                            {{ question.message | safe}}
+                        </div>
+                        <div class="short little-image">
+                            <img src="/static/{{ question.image }}" alt="question-image" height="70px">
+                        </div>
+                    </div>
                         {% for answer in searched_answers %}
                             {% if answer['question_id'] == question['id'] %}
-                                <tr class="comment-section">
-                                    <td colspan="2" class="comment-date">{{ answer['submission_time'] }}</td>
-                                    <td colspan="4" class="comment-message">{{ answer['message'] | safe }}</td>
-                                </tr>
+                                <div class="comment-section">
+                                    <div class="comment-date">{{ answer['submission_time'] }}</div>
+                                    <div class="comment-message">{{ answer['message'] | safe }}</div>
+                                </div>
                             {% endif %}
                         {% endfor %}
                     {% endfor %}
-                </tbody>
-            </table>
+            </div>
         </section>
+
 </section>
 {% include "footer.html" %}
 {% endblock %}

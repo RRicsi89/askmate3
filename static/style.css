@@ -135,7 +135,8 @@ footer {
 }
 
 #questions-content, #answers-content {
-    height: 100vh;
+    height: max-content;
+    place-self: center;
 }
 
 .goback {
@@ -157,7 +158,7 @@ footer {
     height: 100%;
     place-self: center;
     place-items: center;
-    background-color: rgba(255, 255, 255, 0.44)
+    background-color: rgba(255, 255, 255, 0.44);
 }
 
 .table-content {
@@ -194,6 +195,15 @@ footer {
 .question-row {
     display: grid;
     grid-template-columns: 0.5fr 0.5fr 0.5fr 1fr 1fr 1fr 0.3fr 0.3fr;
+    column-gap: 15px;
+    align-items: center;
+    min-height: 75px;
+    max-height: 100px;
+}
+
+.searched-question-row {
+    display: grid;
+    grid-template-columns: 0.5fr 0.25fr 0.25fr 1fr 2fr 0.5fr;
     column-gap: 15px;
     align-items: center;
     min-height: 75px;
@@ -516,4 +526,8 @@ input {
     align-items: center;
     min-height: 75px;
     max-height: 100px;
+}
+
+.little-image {
+    max-height: border-box;
 }
