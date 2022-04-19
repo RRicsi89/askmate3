@@ -1,12 +1,14 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, session, flash, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 import data_handler
 import delete_functions
 import utils
 from bonus_questions import SAMPLE_QUESTIONS
+from datetime import timedelta
 
 app = Flask(__name__)
 app.secret_key = b'\xd0p\x89\xb5/\x1d\xa3hY}\x97b\xd7\x15\xc67'
+app.permanent_session_lifetime = timedelta(minutes=20)
 
 
 @app.route("/")
@@ -302,8 +304,8 @@ def login_user():
         password = request.form["password"]
         if data_handler.check_user_in_database(email):
             if utils.verify_password(password, data_handler.get_hashed_password_by_email(email)[0]["password"]):
-                print("belemegy")
                 session['email'] = email
+                session.permanent = True
                 return render_template('index.html', login_detail=email, email=email)
             else:
                 return render_template('login.html')
