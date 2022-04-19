@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 import data_handler
 import delete_functions
 import utils
@@ -264,6 +264,16 @@ def delete_question_tag(question_id, tag_id):
     return redirect(f'/question/{ question_id }')
 
 
+@app.route('/users')
+def list_users():
+    headers = data_handler.USER_LIST_HEADERS
+    session["user_id"] = 1
+    if session["user_id"]:
+        users = data_handler.get_users_data()
+        return render_template('users.html', users=users, headers=headers)
+    redirect('/')
+
+
 @app.route("/bonus-questions")
 def main():
     return render_template('bonus_questions.html', questions=SAMPLE_QUESTIONS)
@@ -282,11 +292,14 @@ def register_user():
             data_handler.create_user_information(email, password)
             return redirect(url_for('main'))
 
-
 @app.route('/login', methods=['GET', 'POST'])
 def login_user():
     if request.method == 'GET':
         return render_template('login.html')
+
+@app.route("/user/<user_id>")
+def user_profile(user_id):
+    return render_template("user_profile.html")
 
 
 if __name__ == "__main__":

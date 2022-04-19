@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+{% block title %}Profile{% endblock %}
+{% block body %}
+{% include "navbar.html" %}
+{% include "header.html" %}
+
+    <section class="profile-form">
+
+        <section class="profile-stats">
+            <img src="../static/images/no_picture.png" alt="profile-pic">
+            <section class="stats">
+                <h2>Username</h2>
+                <p>User ID</p>
+                <p>Asked questions: 10</p>
+                <p>Number of comments: 8</p>
+                <p>Answered questions: 12</p>
+                <p>Registration data: 2020-12-12</p>
+                <p>Reputation</p>
+            </section>
+        </section>
+
+        <section class="answers-table">
+            <table class="table">
+                <thead class="table-headers">
+                    <tr>
+                        <th colspan="2">The table header</th>
+                    </tr>
+                </thead>
+                <tbody class="table-content">
+                    <tr>
+                        <td>The table body</td>
+                        <td>with two columns</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="questions-table">
+            <table class="table">
+                <thead class="table-headers">
+                    <tr>
+                        <th colspan="2">The table header</th>
+                    </tr>
+                </thead>
+                <tbody class="table-content">
+                    <tr>
+                        <td>The table body</td>
+                        <td>with two columns</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="comments-table">
+            <table class="table">
+                <thead class="table-headers">
+                    <tr>
+                        <th colspan="2">The table header</th>
+                    </tr>
+                </thead>
+                <tbody class="table-content">
+                    <tr>
+                        <td>The table body</td>
+                        <td>with two columns</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+    </section>
+
+{% endblock %}
