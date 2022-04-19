@@ -489,8 +489,3 @@ input {
 .profile-stats {
     display: flex;
 }
-
-.stats, .profile-head {
-    display: flex;
-    flex-direction: column;
-}
