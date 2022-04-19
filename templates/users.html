@@ -14,16 +14,17 @@
                     </div>
                 {% endfor %}
             </div>
+
+            {% for user in users %}
+                <div class="users_row">
+                    {% for key, value in user.items() %}
+                        <div class="field-with-sort">
+                        {{ value }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
         </div>
-        {% for user in users %}
-            <div class="users_row">
-                {% for key, value in user.items() %}
-                    <div class="field-with-sort">
-                    {{ value }}
-                    </div>
-                {% endfor %}
-            </div>
-        {% endfor %}
     </section>
 
     {% include "footer.html" %}

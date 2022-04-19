@@ -393,21 +393,28 @@ def get_hashed_password_by_email(cursor, username):
 def get_users_data(cursor):
     query = sql.SQL("""
         SELECT users.username,
-                users.registration_date,
+                TO_CHAR(users.registration_date, 'YYYY-MM-DD hh:mm:ss'),
                 users.reputation,
-                (SELECT COUNT(question.id) FROM users
-                    JOIN question ON users.id = question.user_id
-                    GROUP BY users.id) AS "questions",
-                (SELECT COUNT(answer.id) FROM users
-                    JOIN answer ON users.id = answer.user_id
-                    GROUP BY users.id) AS answers,
-                (SELECT COUNT(comment.id) FROM users
-                    JOIN comment ON users.id = comment.user_id
-                    GROUP BY users.id)
+                questions.question_count,
+                answers.answer_count,
+                comments.comment_count
                 FROM users
+                JOIN (SELECT users.id AS id, COUNT(question.id) AS question_count FROM users 
+                    LEFT JOIN question ON users.id = question.user_id 
+                    GROUP BY users.id) AS questions
+                    ON questions.id = users.id
+                JOIN (SELECT users.id AS id, COUNT(answer.id) AS answer_count FROM users 
+                    LEFT JOIN answer ON users.id = answer.user_id 
+                    GROUP BY users.id) AS answers
+                    ON answers.id = users.id
+                JOIN (SELECT users.id AS id, COUNT(comment.id) AS comment_count FROM users 
+                    LEFT JOIN comment ON users.id = comment.user_id 
+                    GROUP BY users.id) AS comments
+                    ON comments.id = users.id
     """)
     cursor.execute(query)
     return cursor.fetchall()
+
 
 @connections.connection_handler
 def get_all_user_info_by_user_id(cursor, userid):
