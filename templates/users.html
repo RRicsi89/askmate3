@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}Users{% endblock %}
+
+{% block body %}
+    {% include "header.html" %}
+
+    <section class="table">
+        <div class="table-content">
+            <div class="users_row">
+                {% for header in headers %}
+                    <div class="field-with-sort">
+                        {{ header }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% for user in users %}
+            <div class="users_row">
+                {% for key, value in user.items() %}
+                    <div class="field-with-sort">
+                    {{ value }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </section>
+
+    {% include "footer.html" %}
+{% endblock %}
