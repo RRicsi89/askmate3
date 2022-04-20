@@ -269,11 +269,10 @@ def delete_question_tag(question_id, tag_id):
 @app.route('/users')
 def list_users():
     headers = data_handler.USER_LIST_HEADERS
-    session["user_id"] = 1
-    if session["user_id"]:
+    if "user_id" in session:
         users = data_handler.get_users_data()
         return render_template('users.html', users=users, headers=headers)
-    redirect('/')
+    return redirect('/')
 
 
 @app.route("/bonus-questions")
@@ -325,7 +324,6 @@ def accept_answer(question_id, answer_id):
     question_data = data_handler.get_question_by_id(question_id)
     answer_user_id = answer_data[0]["user_id"]
     question_user_id = question_data[0]["user_id"]
-    print(question_user_id)
     if question_user_id == session["user_id"]:
         data_handler.update_reputation(answer_user_id)
         data_handler.update_acceptance(answer_id, True)
