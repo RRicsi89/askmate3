@@ -433,7 +433,8 @@ def logout_user():
 @app.route('/tags')
 def get_tags():
     tags = data_handler.count_tags()
-    return render_template('tag.html', tags=tags)
+    headers = data_handler.TAG_HEADERS
+    return render_template('tag.html', tags=tags, headers=headers)
     pass
 
 

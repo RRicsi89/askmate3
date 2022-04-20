@@ -18,6 +18,7 @@ QUESTION_HEADERS_CSV = ["id", "submission_time", "view_number", "vote_number", "
 ANSWER_HEADERS_CSV = ["id", "submission_time", "vote_number", "question_id", "message", "image"]
 DICT_KEYS = ["submission_time", "view_number", "vote_number", "title", "message"]
 USER_LIST_HEADERS = ["Username", "Registration", "Reputation", "Questions", "Answers", "Comments"]
+TAG_HEADERS = ['Tags', 'Quantity']
 
 
 # def read_data_from_file(file=None):
