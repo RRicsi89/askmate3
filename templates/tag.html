@@ -1,2 +1,29 @@
 {% extends "layout.html" %}
+{% block body %}
+{% include "header.html" %}
+<section class="table">
+<div class="table-content">
+            <table>
+            <div class="table-content">
+            <tr>
+            <th>
+                <div class="question-row">
+                {% for header in headers %}
+                    <div class="field-with-sort header-message">
+                        {{ header }}
+                    </div>
+                {% endfor %}
+                </div>
+            </th>
+            </tr>
 
+                <div class="table-content">
+                {% for tag in tags %}
+                    <tr><td><div class="short message">{{ tag['tags'] }}</div></td></tr>
+                {% endfor %}
+                </div>
+            </div>
+            </table>
+</section>
+{% include "footer.html" %}
+{% endblock %}
