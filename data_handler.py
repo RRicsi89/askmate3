@@ -457,3 +457,12 @@ def update_acceptance(cursor, answer_id, state):
             WHERE id = {answer_id}
         """).format(answer_id=sql.Literal(answer_id))
     cursor.execute(query)
+
+
+@connections.connection_handler
+def get_user_id_by_email(cursor, email):
+    query = f"""
+    SELECT id FROM users WHERE username = {email}
+    """
+    cursor.execute(query)
+    return cursor.fetchall()
