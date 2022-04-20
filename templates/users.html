@@ -18,9 +18,15 @@
             {% for user in users %}
                 <div class="users_row">
                     {% for key, value in user.items() %}
+                        {% if loop.index == 2 %}
                         <div class="field-with-sort">
-                        {{ value }}
+                            <a href="{{ url_for('user_profile', user_id=user['user_id']) }}">{{ value }}</a>
                         </div>
+                        {% else %}
+                        <div class="field-with-sort">
+                            {{ value }}
+                        </div>
+                        {% endif %}
                     {% endfor %}
                 </div>
             {% endfor %}

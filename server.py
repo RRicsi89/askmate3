@@ -34,7 +34,13 @@ def list_questions():
             order_direction = "desc"
         order_by = request.args.get("order_by")
         questions = data_handler.sort_all_questions(order_by, order_direction)
-    return render_template("list.html", questions=questions, headers=headers, dict_keys=dict_keys, comments=comments)
+    if 'email' in session:
+        return render_template("list.html", questions=questions, headers=headers, dict_keys=dict_keys,
+                               comments=comments, email=session['email'],
+                               user_id=session['user_id'])
+    else:
+        return render_template("list.html", questions=questions, headers=headers, dict_keys=dict_keys,
+                               comments=comments)
 
 
 @app.route("/question/<question_id>")
@@ -139,6 +145,8 @@ def change_vote_number(question_id=None, vote=None):
     data_handler.update_question_vote(question_id, vote)
     if vote == "vote_down":
         data_handler.decrease_reputation(user_id)
+    elif vote == "vote_up":
+        data_handler.increase_reputation(user_id, "question")
     return redirect("/list")
 
 
@@ -150,6 +158,8 @@ def change_vote_number_answer(answer_id=None, vote=None):
     data_handler.update_answer_vote(answer_id, vote)
     if vote == "vote_down":
         data_handler.decrease_reputation(user_id)
+    elif vote == "vote_up":
+        data_handler.increase_reputation(user_id, "answer")
     return redirect(url_for('display_question', question_id=question_id))
 
 
@@ -279,7 +289,6 @@ def delete_question_tag(question_id, tag_id):
 @app.route('/users')
 def list_users():
     headers = data_handler.USER_LIST_HEADERS
-    session["email"] = "ricsi"
     if "email" in session:
         users = data_handler.get_users_data()
         return render_template('users.html', users=users, headers=headers)
@@ -315,8 +324,9 @@ def login_user():
         if data_handler.check_user_in_database(email):
             if utils.verify_password(password, data_handler.get_hashed_password_by_email(email)[0]["password"]):
                 session['email'] = email
-                session['user_id'] = data_handler.get_user_id_by_email(email)
+                session['user_id'] = data_handler.get_user_id_by_email(email)[0]["id"]
                 session.permanent = True
+                print(session['user_id'])
                 return redirect(url_for('hello'))
             else:
                 return render_template('login.html')
@@ -358,6 +368,13 @@ def logout_user():
     session.pop('email', None)
     session.pop('user_id', None)
     return redirect(url_for('hello'))
+
+
+@app.route('/tags')
+def get_tags():
+    tags = data_handler.count_tags()
+    return render_template('tag.html', tags=tags)
+    pass
 
 
 if __name__ == "__main__":
