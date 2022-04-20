@@ -6,13 +6,14 @@
 
     <section class="profile-form">
         {% for detail in user_details %}
+        {% for additional_detail in additional_user_details %}
         <section class="profile-stats">
             <img src="../static/images/no_picture.png" alt="profile-pic">
             <section class="stats">
                 <h2>{{ detail["username"] }}</h2>
-                <p>Asked questions: todo</p>
-                <p>Number of comments: todo</p>
-                <p>Answered questions: todo</p>
+                <p>Asked questions: {{ additional_detail['question_count'] }}</p>
+                <p>Number of comments: {{ additional_detail['comment_count'] }}</p>
+                <p>Answered questions: {{ additional_detail['answer_count'] }}</p>
                 <p>Registration data: {{ detail["registration_date"].strftime('%Y-%m-%d') }}</p>
                 <p>Reputation: {{ detail["reputation"] }}</p>
             </section>
@@ -69,6 +70,7 @@
         </section>
 
     </section>
+    {% endfor %}
     {% endfor %}
 
 {% endblock %}

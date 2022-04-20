@@ -399,7 +399,9 @@ def get_hashed_password_by_email(cursor, username):
 @connections.connection_handler
 def get_users_data(cursor):
     query = sql.SQL("""
-        SELECT users.username,
+        SELECT
+                users.id,
+                users.username,
                 TO_CHAR(users.registration_date, 'YYYY-MM-DD hh:mm:ss'),
                 users.reputation,
                 questions.question_count,
