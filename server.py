@@ -35,7 +35,13 @@ def list_questions():
             order_direction = "desc"
         order_by = request.args.get("order_by")
         questions = data_handler.sort_all_questions(order_by, order_direction)
-    return render_template("list.html", questions=questions, headers=headers, dict_keys=dict_keys, comments=comments)
+    if 'email' in session:
+        return render_template("list.html", questions=questions, headers=headers, dict_keys=dict_keys,
+                               comments=comments, email=session['email'],
+                               user_id=session['user_id'])
+    else:
+        return render_template("list.html", questions=questions, headers=headers, dict_keys=dict_keys,
+                               comments=comments)
 
 
 @app.route("/question/<question_id>")
@@ -316,8 +322,9 @@ def login_user():
         if data_handler.check_user_in_database(email):
             if utils.verify_password(password, data_handler.get_hashed_password_by_email(email)[0]["password"]):
                 session['email'] = email
-                session['user_id'] = data_handler.get_user_id_by_email(email)
+                session['user_id'] = data_handler.get_user_id_by_email(email)[0]["id"]
                 session.permanent = True
+                print(session['user_id'])
                 return redirect(url_for('hello'))
             else:
                 return render_template('login.html')
