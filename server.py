@@ -13,6 +13,7 @@ app.permanent_session_lifetime = timedelta(minutes=20)
 
 @app.route("/")
 def hello():
+
     latest_five_question = data_handler.get_latest_five_question()
     return render_template("index.html", question_data=latest_five_question)
 
@@ -62,7 +63,7 @@ def add_question():
         else:
             question_image = "images/no_picture.png"
         submission_time = utils.get_time()
-        new_data = [submission_time, 0, 0, request.form.get("title"), request.form.get("message"), question_image]
+        new_data = [submission_time, 0, 0, request.form.get("title"), request.form.get("message"), question_image, session['user_id']]
 
         data_handler.save_question_to_db(*new_data)
         question_id = data_handler.get_question_id(request.form.get("title"))[0]["id"]
@@ -83,7 +84,7 @@ def add_answer(question_id=None):
         else:
             answer_image = "images/no_picture.png"
         submission_time = utils.get_time()
-        new_data = [submission_time, 0, question_id, request.form["message"], answer_image]
+        new_data = [submission_time, 0, question_id, request.form["message"], answer_image, session['user_id']]
         data_handler.save_answer_to_db(*new_data)
         return redirect(f"/question/{question_id}")
 
@@ -150,7 +151,7 @@ def add_comment_to_the_question(question_id):
     elif request.method == 'POST':
         comment = request.form['message']
         time = utils.get_time()
-        data_handler.insert_into_q_comment(*[question_id, comment, time])
+        data_handler.insert_into_q_comment(*[question_id, comment, time, session['user_id']])
         return redirect('/list')
 
 
@@ -163,7 +164,7 @@ def add_comment_to_the_answer(answer_id):
     elif request.method == 'POST':
         comment = request.form['message']
         time = utils.get_time()
-        data_handler.insert_into_a_comment(*[answer_id, comment, time])
+        data_handler.insert_into_a_comment(*[answer_id, comment, time, session['user_id']])
         return redirect(f'/question/{ question_id }')
 
 
@@ -304,8 +305,9 @@ def login_user():
         if data_handler.check_user_in_database(email):
             if utils.verify_password(password, data_handler.get_hashed_password_by_email(email)[0]["password"]):
                 session['email'] = email
+                session['user_id'] = data_handler.get_user_id_by_email(email)
                 session.permanent = True
-                return render_template('index.html', login_detail=email)
+                return redirect(url_for('hello'))
             else:
                 return render_template('login.html')
         else:
@@ -315,7 +317,7 @@ def login_user():
 @app.route("/user/<user_id>")
 def user_profile(user_id):
     user_details = data_handler.get_all_user_info_by_user_id(user_id)
-    return render_template("user_profile.html", user_details = user_details)
+    return render_template("user_profile.html", user_details=user_details)
 
 
 @app.route('/accept-answer/<question_id>/<answer_id>')
