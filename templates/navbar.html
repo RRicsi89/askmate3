@@ -1,9 +1,12 @@
 <a class="user-link" href="{{ url_for('list_users') }}">USERS</a>
 <nav>
-    <a href="/registration">Register</a>
-    <a href="/login">Login</a>
-    {% if login_detail %}
-        You are logged in as {{ login_detail }}
+
+    {% if email %}
+        <p>You are logged in as  <a href="/user/{{ user_id }}">{{ email }}</a>  <br>
+        <a href="/logout">Logout</a></p>
+    {% else %}
+        <a href="/registration">Register</a>
+        <a href="/login">Login</a>
     {% endif %}
 
     <form action="/search" method="get">
