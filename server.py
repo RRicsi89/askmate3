@@ -286,7 +286,6 @@ def delete_question_tag(question_id, tag_id):
 @app.route('/users')
 def list_users():
     headers = data_handler.USER_LIST_HEADERS
-    session["email"] = "ricsi"
     if "email" in session:
         users = data_handler.get_users_data()
         return render_template('users.html', users=users, headers=headers)
