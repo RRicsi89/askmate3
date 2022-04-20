@@ -13,9 +13,13 @@ app.permanent_session_lifetime = timedelta(minutes=20)
 
 @app.route("/")
 def hello():
-
-    latest_five_question = data_handler.get_latest_five_question()
-    return render_template("index.html", question_data=latest_five_question)
+    if 'email' in session:
+        latest_five_question = data_handler.get_latest_five_question()
+        return render_template("index.html", question_data=latest_five_question, email=session['email'],
+                               user_id=session['user_id'])
+    else:
+        latest_five_question = data_handler.get_latest_five_question()
+        return render_template("index.html", question_data=latest_five_question)
 
 
 @app.route("/list")
