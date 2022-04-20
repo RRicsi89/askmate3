@@ -345,6 +345,13 @@ def decline_answer(question_id, answer_id):
     return redirect(url_for('display_question', question_id=question_id))
 
 
+@app.route('/logout')
+def logout_user():
+    session.pop('email', None)
+    session.pop('user_id', None)
+    return redirect(url_for('hello'))
+
+
 if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
