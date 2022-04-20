@@ -31,12 +31,34 @@ header {
 
 nav {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     position: absolute;
     right: 0;
     margin-top: 0;
     align-items: center;
     width: 100vw;
+    padding: 10px;
+    background-color: rgba(189, 156, 186, 0.2);
+}
+
+.nav-items {
+    padding: 0 20px;
+}
+
+.login-registration-container > a, .nav-items > a {
+    padding: 8px;
+    background-color: #D55280;
+    color: white;
+    border-radius: 15px;
+}
+
+.left-side {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-registration-container {
     padding: 10px;
 }
 
@@ -51,12 +73,20 @@ nav {
 }
 
 #question-input {
-    padding: 5px;
+    padding: 3px;
     font-size: 100%;
+    transition: 0.3s ease-in-out;
+    border-radius: 10px;
+}
+
+#question-input:hover {
+    padding: 5px;
+    transition: 0.1s ease-in-out;
+    border-radius: 20px;
 }
 
 .search-btn {
-    padding: 5px;
+    padding: 3px;
 }
 
 thead {
@@ -395,7 +425,9 @@ input {
 .edit-button,
 .edit-button:hover,
 .comment-button,
-.comment-button:hover {
+.comment-button:hover,
+.search-btn,
+.search-btn:hover {
     background-color: transparent;
     border: none;
     padding: 0;
@@ -408,7 +440,7 @@ input {
     height: 10px;
 }
 
-.plus-button > img, .previous-button > img {
+.plus-button > img, .previous-button > img, .search-btn > img {
     width: 30px;
 }
 
