@@ -20,9 +20,9 @@
                     {% for key, value in user.items() %}
                         {% if loop.index == 2 %}
                         <div class="field-with-sort">
-                            <a href="{{ url_for('user_profile', user_id=user['user_id']) }}">{{ value }}</a>
+                            <a href="{{ url_for('user_profile', user_id=user['id']) }}">{{ value }}</a>
                         </div>
-                        {% else %}
+                        {% elif not loop.first %}
                         <div class="field-with-sort">
                             {{ value }}
                         </div>
