@@ -12,23 +12,23 @@
     </section>
 
     <section class="table" id="latest_questions">
-    <h3 class="latest_questions_title">Latest five questions:</h3>
-    <table>
-    <tbody>
-    {% for dict in question_data %}
-    <tr>
-        {% for key, value in dict.items() %}
-            {% if loop.last %}
-            {% elif key == "title" %}
-                <td><a href="/question/{{ dict["id"] }}">{{ value }}</a></td>
-            {% else %}
-            <td>{{ value }}</td>
-            {% endif %}
-        {% endfor %}
-    </tr>
-    {% endfor %}
-    </tbody>
-    </table>
+        <h3 class="latest_questions_title">Latest five questions:</h3>
+        <table>
+            <tbody>
+            {% for dict in question_data %}
+                <tr>
+                    {% for key, value in dict.items() %}
+                        {% if loop.last %}
+                        {% elif key == "title" %}
+                            <td><a href="/question/{{ dict["id"] }}">{{ value }}</a></td>
+                        {% else %}
+                        <td>{{ value }}</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </section>
     {% include "footer.html" %}
 {% endblock %}
