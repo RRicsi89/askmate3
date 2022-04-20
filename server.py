@@ -366,6 +366,13 @@ def logout_user():
     return redirect(url_for('hello'))
 
 
+@app.route('/tags')
+def get_tags():
+    tags = data_handler.count_tags
+    return render_template('tag.html', tags=tags)
+    pass
+
+
 if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
