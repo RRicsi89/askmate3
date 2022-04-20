@@ -132,7 +132,10 @@ def delete_answer(answer_id):
 def change_vote_number(question_id=None, vote=None):
     question_data = data_handler.get_question_by_id(question_id)
     question_id = question_data[0]["id"]
+    user_id = question_data[0]["user_id"]
     data_handler.update_question_vote(question_id, vote)
+    if vote == "vote_down":
+        data_handler.decrease_reputation(user_id)
     return redirect("/list")
 
 
@@ -140,7 +143,10 @@ def change_vote_number(question_id=None, vote=None):
 def change_vote_number_answer(answer_id=None, vote=None):
     answer_data = data_handler.get_answer_by_id(answer_id)
     question_id = answer_data[0]["question_id"]
+    user_id = answer_data[0]["user_id"]
     data_handler.update_answer_vote(answer_id, vote)
+    if vote == "vote_down":
+        data_handler.decrease_reputation(user_id)
     return redirect(url_for('display_question', question_id=question_id))
 
 
@@ -270,7 +276,8 @@ def delete_question_tag(question_id, tag_id):
 @app.route('/users')
 def list_users():
     headers = data_handler.USER_LIST_HEADERS
-    if "user_id" in session:
+    session["email"] = "ricsi"
+    if "email" in session:
         users = data_handler.get_users_data()
         return render_template('users.html', users=users, headers=headers)
     return redirect('/')
