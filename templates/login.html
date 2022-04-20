@@ -1,7 +1,9 @@
 {% extends 'layout.html' %}
 {% block title %}Login Page{% endblock %}
 {% block body %}
-    <form action="/login" method="POST">
+    {% include "header.html" %}
+    {% include "navbar.html" %}
+    <form action="/login" method="POST" class="form">
         <label for="username" id="username">Enter username:</label>
     <br>
     <input type="email" id="username" name="username">

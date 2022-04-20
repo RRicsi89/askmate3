@@ -278,6 +278,10 @@ footer {
     font-family: 'Exo', sans-serif;
 }
 
+.form {
+
+}
+
 .tag-selectors {
     width: 100vw;
     background-color: rgba(182, 188, 197, 0.1);
