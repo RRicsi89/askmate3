@@ -25,18 +25,49 @@ function getSortedItems(items, sortField, sortDirection) {
 
 // you receive an array of objects which you must filter by all it's keys to have a value matching "filterValue"
 function getFilteredItems(items, filterValue) {
-    console.log(items)
-    console.log(filterValue)
+    // console.log(items);
+    // console.log(filterValue);
+    let result = [];
+    if (filterValue.startsWith("Description") || filterValue.startsWith("!Description")) {
+        let filterValueParts = filterValue.split(":");
+        if (filterValueParts[0].startsWith("!")) {
+            let filterValueString = filterValueParts[1];
+        for (let i=0; i<items.length; i++) {
+        if (items[i]['Description'].indexOf(filterValueString) === -1) {
+            result.push(items[i]);
+        }}
+        } else {
+            let filterValueString = filterValueParts[1];
+            for (let i=0; i<items.length; i++) {
+            if (items[i]['Description'].indexOf(filterValueString) !== -1) {
+                result.push(items[i]);
+            }}
+        }
+    } else {
+        if (filterValue[0] === "!") {
+            let filterValueString = filterValue.slice(1,);
+            for (let i = 0; i < items.length; i++) {
+                if (items[i]['Title'].indexOf(filterValueString) === -1) {
+                    result.push(items[i]);
+                }}
+        } else {
+            for (let i = 0; i < items.length; i++) {
+                if (items[i]['Title'].indexOf(filterValue) !== -1) {
+                    result.push(items[i]);
+                }}
+        }
+    }
+    return result
 
     // === SAMPLE CODE ===
     // if you have not changed the original html uncomment the code below to have an idea of the
     // effect this function has on the table
     //
-    for (let i=0; i<filterValue.length; i++) {
-        items.pop()
-    }
-
-    return items
+    // for (let i=0; i<filterValue.length; i++) {
+    //     items.pop()
+    // }
+    //
+    // return items
 }
 
 function toggleTheme() {
