@@ -13,6 +13,7 @@ app.permanent_session_lifetime = timedelta(minutes=20)
 
 @app.route("/")
 def hello():
+
     latest_five_question = data_handler.get_latest_five_question()
     return render_template("index.html", question_data=latest_five_question)
 
@@ -304,8 +305,9 @@ def login_user():
         if data_handler.check_user_in_database(email):
             if utils.verify_password(password, data_handler.get_hashed_password_by_email(email)[0]["password"]):
                 session['email'] = email
+                session['user_id'] = data_handler.get_user_id_by_email(email)
                 session.permanent = True
-                return render_template('index.html', login_detail=email)
+                return redirect(url_for('hello'))
             else:
                 return render_template('login.html')
         else:
@@ -315,7 +317,7 @@ def login_user():
 @app.route("/user/<user_id>")
 def user_profile(user_id):
     user_details = data_handler.get_all_user_info_by_user_id(user_id)
-    return render_template("user_profile.html", user_details = user_details)
+    return render_template("user_profile.html", user_details=user_details)
 
 
 @app.route('/accept-answer/<question_id>/<answer_id>')

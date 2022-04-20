@@ -462,7 +462,7 @@ def update_acceptance(cursor, answer_id, state):
 @connections.connection_handler
 def get_user_id_by_email(cursor, email):
     query = f"""
-    SELECT id FROM users WHERE username = {email}
+    SELECT id FROM users WHERE username = '{email}'
     """
     cursor.execute(query)
     return cursor.fetchall()
