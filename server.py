@@ -67,7 +67,7 @@ def add_question():
         else:
             question_image = "images/no_picture.png"
         submission_time = utils.get_time()
-        new_data = [submission_time, 0, 0, request.form.get("title"), request.form.get("message"), question_image]
+        new_data = [submission_time, 0, 0, request.form.get("title"), request.form.get("message"), question_image, session['user_id']]
 
         data_handler.save_question_to_db(*new_data)
         question_id = data_handler.get_question_id(request.form.get("title"))[0]["id"]
@@ -88,7 +88,7 @@ def add_answer(question_id=None):
         else:
             answer_image = "images/no_picture.png"
         submission_time = utils.get_time()
-        new_data = [submission_time, 0, question_id, request.form["message"], answer_image]
+        new_data = [submission_time, 0, question_id, request.form["message"], answer_image, session['user_id']]
         data_handler.save_answer_to_db(*new_data)
         return redirect(f"/question/{question_id}")
 
@@ -136,7 +136,10 @@ def delete_answer(answer_id):
 def change_vote_number(question_id=None, vote=None):
     question_data = data_handler.get_question_by_id(question_id)
     question_id = question_data[0]["id"]
+    user_id = question_data[0]["user_id"]
     data_handler.update_question_vote(question_id, vote)
+    if vote == "vote_down":
+        data_handler.decrease_reputation(user_id)
     return redirect("/list")
 
 
@@ -144,7 +147,10 @@ def change_vote_number(question_id=None, vote=None):
 def change_vote_number_answer(answer_id=None, vote=None):
     answer_data = data_handler.get_answer_by_id(answer_id)
     question_id = answer_data[0]["question_id"]
+    user_id = answer_data[0]["user_id"]
     data_handler.update_answer_vote(answer_id, vote)
+    if vote == "vote_down":
+        data_handler.decrease_reputation(user_id)
     return redirect(url_for('display_question', question_id=question_id))
 
 
@@ -155,7 +161,7 @@ def add_comment_to_the_question(question_id):
     elif request.method == 'POST':
         comment = request.form['message']
         time = utils.get_time()
-        data_handler.insert_into_q_comment(*[question_id, comment, time])
+        data_handler.insert_into_q_comment(*[question_id, comment, time, session['user_id']])
         return redirect('/list')
 
 
@@ -168,7 +174,7 @@ def add_comment_to_the_answer(answer_id):
     elif request.method == 'POST':
         comment = request.form['message']
         time = utils.get_time()
-        data_handler.insert_into_a_comment(*[answer_id, comment, time])
+        data_handler.insert_into_a_comment(*[answer_id, comment, time, session['user_id']])
         return redirect(f'/question/{ question_id }')
 
 
@@ -274,7 +280,8 @@ def delete_question_tag(question_id, tag_id):
 @app.route('/users')
 def list_users():
     headers = data_handler.USER_LIST_HEADERS
-    if "user_id" in session:
+    session["email"] = "ricsi"
+    if "email" in session:
         users = data_handler.get_users_data()
         return render_template('users.html', users=users, headers=headers)
     return redirect('/')
