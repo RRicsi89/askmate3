@@ -386,7 +386,6 @@ def login_user():
                 session['email'] = email
                 session['user_id'] = data_handler.get_user_id_by_email(email)[0]["id"]
                 session.permanent = True
-                print(session['user_id'])
                 return redirect(url_for('hello'))
             else:
                 return render_template('login.html')

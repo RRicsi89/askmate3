@@ -96,10 +96,11 @@
                     <div class="answer-short">
                         {% if answer['accepted'] %}
                             <input type="checkbox" id="accept" name="accepted" value="{{ answer['id'] }}" class="accept-answer" checked>
+                            <label>Accept</label>
                         {% else %}
-                            <input type="checkbox" id="accept" name="accepted" value="{{ answer['id'] }}" class="accept-answer">
+                            <input type="checkbox" id="decline" name="accepted" value="{{ answer['id'] }}" class="accept-answer">
+                            <label>Accept</label>
                         {% endif %}
-                        <label for="accept">Accept</label>
                     </div>
                 </div>
 
@@ -138,6 +139,8 @@
 
 
     {% include "footer.html" %}
+    <span class="info" hidden id="{{ question_data[0]['user_id'] }}"></span>
+    <span class="userId" hidden id="{{ user_id }}"></span>
     <script src="/static/js/accept_answer.js"></script>
 {% endblock %}
 
