@@ -61,6 +61,13 @@ def display_question(question_id):
                                comments=comment_data,
                                email=session['email'],
                                user_id=session['user_id'])
+    else:
+        return render_template("question_detail.html", question_data=question_data,
+                               answers=answers,
+                               answer_headers=answer_headers,
+                               q_comments=q_comments,
+                               question_tags=question_tags,
+                               comments=comment_data)
 
 
 @app.route("/add-question", methods=["GET", "POST"])
