@@ -399,7 +399,9 @@ def get_hashed_password_by_email(cursor, username):
 @connections.connection_handler
 def get_users_data(cursor):
     query = sql.SQL("""
-        SELECT users.username,
+        SELECT
+                users.id,
+                users.username,
                 TO_CHAR(users.registration_date, 'YYYY-MM-DD hh:mm:ss'),
                 users.reputation,
                 questions.question_count,
@@ -490,3 +492,18 @@ def count_tags(cursor):
     """
     cursor.execute(query)
     return cursor.fetchall()
+
+
+@connections.connection_handler
+def increase_reputation(cursor, user_id, data):
+    if data == "question":
+        query = sql.SQL("""
+            UPDATE users SET reputation = reputation + 5
+            WHERE id = {user_id}
+        """).format(user_id=sql.Literal(user_id))
+    elif data == "answer":
+        query = sql.SQL("""
+            UPDATE users SET reputation = reputation + 10
+            WHERE id = {user_id}
+        """).format(user_id=sql.Literal(user_id))
+    cursor.execute(query)

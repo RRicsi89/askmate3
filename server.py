@@ -15,8 +15,7 @@ app.permanent_session_lifetime = timedelta(minutes=20)
 def hello():
     if 'email' in session:
         latest_five_question = data_handler.get_latest_five_question()
-        return render_template("index.html", question_data=latest_five_question, email=session['email'],
-                               user_id=session['user_id'])
+        return render_template("index.html", question_data=latest_five_question, email=session['email'], user_id=session['user_id'])
     else:
         latest_five_question = data_handler.get_latest_five_question()
         return render_template("index.html", question_data=latest_five_question)
@@ -171,6 +170,8 @@ def change_vote_number(question_id=None, vote=None):
     data_handler.update_question_vote(question_id, vote)
     if vote == "vote_down":
         data_handler.decrease_reputation(user_id)
+    elif vote == "vote_up":
+        data_handler.increase_reputation(user_id, "question")
     return redirect("/list")
 
 
@@ -182,6 +183,8 @@ def change_vote_number_answer(answer_id=None, vote=None):
     data_handler.update_answer_vote(answer_id, vote)
     if vote == "vote_down":
         data_handler.decrease_reputation(user_id)
+    elif vote == "vote_up":
+        data_handler.increase_reputation(user_id, "answer")
     return redirect(url_for('display_question', question_id=question_id))
 
 
@@ -386,8 +389,10 @@ def login_user():
 
 @app.route("/user/<user_id>")
 def user_profile(user_id):
+    all_user_data = data_handler.get_users_data()
+    additional_user_details = [user for user in all_user_data if str(user['id']) == user_id]
     user_details = data_handler.get_all_user_info_by_user_id(user_id)
-    return render_template("user_profile.html", user_details=user_details)
+    return render_template("user_profile.html", user_details=user_details, additional_user_details=additional_user_details)
 
 
 @app.route('/accept-answer/<question_id>/<answer_id>')
@@ -416,6 +421,13 @@ def logout_user():
     session.pop('email', None)
     session.pop('user_id', None)
     return redirect(url_for('hello'))
+
+
+@app.route('/tags')
+def get_tags():
+    tags = data_handler.count_tags()
+    return render_template('tag.html', tags=tags)
+    pass
 
 
 if __name__ == "__main__":

@@ -65,7 +65,7 @@ th {
     padding: 10px;
 }
 
-a {
+a, a:hover {
     text-decoration: none;
     color: #D55280;
 }
@@ -101,6 +101,10 @@ footer {
     font-family: 'Inconsolata', monospace;
 }
 
+table {
+    width: 100%;
+}
+
 #content {
     display: flex;
     flex-direction: column;
@@ -117,10 +121,6 @@ footer {
     margin: 0;
     padding: 0;
     text-shadow: 4px 4px 2px #B6A9AD;
-}
-
-.latest_questions_title {
-
 }
 
 #browse-question-btn {
@@ -559,4 +559,15 @@ input {
 
 .little-image {
     max-height: border-box;
+}
+
+.form-floating {
+    position: relative;
+}
+
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
 }
