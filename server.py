@@ -146,6 +146,8 @@ def change_vote_number(question_id=None, vote=None):
     data_handler.update_question_vote(question_id, vote)
     if vote == "vote_down":
         data_handler.decrease_reputation(user_id)
+    elif vote == "vote_up":
+        data_handler.increase_reputation(user_id, "question")
     return redirect("/list")
 
 
@@ -157,6 +159,8 @@ def change_vote_number_answer(answer_id=None, vote=None):
     data_handler.update_answer_vote(answer_id, vote)
     if vote == "vote_down":
         data_handler.decrease_reputation(user_id)
+    elif vote == "vote_up":
+        data_handler.increase_reputation(user_id, "answer")
     return redirect(url_for('display_question', question_id=question_id))
 
 
@@ -367,7 +371,7 @@ def logout_user():
 
 @app.route('/tags')
 def get_tags():
-    tags = data_handler.count_tags
+    tags = data_handler.count_tags()
     return render_template('tag.html', tags=tags)
     pass
 

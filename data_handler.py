@@ -490,3 +490,18 @@ def count_tags(cursor):
     """
     cursor.execute(query)
     return cursor.fetchall()
+
+
+@connections.connection_handler
+def increase_reputation(cursor, user_id, data):
+    if data == "question":
+        query = sql.SQL("""
+            UPDATE users SET reputation = reputation + 5
+            WHERE id = {user_id}
+        """).format(user_id=sql.Literal(user_id))
+    elif data == "answer":
+        query = sql.SQL("""
+            UPDATE users SET reputation = reputation + 10
+            WHERE id = {user_id}
+        """).format(user_id=sql.Literal(user_id))
+    cursor.execute(query)
