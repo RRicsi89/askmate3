@@ -52,18 +52,25 @@ def display_question(question_id):
     q_comments = data_handler.get_comment_by_question_id(question_id)
     question_tags = data_handler.get_question_tags(question_id)
     comment_data = data_handler.get_comments()
-    return render_template("question_detail.html", question_data=question_data,
-                           answers=answers,
-                           answer_headers=answer_headers,
-                           q_comments=q_comments,
-                           question_tags=question_tags,
-                           comments=comment_data)
+    if 'email' in session:
+        return render_template("question_detail.html", question_data=question_data,
+                               answers=answers,
+                               answer_headers=answer_headers,
+                               q_comments=q_comments,
+                               question_tags=question_tags,
+                               comments=comment_data,
+                               email=session['email'],
+                               user_id=session['user_id'])
 
 
 @app.route("/add-question", methods=["GET", "POST"])
 def add_question():
     if request.method == "GET":
-        return render_template("add_question.html")
+        if 'email' in session:
+            return render_template("add_question.html")
+        else:
+            # placeholder for user not logged in warning
+            return redirect(url_for('hello'))
     elif request.method == "POST":
         if request.files["image"]:
             image = request.files["image"]
@@ -72,7 +79,8 @@ def add_question():
         else:
             question_image = "images/no_picture.png"
         submission_time = utils.get_time()
-        new_data = [submission_time, 0, 0, request.form.get("title"), request.form.get("message"), question_image, session['user_id']]
+        new_data = [submission_time, 0, 0, request.form.get("title"), request.form.get("message"), question_image,
+                    session['user_id']]
 
         data_handler.save_question_to_db(*new_data)
         question_id = data_handler.get_question_id(request.form.get("title"))[0]["id"]
@@ -84,7 +92,11 @@ def add_answer(question_id=None):
     if request.method == "GET":
         question = data_handler.get_question_by_id(question_id)
         question_id = question[0]["id"]
-        return render_template("new_answer.html", question_id=question_id)
+        if 'email' in session:
+            return render_template("new_answer.html", question_id=question_id)
+        else:
+            # placeholder for user not logged in warning
+            return redirect(url_for('hello'))
     elif request.method == "POST":
         if request.files["image"]:
             image = request.files["image"]
@@ -102,7 +114,11 @@ def add_answer(question_id=None):
 def edit_question(question_id=None):
     question = data_handler.get_question_by_id(question_id)
     if request.method == 'GET':
-        return render_template("edit_question.html", question=question, question_id=question_id)
+        if 'email' in session:
+            return render_template("edit_question.html", question=question, question_id=question_id)
+        else:
+            # placeholder for user not logged in warning
+            return redirect(url_for('hello'))
     if request.method == "POST":
         edited_title = request.form["title"]
         edited_message = request.form["message"]
@@ -120,21 +136,30 @@ def edit_question(question_id=None):
 
 @app.route("/question/<question_id>/delete")
 def delete_question(question_id):
-    question_data = data_handler.get_question_by_id(question_id)
-    if question_data[0]["image"] != "images/no_picture.png":
-        os.remove(f"{data_handler.STATIC_FOLDER_PATH}/{question_data[0]['image']}")
-    delete_functions.delete_question(question_id)
-    return redirect("/list")
+    if 'email' in session:
+        question_data = data_handler.get_question_by_id(question_id)
+        if question_data[0]["image"] != "images/no_picture.png":
+            os.remove(f"{data_handler.STATIC_FOLDER_PATH}/{question_data[0]['image']}")
+        delete_functions.delete_question(question_id)
+        return redirect("/list")
+    else:
+        # placeholder for user not logged in warning
+        return redirect(url_for('hello'))
 
 
 @app.route("/answer/<answer_id>/delete")
 def delete_answer(answer_id):
-    answer_data = data_handler.get_answer_by_id(answer_id)
-    question_id = answer_data[0]["question_id"]
-    if answer_data[0]["image"] != "images/no_picture.png":
-        os.remove(f"{data_handler.STATIC_FOLDER_PATH}/{answer_data[0]['image']}")
-    delete_functions.delete_answer(answer_id)
-    return redirect(f"/question/{question_id}")
+    if 'email' in session:
+        answer_data = data_handler.get_answer_by_id(answer_id)
+        question_id = answer_data[0]["question_id"]
+        if answer_data[0]["image"] != "images/no_picture.png":
+            os.remove(f"{data_handler.STATIC_FOLDER_PATH}/{answer_data[0]['image']}")
+        delete_functions.delete_answer(answer_id)
+        return redirect(f"/question/{question_id}")
+    else:
+        # placeholder for user not logged in warning
+        return redirect(url_for('hello'))
+
 
 
 @app.route("/question/<question_id>/<vote>")
@@ -166,7 +191,11 @@ def change_vote_number_answer(answer_id=None, vote=None):
 @app.route('/question/<question_id>/new-comment', methods=['GET', 'POST'])
 def add_comment_to_the_question(question_id):
     if request.method == 'GET':
-        return render_template('new_q_comment.html', question_id=question_id)
+        if 'email' in session:
+            return render_template('new_q_comment.html', question_id=question_id)
+        else:
+            # placeholder for user not logged in warning
+            return redirect(url_for('hello'))
     elif request.method == 'POST':
         comment = request.form['message']
         time = utils.get_time()
@@ -179,19 +208,27 @@ def add_comment_to_the_answer(answer_id):
     answer_data = data_handler.get_answer_by_id(answer_id)
     question_id = answer_data[0]['question_id']
     if request.method == 'GET':
-        return render_template('new_a_comment.html', answer_id=answer_id, question_id=question_id)
+        if 'email' in session:
+            return render_template('new_a_comment.html', answer_id=answer_id, question_id=question_id)
+        else:
+            # placeholder for user not logged in warning
+            return redirect(url_for('hello'))
     elif request.method == 'POST':
         comment = request.form['message']
         time = utils.get_time()
         data_handler.insert_into_a_comment(*[answer_id, comment, time, session['user_id']])
-        return redirect(f'/question/{ question_id }')
+        return redirect(f'/question/{question_id}')
 
 
 @app.route('/answer/<answer_id>/edit', methods=['GET', 'POST'])
 def edit_answer(answer_id):
     answer_info = data_handler.get_answer_by_id(answer_id)
     if request.method == 'GET':
-        return render_template('edit_answer.html', answer_id=answer_id, answer_info=answer_info)
+        if 'email' in session:
+            return render_template('edit_answer.html', answer_id=answer_id, answer_info=answer_info)
+        else:
+            # placeholder for user not logged in warning
+            return redirect(url_for('hello'))
     elif request.method == 'POST':
         new_info = request.form["answer_text"]
         submission_time = utils.get_time()
@@ -216,7 +253,11 @@ def edit_comment(comment_id):
         redirect_info = comment_info[0]["question_id"]
 
     if request.method == "GET":
-        return render_template('edit_comment.html', comment_id=comment_id, comment_info=comment_info)
+        if 'email' in session:
+            return render_template('edit_comment.html', comment_id=comment_id, comment_info=comment_info)
+        else:
+            # placeholder for user not logged in warning
+            return redirect(url_for('hello'))
     elif request.method == "POST":
         new_info = request.form["comment_text"]
         submission_time = utils.get_time()
@@ -236,7 +277,11 @@ def edit_comment(comment_id):
 @app.route('/comment/<comment_id>/delete', methods=["GET", "POST"])
 def delete_comment(comment_id):
     if request.method == "GET":
-        return render_template('confirmation.html', comment_id=comment_id)
+        if 'email' in session:
+            return render_template('confirmation.html', comment_id=comment_id)
+        else:
+            # placeholder for user not logged in warning
+            return redirect(url_for('hello'))
     elif request.method == "POST":
         if request.form.get("button") == "yes":
             delete_functions.delete_comment(comment_id)
@@ -247,7 +292,11 @@ def delete_comment(comment_id):
 def add_tag_to_question(question_id):
     if request.method == "GET":
         tags = data_handler.get_tag_names()
-        return render_template('add_tag.html', question_id=question_id, tags=tags)
+        if 'email' in session:
+            return render_template('add_tag.html', question_id=question_id, tags=tags)
+        else:
+            # placeholder for user not logged in warning
+            return redirect(url_for('hello'))
     if request.method == "POST":
         tag_names = [tag["name"] for tag in data_handler.get_tag_names()]
         tag_name = request.form.get("tag")
@@ -257,7 +306,7 @@ def add_tag_to_question(question_id):
         tag_id = data_handler.get_tag_id_by_name(tag_name)
         if tag_id[0]["id"] not in question_tags:
             data_handler.add_question_tag(question_id, tag_id[0]["id"])
-        return redirect(f'/question/{ question_id }')
+        return redirect(f'/question/{question_id}')
 
 
 @app.route('/search', methods=['GET', 'POST'])
@@ -282,8 +331,12 @@ def search():
 
 @app.route('/question/<question_id>/tag/<tag_id>/delete')
 def delete_question_tag(question_id, tag_id):
-    delete_functions.delete_tag_from_question(question_id, tag_id)
-    return redirect(f'/question/{ question_id }')
+    if 'email' in session:
+        delete_functions.delete_tag_from_question(question_id, tag_id)
+    else:
+        # placeholder for user not logged in warning
+        return redirect(url_for('hello'))
+    return redirect(f'/question/{question_id}')
 
 
 @app.route('/users')
