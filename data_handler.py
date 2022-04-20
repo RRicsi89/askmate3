@@ -129,7 +129,7 @@ def get_answers_by_question_id(cursor, question_id):
 @connections.connection_handler
 def save_question_to_db(cursor, *args):
     query = sql.SQL("""
-        INSERT INTO question (submission_time, view_number, vote_number, title, message, image) 
+        INSERT INTO question (submission_time, view_number, vote_number, title, message, image, user_id) 
         VALUES {args}
     """).format(args=sql.Literal(args))
     cursor.execute(query)
@@ -148,7 +148,7 @@ def get_question_id(cursor, title):
 @connections.connection_handler
 def save_answer_to_db(cursor, *args):
     query = sql.SQL("""
-        INSERT INTO answer (submission_time, vote_number, question_id, message, image) 
+        INSERT INTO answer (submission_time, vote_number, question_id, message, image, user_id) 
         VALUES {args}
     """).format(args=sql.Literal(args))
     cursor.execute(query)
@@ -174,7 +174,7 @@ def save_edited_answer_to_db(cursor, sub_time, message, image, answer_id):
 @connections.connection_handler
 def insert_into_q_comment(cursor, *args):
     query = sql.SQL("""
-        INSERT INTO comment (question_id, message, submission_time)
+        INSERT INTO comment (question_id, message, submission_time, user_id)
         VALUES {args}
     """).format(args=sql.Literal(args))
     cursor.execute(query)
@@ -183,7 +183,7 @@ def insert_into_q_comment(cursor, *args):
 @connections.connection_handler
 def insert_into_a_comment(cursor, *args):
     query = sql.SQL("""
-        INSERT INTO comment (answer_id, message, submission_time)
+        INSERT INTO comment (answer_id, message, submission_time, user_id)
         VALUES {args}
     """).format(args=sql.Literal(args))
     cursor.execute(query)
