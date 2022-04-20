@@ -1,5 +1,11 @@
 <a class="user-link" href="{{ url_for('list_users') }}">USERS</a>
 <nav>
+    <a href="/registration">Register</a>
+    <a href="/login">Login</a>
+    {% if login_detail %}
+        You are logged in as {{ login_detail }}
+    {% endif %}
+
     <form action="/search" method="get">
         <label for="question-input"></label>
         <input type="text" name="question_input" id="question-input" placeholder="Search" required>
