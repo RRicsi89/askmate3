@@ -6,9 +6,14 @@
     <section id="content">
         <h1 id="main-title">Welcome to AskMate</h1>
         <h2 id="subtitle" class="animate__animated animate__zoomIn">An innovative way of asking.</h2>
-        <form action="/list">
-            <button id="browse-question-btn" type="submit">Browse Questions</button>
-        </form>
+        <div class="main-button-group">
+            <form action="/list">
+                <button id="browse-question-btn" type="submit">Browse Questions</button>
+            </form>
+            <form action="/tags">
+                <button id='theme-button' type="submit">Browse Tags</button>
+            </form>
+        </div>
     </section>
 
     <section class="table" id="latest_questions">
@@ -30,8 +35,5 @@
             </tbody>
         </table>
     </section>
-    <form action="/tags">
-        <button id='theme-button' type="submit">Browse Tags</button>
-    </form>
     {% include "footer.html" %}
 {% endblock %}
