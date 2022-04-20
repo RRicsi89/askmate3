@@ -457,3 +457,12 @@ def update_acceptance(cursor, answer_id, state):
             WHERE id = {answer_id}
         """).format(answer_id=sql.Literal(answer_id))
     cursor.execute(query)
+
+
+@connections.connection_handler
+def decrease_reputation(cursor, user_id):
+    query = sql.SQL("""
+        UPDATE users SET reputation = reputation - 2
+        WHERE id = {user_id}
+    """).format(user_id=sql.Literal(user_id))
+    cursor.execute(query)
