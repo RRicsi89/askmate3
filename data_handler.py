@@ -475,3 +475,18 @@ def decrease_reputation(cursor, user_id):
         WHERE id = {user_id}
     """).format(user_id=sql.Literal(user_id))
     cursor.execute(query)
+
+
+@connections.connection_handler
+def count_tags(cursor):
+    query = f"""
+    SELECT
+    tag.name AS tags,
+    count(question_tag.tag_id) AS quantity
+    FROM tag
+    FULL JOIN question_tag
+    ON tag.id = question_tag.tag_id
+    GROUP BY tag.name
+    """
+    cursor.execute(query)
+    return cursor.fetchall()
