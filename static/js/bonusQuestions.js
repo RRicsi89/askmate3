@@ -25,22 +25,22 @@ function getSortedItems(items, sortField, sortDirection) {
 
 // you receive an array of objects which you must filter by all it's keys to have a value matching "filterValue"
 function getFilteredItems(items, filterValue) {
-    // console.log(items);
-    // console.log(filterValue);
-    let result = [];
+    console.log(items);
+    console.log(filterValue);
+    let newItem = [];
     if (filterValue.startsWith("Description") || filterValue.startsWith("!Description")) {
         let filterValueParts = filterValue.split(":");
         if (filterValueParts[0].startsWith("!")) {
             let filterValueString = filterValueParts[1];
         for (let i=0; i<items.length; i++) {
         if (items[i]['Description'].indexOf(filterValueString) === -1) {
-            result.push(items[i]);
+            newItem.push(items[i]);
         }}
         } else {
             let filterValueString = filterValueParts[1];
             for (let i=0; i<items.length; i++) {
             if (items[i]['Description'].indexOf(filterValueString) !== -1) {
-                result.push(items[i]);
+                newItem.push(items[i]);
             }}
         }
     } else {
@@ -48,16 +48,16 @@ function getFilteredItems(items, filterValue) {
             let filterValueString = filterValue.slice(1,);
             for (let i = 0; i < items.length; i++) {
                 if (items[i]['Title'].indexOf(filterValueString) === -1) {
-                    result.push(items[i]);
+                    newItem.push(items[i]);
                 }}
         } else {
             for (let i = 0; i < items.length; i++) {
                 if (items[i]['Title'].indexOf(filterValue) !== -1) {
-                    result.push(items[i]);
+                    newItem.push(items[i]);
                 }}
         }
     }
-    return result
+    return newItem
 
     // === SAMPLE CODE ===
     // if you have not changed the original html uncomment the code below to have an idea of the
@@ -72,6 +72,10 @@ function getFilteredItems(items, filterValue) {
 
 function toggleTheme() {
     console.log("toggle theme")
+    let bgColor = document.querySelector('body');
+    if (bgColor.style.backgroundColor) {
+        console.log(bgColor.style.backgroundColor);
+    }
 }
 
 function increaseFont() {
@@ -79,6 +83,8 @@ function increaseFont() {
     let textSize = window.getComputedStyle(document.querySelector('span')).fontSize;
     let elem = window.document.querySelectorAll('span');
     let fontNumber = textSize.slice(0, 2);
+    console.log(textSize);
+    console.log(elem);
     if (+fontNumber <= 30) {
         for (let text of elem) {
             text.style.fontSize = +fontNumber + 1 + 'px';
