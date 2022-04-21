@@ -4,22 +4,73 @@ function getSortedItems(items, sortField, sortDirection) {
     console.log(sortField)
     console.log(sortDirection)
 
+    if (sortField === 'VoteCount' || sortField === 'ViewNumber'){
+        if (sortDirection === "asc") {
+        items.sort((a, b) => {
+            let fa = a[sortField],
+                fb = b[sortField];
+            if (Number(fa) < Number(fb)) {
+                return -1;
+            }
+            if (Number(fa) > Number(fb)) {
+                return 1;
+            }
+            return 0;
+        })
+    } else {
+        items.sort((a, b) => {
+            let fa = a[sortField],
+                fb = b[sortField];
+            if (Number(fa) < Number(fb)) {
+                return 1;
+            }
+            if (Number(fa) > Number(fb)) {
+                return -1;
+            }
+            return 0;
+    })}
+    } else {
+        if (sortDirection === "asc") {
+            items.sort((a, b) => {
+                let fa = a[sortField].toLowerCase(),
+                    fb = b[sortField].toLowerCase();
+                if (fa < fb) {
+                    return -1;
+                }
+                if (fa > fb) {
+                    return 1;
+                }
+                return 0;
+            })
+        } else {
+            items.sort((a, b) => {
+                let fa = a[sortField].toLowerCase(),
+                    fb = b[sortField].toLowerCase();
+                if (fa < fb) {
+                    return 1;
+                }
+                if (fa > fb) {
+                    return -1;
+                }
+                return 0;
+        })}}
+
     // === SAMPLE CODE ===
     // if you have not changed the original html uncomment the code below to have an idea of the
     // effect this function has on the table
     //
 
-    if (sortDirection === "asc") {
-        const firstItem = items.shift()
-        if (firstItem) {
-            items.push(firstItem)
-        }
-    } else {
-        const lastItem = items.pop()
-        if (lastItem) {
-            items.push(lastItem)
-        }
-    }
+    // if (sortDirection === "asc") {
+    //     const firstItem = items.shift()
+    //     if (firstItem) {
+    //         items.push(firstItem)
+    //     }
+    // } else {
+    //     const lastItem = items.pop()
+    //     if (lastItem) {
+    //         items.push(lastItem)
+    //     }
+    // }
 
     return items
 
@@ -27,9 +78,9 @@ function getSortedItems(items, sortField, sortDirection) {
 
 // you receive an array of objects which you must filter by all it's keys to have a value matching "filterValue"
 function getFilteredItems(items, filterValue) {
-    // console.log(items);
-    // console.log(filterValue);
-    let result = [];
+    console.log(items);
+    console.log(filterValue);
+    let newItem = [];
     if (filterValue.startsWith("Description") || filterValue.startsWith("!Description")) {
         let filterValueParts = filterValue.split(":");
         if (filterValueParts[0].startsWith("!")) {
