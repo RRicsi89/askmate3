@@ -288,7 +288,7 @@ def edit_comment(comment_id):
 def delete_comment(comment_id):
     if request.method == "GET":
         if 'email' in session:
-            return render_template('confirmation.html', comment_id=comment_id)
+            return render_template('confirmation.html', comment_id=comment_id, email=session['email'])
         else:
             # placeholder for user not logged in warning
             return redirect(url_for('hello'))
@@ -450,8 +450,11 @@ def logout_user():
 def get_tags():
     tags = data_handler.count_tags()
     headers = data_handler.TAG_HEADERS
-    return render_template('tag.html', tags=tags, headers=headers)
-    pass
+    if 'email' in session:
+        return render_template('tag.html', tags=tags, headers=headers, email=session['email'])
+    else:
+        return render_template('tag.html', tags=tags, headers=headers)
+
 
 
 @app.route('/lost_password')
