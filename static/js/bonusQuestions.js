@@ -133,8 +133,8 @@ function toggleTheme() {
 
 function increaseFont() {
     console.log("increaseFont");
-    let textSize = window.getComputedStyle(document.querySelector('span')).fontSize;
-    let elem = window.document.querySelectorAll('span');
+    let textSize = window.getComputedStyle(document.querySelector('td')).fontSize;
+    let elem = window.document.querySelectorAll('td');
     let fontNumber = textSize.slice(0, 2);
     console.log(textSize);
     console.log(elem);
@@ -146,8 +146,8 @@ function increaseFont() {
 
 function decreaseFont() {
     console.log("decreaseFont")
-    let textSize = window.getComputedStyle(document.querySelector('span')).fontSize;
-    let elem = window.document.querySelectorAll('span');
+    let textSize = window.getComputedStyle(document.querySelector('td')).fontSize;
+    let elem = window.document.querySelectorAll('td');
     let fontNumber = textSize.slice(0, 2);
     if (+fontNumber >= 11) {
         for (let text of elem) {
