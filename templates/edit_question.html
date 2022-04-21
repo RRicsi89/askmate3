@@ -3,23 +3,23 @@
 {% block title %}Edit question{% endblock %}
 
 {% block body %}
-        {% include "header.html" %}
+    {% include "header.html" %}
 
-        <form action="/list">
-            <button type="submit" class="previous-button"><img src="/static/icons/previous.png" alt="previous-button"></button></form>
-        <h1 class="page-title">Edit question</h1>
-        <section class="add_edit_question_form">
-            <form action="/question/{{ question_id }}/edit" method="POST" enctype="multipart/form-data" class="question_form">
-                <label for="question_title">Title</label><br>
-                <input type="text" name="title" id="question_title" value="{{ question[0]['title'] }}" required><br>
+    <form action="/list">
+        <button type="submit" class="previous-button"><img src="/static/icons/previous.png" alt="previous-button"></button></form>
+    <h1 class="page-title">Edit question</h1>
+    <section class="add_edit_question_form">
+        <form action="/question/{{ question_id }}/edit" method="POST" enctype="multipart/form-data" class="question_form">
+            <label for="question_title">Title</label><br>
+            <input type="text" name="title" id="question_title" value="{{ question[0]['title'] }}" required><br>
 
-                <label for="question_content">Explain</label><br>
-                <textarea name="message" id="question_content" cols="50" rows="5" required>{{question[0]["message"]}}</textarea><br>
+            <label for="question_content">Explain</label><br>
+            <textarea name="message" id="question_content" cols="50" rows="5" required>{{question[0]["message"]}}</textarea><br>
 
-                <label for="image">Select image</label><br>
-                <input type="file" name="image" id="image" accept="image/jpeg, image/png">
-                <button type="submit">Submit question</button>
-            </form>
-        </section>
-{% include "footer.html" %}
+            <label for="image">Select image</label><br>
+            <input type="file" name="image" id="image" accept="image/jpeg, image/png">
+            <button type="submit">Submit question</button>
+        </form>
+    </section>
+    {% include "footer.html" %}
 {% endblock %}
