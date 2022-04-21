@@ -75,9 +75,23 @@ function toggleTheme() {
 }
 
 function increaseFont() {
-    console.log("increaseFont")
+    console.log("increaseFont");
+    let textSize = window.getComputedStyle(document.querySelector('span')).fontSize;
+    let elem = window.document.querySelectorAll('span');
+    let fontNumber = textSize.slice(0, 2);
+    if (+fontNumber <= 30) {
+        for (let text of elem) {
+            text.style.fontSize = +fontNumber + 1 + 'px';
+        }}
 }
 
 function decreaseFont() {
     console.log("decreaseFont")
+    let textSize = window.getComputedStyle(document.querySelector('span')).fontSize;
+    let elem = window.document.querySelectorAll('span');
+    let fontNumber = textSize.slice(0, 2);
+    if (+fontNumber >= 11) {
+        for (let text of elem) {
+            text.style.fontSize = +fontNumber - 1 + 'px';
+        }}
 }
