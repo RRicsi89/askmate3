@@ -15,7 +15,8 @@ app.permanent_session_lifetime = timedelta(minutes=20)
 def hello():
     if 'email' in session:
         latest_five_question = data_handler.get_latest_five_question()
-        return render_template("index.html", question_data=latest_five_question, email=session['email'], user_id=session['user_id'])
+        return render_template("index.html", question_data=latest_five_question, email=session['email'],
+                               user_id=session['user_id'])
     else:
         latest_five_question = data_handler.get_latest_five_question()
         return render_template("index.html", question_data=latest_five_question)
@@ -74,7 +75,7 @@ def display_question(question_id):
 def add_question():
     if request.method == "GET":
         if 'email' in session:
-            return render_template("add_question.html")
+            return render_template("add_question.html", email=session['email'])
         else:
             # placeholder for user not logged in warning
             return redirect(url_for('hello'))
@@ -100,7 +101,7 @@ def add_answer(question_id=None):
         question = data_handler.get_question_by_id(question_id)
         question_id = question[0]["id"]
         if 'email' in session:
-            return render_template("new_answer.html", question_id=question_id)
+            return render_template("new_answer.html", question_id=question_id, email=session['email'])
         else:
             # placeholder for user not logged in warning
             return redirect(url_for('hello'))
@@ -122,7 +123,8 @@ def edit_question(question_id=None):
     question = data_handler.get_question_by_id(question_id)
     if request.method == 'GET':
         if 'email' in session:
-            return render_template("edit_question.html", question=question, question_id=question_id)
+            return render_template("edit_question.html", question=question, question_id=question_id,
+                                   email=session['email'])
         else:
             # placeholder for user not logged in warning
             return redirect(url_for('hello'))
@@ -166,7 +168,6 @@ def delete_answer(answer_id):
     else:
         # placeholder for user not logged in warning
         return redirect(url_for('hello'))
-
 
 
 @app.route("/question/<question_id>/<vote>")
@@ -232,7 +233,8 @@ def edit_answer(answer_id):
     answer_info = data_handler.get_answer_by_id(answer_id)
     if request.method == 'GET':
         if 'email' in session:
-            return render_template('edit_answer.html', answer_id=answer_id, answer_info=answer_info)
+            return render_template('edit_answer.html', answer_id=answer_id, answer_info=answer_info,
+                                   email=session['email'])
         else:
             # placeholder for user not logged in warning
             return redirect(url_for('hello'))
@@ -261,7 +263,8 @@ def edit_comment(comment_id):
 
     if request.method == "GET":
         if 'email' in session:
-            return render_template('edit_comment.html', comment_id=comment_id, comment_info=comment_info)
+            return render_template('edit_comment.html', comment_id=comment_id, comment_info=comment_info,
+                                   email=session['email'])
         else:
             # placeholder for user not logged in warning
             return redirect(url_for('hello'))
@@ -300,7 +303,7 @@ def add_tag_to_question(question_id):
     if request.method == "GET":
         tags = data_handler.get_tag_names()
         if 'email' in session:
-            return render_template('add_tag.html', question_id=question_id, tags=tags)
+            return render_template('add_tag.html', question_id=question_id, tags=tags, email=session['email'])
         else:
             # placeholder for user not logged in warning
             return redirect(url_for('hello'))
@@ -332,8 +335,12 @@ def search():
                                 highlight_end)
     utils.insert_highlight_tags(searched_answers, search_data, "message", length_of_search_data, highlight_start,
                                 highlight_end)
-    return render_template("search-result.html", headers=headers, searched_questions=searched_questions,
-                           searched_answers=searched_answers)
+    if 'email' in session:
+        return render_template("search-result.html", headers=headers, searched_questions=searched_questions,
+                               searched_answers=searched_answers, email=session['email'])
+    else:
+        return render_template("search-result.html", headers=headers, searched_questions=searched_questions,
+                               searched_answers=searched_answers)
 
 
 @app.route('/question/<question_id>/tag/<tag_id>/delete')
@@ -398,7 +405,8 @@ def user_profile(user_id):
     all_user_data = data_handler.get_users_data()
     additional_user_details = [user for user in all_user_data if str(user['id']) == user_id]
     user_details = data_handler.get_all_user_info_by_user_id(user_id)
-    return render_template("user_profile.html", user_details=user_details, additional_user_details=additional_user_details)
+    return render_template("user_profile.html", user_details=user_details,
+                           additional_user_details=additional_user_details)
 
 
 @app.route('/accept-answer/<question_id>/<answer_id>')
@@ -435,6 +443,12 @@ def get_tags():
     headers = data_handler.TAG_HEADERS
     return render_template('tag.html', tags=tags, headers=headers)
     pass
+
+
+@app.route('/lost_password')
+def recover_password():
+    return render_template('forgotten_password.html')
+
 
 
 if __name__ == "__main__":
