@@ -261,18 +261,18 @@ table {
 .short {
     text-align: center;
     max-height: 100px;
-    overflow: scroll;
+    overflow: auto;
     min-width: 50px;
 }
 
 .message {
     grid-column: span 2;
-    overflow: scroll;
+    overflow: auto;
 }
 
 .answer-message {
     grid-column: span 2;
-    overflow: scroll;
+    overflow: auto;
 }
 
 .answer-message-header {
