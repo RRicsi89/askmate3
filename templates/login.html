@@ -8,12 +8,14 @@
                 <input type="email" class="form-control" id="floatingInput" name="username" placeholder="name@example.com">
                 <label for="floatingInput">Email address</label>
             </div>
+            <br>
             <div class="form-floating">
                 <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">
                 <label for="floatingPassword">Password</label>
             </div>
+            <br>
+            <a href="{{ url_for("register_user") }}">Don't have a profile? Sign up</a>
             <button type="submit">Login</button>
-
         </form>
     </section>
 
