@@ -2,14 +2,14 @@
 {% block title %}Let's answer{% endblock %}
 
 {% block body %}
-<form action="/list"><button type="submit" class="previous-button"><img src="/static/icons/previous.png" alt="previous-button"></button></form>
+    <form action="/list"><button type="submit" class="previous-button"><img src="/static/icons/previous.png" alt="previous-button"></button></form>
 
-<h1 class="page-title">Answers of the question</h1>
+    <h1 class="page-title">Answers of the question</h1>
 
     <section class="question">
         <h3>{{ question_data[0]["title"] }}</h3>
         <p>
-          {{ question_data[0]["message"] }}
+            {{ question_data[0]["message"] }}
         </p>
     </section>
 
@@ -17,22 +17,22 @@
         {% for tag in question_tags %}
             <div class="tag-element">{{ tag["name"] }}</div>
             {% if email %}
-            <div>
+                <div>
                 <form action="{{ url_for('delete_question_tag', question_id=question_data[0]["id"], tag_id=tag['id']) }}">
                     <button class="tag-element" type="submit" id="delete-tag"> X </button>
                 </form>
             {% endif %}
-            </div>
+        </div>
         {% endfor %}
         {% if email %}
-        <a id="tag-link" href="{{ url_for('add_tag_to_question', question_id=question_data[0]['id']) }}">
-            <button type='submit' class='any-button'>add tag</button>
-        </a>
-    {% endif %}
+            <a id="tag-link" href="{{ url_for('add_tag_to_question', question_id=question_data[0]['id']) }}">
+                <button type='submit' class='any-button'>add tag</button>
+            </a>
+        {% endif %}
     </div>
     <section class="question">
         {% if question_data[0]["image"] != 'images/no_picture.png' %}
-                    <img alt="A picture about the question" src="{{ url_for("static", filename=question_data[0]["image"]) }}">
+            <img alt="A picture about the question" src="{{ url_for("static", filename=question_data[0]["image"]) }}">
         {% endif %}
     </section>
 
@@ -79,31 +79,31 @@
                         {% endif %}
                     {% endfor %}
                     {% if email %}
-                    <div class="answer-short">
-                        <form action="/answer/{{ answer['id'] }}/edit">
-                              <button type="submit" class="edit-button"><img src="../static/icons/edit.png" class="edit-image"></button>
-                        </form>
-                    </div>
+                        <div class="answer-short">
+                            <form action="/answer/{{ answer['id'] }}/edit">
+                                <button type="submit" class="edit-button"><img src="../static/icons/edit.png" class="edit-image"></button>
+                            </form>
+                        </div>
 
-                    <div class="answer-short">
-                        <a href='/answer/{{ answer['id'] }}/new-comment'>
-                           <button type='submit' class='comment-button'><img src="../static/icons/comment.png" class="comment-image"></button>
-                        </a>
-                    </div>
-                    <div><form action="/answer/{{ answer['id'] }}/delete">
-                        <button type="submit" class="trash-button"><img src="/static/icons/trash.png" alt=""></button></form>
-                    </div>
+                        <div class="answer-short">
+                            <a href='/answer/{{ answer['id'] }}/new-comment'>
+                                <button type='submit' class='comment-button'><img src="../static/icons/comment.png" class="comment-image"></button>
+                            </a>
+                        </div>
+                        <div><form action="/answer/{{ answer['id'] }}/delete">
+                            <button type="submit" class="trash-button"><img src="/static/icons/trash.png" alt=""></button></form>
+                        </div>
 
-                    <div class="answer-short">
-                        {% if answer['accepted'] %}
-                            <input type="checkbox" id="accept" name="accepted" value="{{ answer['id'] }}" class="accept-answer" checked>
-                            <label>Accept</label>
-                        {% else %}
-                            <input type="checkbox" id="decline" name="accepted" value="{{ answer['id'] }}" class="accept-answer">
-                            <label>Accept</label>
-                        {% endif %}
-                    </div>
-                {% endif %}
+                        <div class="answer-short">
+                            {% if answer['accepted'] %}
+                                <input type="checkbox" id="accept" name="accepted" value="{{ answer['id'] }}" class="accept-answer" checked>
+                                <label>Accept</label>
+                            {% else %}
+                                <input type="checkbox" id="decline" name="accepted" value="{{ answer['id'] }}" class="accept-answer">
+                                <label>Accept</label>
+                            {% endif %}
+                        </div>
+                    {% endif %}
                 </div>
 
                 {% for comment in comments %}
@@ -112,17 +112,17 @@
                             <div class="comment-date">{{ comment['submission_time'] }}</div>
                             <div class="comment-message">{{ comment['message'] }}</div>
                             {% if email %}
-                            <div>
-                                <form action="/comment/{{ comment['id'] }}/edit">
-                                    <button type="submit" class="trash-button"><img src="/static/icons/edit.png" alt=""></button>
-                                </form>
-                            </div>
-                            <div>
-                                <form action="/comment/{{ comment['id'] }}/delete">
-                                <button type="submit" class="trash-button"><img src="/static/icons/trash.png" alt=""></button>
-                                </form>
-                            </div>
-                                {% endif %}
+                                <div>
+                                    <form action="/comment/{{ comment['id'] }}/edit">
+                                        <button type="submit" class="trash-button"><img src="/static/icons/edit.png" alt=""></button>
+                                    </form>
+                                </div>
+                                <div>
+                                    <form action="/comment/{{ comment['id'] }}/delete">
+                                        <button type="submit" class="trash-button"><img src="/static/icons/trash.png" alt=""></button>
+                                    </form>
+                                </div>
+                            {% endif %}
                         </div>
                     {% endif %}
 
@@ -130,11 +130,11 @@
             {% endfor %}
         </div>
         {% if email %}
-        <section class="add-new">
-            <a href="/question/{{ question_data[0]['id'] }}/new-answer">
-                <button class="plus-button"><img src="/static/icons/plus.png" alt="plus-btn"></button>
-            </a>
-        </section>
+            <section class="add-new">
+                <a href="/question/{{ question_data[0]['id'] }}/new-answer">
+                    <button class="plus-button"><img src="/static/icons/plus.png" alt="plus-btn"></button>
+                </a>
+            </section>
         {% endif %}
 
     </section>
@@ -149,4 +149,3 @@
     <span class="userId" hidden id="{{ user_id }}"></span>
     <script src="/static/js/accept_answer.js"></script>
 {% endblock %}
-
