@@ -16,10 +16,12 @@
     <div class="tags">
         {% for tag in question_tags %}
             <div class="tag-element">{{ tag["name"] }}</div>
+            {% if email %}
             <div>
                 <form action="{{ url_for('delete_question_tag', question_id=question_data[0]["id"], tag_id=tag['id']) }}">
                     <button class="tag-element" type="submit" id="delete-tag"> X </button>
                 </form>
+            {% endif %}
             </div>
         {% endfor %}
         {% if email %}
@@ -76,7 +78,7 @@
                             <div class="answer-short">{{ answer[key] }}</div>
                         {% endif %}
                     {% endfor %}
-
+                    {% if email %}
                     <div class="answer-short">
                         <form action="/answer/{{ answer['id'] }}/edit">
                               <button type="submit" class="edit-button"><img src="../static/icons/edit.png" class="edit-image"></button>
@@ -91,6 +93,7 @@
                     <div><form action="/answer/{{ answer['id'] }}/delete">
                         <button type="submit" class="trash-button"><img src="/static/icons/trash.png" alt=""></button></form>
                     </div>
+
                     <div class="answer-short">
                         {% if answer['accepted'] %}
                             <input type="checkbox" id="accept" name="accepted" value="{{ answer['id'] }}" class="accept-answer" checked>
@@ -100,6 +103,7 @@
                             <label>Accept</label>
                         {% endif %}
                     </div>
+                {% endif %}
                 </div>
 
                 {% for comment in comments %}
@@ -107,6 +111,7 @@
                         <div class="comment-section">
                             <div class="comment-date">{{ comment['submission_time'] }}</div>
                             <div class="comment-message">{{ comment['message'] }}</div>
+                            {% if email %}
                             <div>
                                 <form action="/comment/{{ comment['id'] }}/edit">
                                     <button type="submit" class="trash-button"><img src="/static/icons/edit.png" alt=""></button>
@@ -117,6 +122,7 @@
                                 <button type="submit" class="trash-button"><img src="/static/icons/trash.png" alt=""></button>
                                 </form>
                             </div>
+                                {% endif %}
                         </div>
                     {% endif %}
 
