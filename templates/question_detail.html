@@ -123,18 +123,20 @@
                 {% endfor %}
             {% endfor %}
         </div>
-
+        {% if email %}
         <section class="add-new">
             <a href="/question/{{ question_data[0]['id'] }}/new-answer">
                 <button class="plus-button"><img src="/static/icons/plus.png" alt="plus-btn"></button>
             </a>
         </section>
+        {% endif %}
 
     </section>
+    {% if email %}
         <form action="/question/{{ question_data[0]['id'] }}/delete">
             <button type="submit" class="delete-button">Delete question</button>
         </form>
-
+    {% endif %}
 
     {% include "footer.html" %}
     <span class="info" hidden id="{{ question_data[0]['user_id'] }}"></span>
