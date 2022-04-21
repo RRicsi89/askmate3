@@ -140,11 +140,36 @@ footer {
 }
 
 table {
-    width: 100%;
+    width: 80vw;
+    text-align: center;
+    border: 1px solid #D55280;
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    margin-bottom: 20px;
 }
 
-.slider {
+caption {
+    text-align: center;
+    background-color: white;
+    border-radius: 20px 20px 0 0;
+    font-weight: 800;
+    text-transform: uppercase;
 
+}
+
+tbody {
+        border-radius: 0 0 20px 20px;
+}
+
+tr {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+td {
+    background-color: transparent;
 }
 
 #content {
