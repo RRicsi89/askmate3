@@ -508,3 +508,33 @@ def increase_reputation(cursor, user_id, data):
             WHERE id = {user_id}
         """).format(user_id=sql.Literal(user_id))
     cursor.execute(query)
+
+
+@connections.connection_handler
+def get_user_questions(cursor, user_id):
+    query = sql.SQL("""
+        SELECT * FROM question
+        WHERE user_id = {user_id}
+    """).format(user_id=sql.Literal(user_id))
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@connections.connection_handler
+def get_user_answers(cursor, user_id):
+    query = sql.SQL("""
+        SELECT * FROM answer
+        WHERE user_id = {user_id}
+    """).format(user_id=sql.Literal(user_id))
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@connections.connection_handler
+def get_user_comments(cursor, user_id):
+    query = sql.SQL("""
+        SELECT * FROM comment
+        WHERE user_id = {user_id}
+    """).format(user_id=sql.Literal(user_id))
+    cursor.execute(query)
+    return cursor.fetchall()

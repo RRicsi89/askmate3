@@ -362,9 +362,12 @@ def list_users():
     return redirect('/')
 
 
-@app.route("/bonus-questions")
-def main():
-    return render_template('bonus_questions.html', questions=SAMPLE_QUESTIONS)
+@app.route('/bonus-questions')
+def bonus_question():
+    if 'email' in session:
+        return render_template('bonus_questions.html', email=session["email"], questions=SAMPLE_QUESTIONS)
+    else:
+        return render_template('bonus_questions.html', questions=SAMPLE_QUESTIONS)
 
 
 @app.route('/registration', methods=['GET', 'POST'])
@@ -402,11 +405,17 @@ def login_user():
 
 @app.route("/user/<user_id>")
 def user_profile(user_id):
+    questions = data_handler.get_user_questions(user_id)
+    answers = data_handler.get_user_answers(user_id)
+    comments = data_handler.get_user_comments(user_id)
     all_user_data = data_handler.get_users_data()
     additional_user_details = [user for user in all_user_data if str(user['id']) == user_id]
     user_details = data_handler.get_all_user_info_by_user_id(user_id)
     return render_template("user_profile.html", user_details=user_details,
-                           additional_user_details=additional_user_details)
+                           additional_user_details=additional_user_details,
+                           questions=questions,
+                           answers=answers,
+                           comments=comments)
 
 
 @app.route('/accept-answer/<question_id>/<answer_id>')
@@ -448,7 +457,6 @@ def get_tags():
 @app.route('/lost_password')
 def recover_password():
     return render_template('forgotten_password.html')
-
 
 
 if __name__ == "__main__":

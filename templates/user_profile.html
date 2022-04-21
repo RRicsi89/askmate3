@@ -2,6 +2,7 @@
 {% block title %}Profile{% endblock %}
 {% block body %}
 
+    <form action="/"><button type="submit" class="previous-button"><img src="/static/icons/previous.png" alt="previous-button"></button></form>
     <section class="profile-form">
         {% for detail in user_details %}
         {% for additional_detail in additional_user_details %}
@@ -22,14 +23,16 @@
                 <table class="table">
                     <thead class="table-headers">
                         <tr>
-                            <th colspan="2">The table header</th>
+                            <th colspan="2">Questions</th>
                         </tr>
                     </thead>
                     <tbody class="table-content">
-                        <tr>
-                            <td>The table body</td>
-                            <td>with two columns</td>
-                        </tr>
+                        {% for question in questions %}
+                            <tr>
+                                <td><a href="{{ url_for('display_question', question_id=question['id']) }}">{{ question['title'] }}</a></td>
+                                <td>{{ question['message'] }}</td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </section>
@@ -38,14 +41,16 @@
                 <table class="table">
                     <thead class="table-headers">
                         <tr>
-                            <th colspan="2">The table header</th>
+                            <th colspan="2">Answers</th>
                         </tr>
                     </thead>
                     <tbody class="table-content">
-                        <tr>
-                            <td>The table body</td>
-                            <td>with two columns</td>
-                        </tr>
+                        {% for answer in answers %}
+                            <tr>
+                                <td><a href="{{ url_for('display_question', question_id=answer['question_id']) }}">{{ answer['message'] }}</a></td>
+                                <td></td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </section>
@@ -54,14 +59,16 @@
                 <table class="table">
                     <thead class="table-headers">
                         <tr>
-                            <th colspan="2">The table header</th>
+                            <th colspan="2">Comments</th>
                         </tr>
                     </thead>
                     <tbody class="table-content">
-                        <tr>
-                            <td>The table body</td>
-                            <td>with two columns</td>
-                        </tr>
+                        {% for comment in comments %}
+                            <tr>
+                                <td>{{ comment['message'] }}</td>
+                                <td></td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </section>

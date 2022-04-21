@@ -461,7 +461,9 @@ input {
 }
 
 .previous-button, .previous-button:hover {
-    padding-left: 20px;
+    margin-left: 15px;
+    width: 50px;
+    border-radius: 90px;
 }
 
 .tags {
@@ -475,6 +477,7 @@ input {
 .tag-element {
     max-width: max-content;
     font-weight: bold;
+    color: black;
 }
 
 #tag-link {
@@ -685,6 +688,10 @@ input:checked + .slider:before {
 
 .form-control {
     border-radius: 20px;
+}
+
+.pop {
+    color: black;
 }
 
 #increase-font-button, #decrease-font-button {
