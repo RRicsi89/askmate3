@@ -266,7 +266,7 @@ table {
     text-align: center;
     max-height: 100px;
     overflow: auto;
-    min-width: 50px;
+    min-width: 90px;
 }
 
 .message {
@@ -294,7 +294,7 @@ table {
 }
 
 .edit-image {
-    width: 1.4em;
+    width: 2.5em;
     padding: 10px;
 }
 
