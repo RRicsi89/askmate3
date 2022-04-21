@@ -1,86 +1,87 @@
 {% extends "layout.html" %}
 {% block title %}List Questions{% endblock %}
 {% block body %}
-<form action="/"><button type="submit" class="previous-button"><img src="/static/icons/previous.png" alt="previous-button"></button></form>
+    <form action="/"><button type="submit" class="previous-button"><img src="/static/icons/previous.png" alt="previous-button"></button></form>
     <h1 class="page-title">Questions</h1>
 
     <section class="table">
 
         <div class="table-content">
             <div class="question-row">
-            {% for header in headers %}
-            {% set count = loop.index0 %}
-                {% if count == 4 %}
-                    <div class="field-with-sort header-message">
-                        {{ header }}
-                        <form action="/list">
-                            <input  type="hidden"
-                                    name="order_direction"
-                                    value="desc">
-                            <input  type="hidden"
-                                    name="order_by"
-                                    value="{{ dict_keys[count] }}">
-                            <button type="submit" class="sort-button"><img src="/static/icons/arrow-up.png" alt=""></button>
-                        </form>
-                        <form action="/list">
-                            <input  type="hidden"
-                                    name="order_direction"
-                                    value="asc">
-                            <input  type="hidden"
-                                    name="order_by"
-                                    value="{{ dict_keys[count] }}">
-                            <button type="submit" class="sort-button"><img src="/static/icons/down-filled-triangular-arrow.png" alt=""></button>
-                        </form>
-                    </div>
-                {% elif count < 4 %}
-                    <div class="field-with-sort question-headers">
-                        {{ header }}
-                        <form action="/list">
-                            <input  type="hidden"
-                                    name="order_direction"
-                                    value="desc">
-                            <input  type="hidden"
-                                    name="order_by"
-                                    value="{{ dict_keys[count] }}">
-                            <button type="submit" class="sort-button"><img src="/static/icons/arrow-up.png" alt=""></button>
-                        </form>
-                        <form action="/list">
-                            <input  type="hidden"
-                                    name="order_direction"
-                                    value="asc">
-                            <input  type="hidden"
-                                    name="order_by"
-                                    value="{{ dict_keys[count] }}">
-                            <button type="submit" class="sort-button"><img src="/static/icons/down-filled-triangular-arrow.png" alt=""></button>
-                        </form>
-                    </div>
-                {% endif %}
-            {% endfor %}
+                {% for header in headers %}
+                    {% set count = loop.index0 %}
+                    {% if count == 4 %}
+                        <div class="field-with-sort header-message">
+                            {{ header }}
+                            <form action="/list">
+                                <input  type="hidden"
+                                        name="order_direction"
+                                        value="desc">
+                                <input  type="hidden"
+                                        name="order_by"
+                                        value="{{ dict_keys[count] }}">
+                                <button type="submit" class="sort-button"><img src="/static/icons/arrow-up.png" alt=""></button>
+                            </form>
+                            <form action="/list">
+                                <input  type="hidden"
+                                        name="order_direction"
+                                        value="asc">
+                                <input  type="hidden"
+                                        name="order_by"
+                                        value="{{ dict_keys[count] }}">
+                                <button type="submit" class="sort-button"><img src="/static/icons/down-filled-triangular-arrow.png" alt=""></button>
+                            </form>
+                        </div>
+                    {% elif count < 4 %}
+                        <div class="field-with-sort question-headers">
+                            {{ header }}
+                            <form action="/list">
+                                <input  type="hidden"
+                                        name="order_direction"
+                                        value="desc">
+                                <input  type="hidden"
+                                        name="order_by"
+                                        value="{{ dict_keys[count] }}">
+                                <button type="submit" class="sort-button"><img src="/static/icons/arrow-up.png" alt=""></button>
+                            </form>
+                            <form action="/list">
+                                <input  type="hidden"
+                                        name="order_direction"
+                                        value="asc">
+                                <input  type="hidden"
+                                        name="order_by"
+                                        value="{{ dict_keys[count] }}">
+                                <button type="submit" class="sort-button"><img src="/static/icons/down-filled-triangular-arrow.png" alt=""></button>
+                            </form>
+                        </div>
+                    {% endif %}
+                {% endfor %}
             </div>
 
             {% for question in questions %}
                 <div class="question-row">
-                {% for key in question.keys() %}
-                    {% if key == "message" %}
-                        <div class="short message">{{ question[key] }}</div>
-                    {% endif %}
-                    {% if loop.index0 == 3 %}
-                        <section class="field-with-sort short">
-                            {{ question[key] }}
-                            <form action="{{ url_for('change_vote_number', question_id=question.id, vote="vote_up") }}">
-                                <button type="submit" class="sort-button"><img src="/static/icons/arrow-up.png" alt=""></button>
-                            </form>
-                            <form action="{{ url_for('change_vote_number', question_id=question.id, vote="vote_down") }}">
-                                <button type="submit" class="sort-button"><img src="/static/icons/down-filled-triangular-arrow.png" alt=""></button>
-                            </form>
-                        </section>
-                    {% elif loop.index0 == 4 %}
-                        <div class="short"><a href="/question/{{ question["id"] }}">{{ question[key]}}</a></div>
-                    {% elif not (loop.first or loop.index0 == 6 or loop.index0 == 5 or loop.last) %}
-                        <div class="short">{{ question[key] }}</div>
-                    {% endif %}
-                {% endfor %}
-                    <div class="short"><a href="/question/{{ question["id"] }}/edit"><img alt="Edit question button" src="/static/icons/edit.png" class="edit-image"></a></div>
+                    {% for key in question.keys() %}
+                        {% if key == "message" %}
+                            <div class="short message">{{ question[key] }}</div>
+                        {% endif %}
+                        {% if loop.index0 == 3 %}
+                            <section class="field-with-sort short">
+                                {{ question[key] }}
+                                <form action="{{ url_for('change_vote_number', question_id=question.id, vote="vote_up") }}">
+                                    <button type="submit" class="sort-button"><img src="/static/icons/arrow-up.png" alt=""></button>
+                                </form>
+                                <form action="{{ url_for('change_vote_number', question_id=question.id, vote="vote_down") }}">
+                                    <button type="submit" class="sort-button"><img src="/static/icons/down-filled-triangular-arrow.png" alt=""></button>
+                                </form>
+                            </section>
+                        {% elif loop.index0 == 4 %}
+                            <div class="short"><a href="/question/{{ question["id"] }}">{{ question[key]}}</a></div>
+                        {% elif not (loop.first or loop.index0 == 6 or loop.index0 == 5 or loop.last) %}
+                            <div class="short">{{ question[key] }}</div>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="short">
+                        <a href="/question/{{ question["id"] }}/edit"><img alt="Edit question button" src="/static/icons/edit.png" class="edit-image"></a></div>
                     <div class="short">
                         <a href='/question/{{ question['id'] }}/new-comment'>
                             <button type='submit' class='comment-button'><img src="../static/icons/comment.png" class="edit-image"></button>
@@ -91,39 +92,39 @@
                 {% for comment in comments %}
                     {% if question.id == comment.question_id %}
                         <div class="comment-section">
-                        <div class="comment-date">
-                           {{ comment.submission_time }}
+                            <div class="comment-date">
+                                {{ comment.submission_time }}
+                            </div>
+                            <div class="comment-message">
+                                {{ comment.message }}
+                            </div>
+                            <div>
+                                <form action="/comment/{{ comment['id'] }}/edit">
+                                    <button type="submit" class="trash-button"><img src="/static/icons/edit.png" alt=""></button>
+                                </form>
+                            </div>
+                            <div>
+                                <form action="/comment/{{ comment['id'] }}/delete">
+                                    <button type="submit" class="trash-button"><img src="/static/icons/trash.png" alt=""></button>
+                                </form>
+                            </div>
                         </div>
-                        <div class="comment-message">
-                            {{ comment.message }}
-                        </div>
-                        <div>
-                            <form action="/comment/{{ comment['id'] }}/edit">
-                            <button type="submit" class="trash-button"><img src="/static/icons/edit.png" alt=""></button>
-                            </form>
-                        </div>
-                        <div>
-                            <form action="/comment/{{ comment['id'] }}/delete">
-                            <button type="submit" class="trash-button"><img src="/static/icons/trash.png" alt=""></button>
-                            </form>
-                        </div>
-                        </div>
-                        {% endif %}
+                    {% endif %}
                 {% endfor %}
             {% endfor %}
         </div>
         {% if email %}
-        <section class="add-new">
-            <a href="/add-question">
-                <button class="plus-button"><img src="/static/icons/plus.png" alt="plus-btn"></button>
-            </a>
-        </section>
+            <section class="add-new">
+                <a href="/add-question">
+                    <button class="plus-button"><img src="/static/icons/plus.png" alt="plus-btn"></button>
+                </a>
+            </section>
         {% endif %}
     </section>
     <form action="/tags">
         <button id='theme-button' type="submit">Browse Tags</button>
     </form>
-{% include 'footer.html' %}
+    {% include 'footer.html' %}
 {% endblock %}
 
 
