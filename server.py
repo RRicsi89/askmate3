@@ -288,7 +288,7 @@ def edit_comment(comment_id):
 def delete_comment(comment_id):
     if request.method == "GET":
         if 'email' in session:
-            return render_template('confirmation.html', comment_id=comment_id)
+            return render_template('confirmation.html', comment_id=comment_id, email=session['email'])
         else:
             # placeholder for user not logged in warning
             return redirect(url_for('hello'))
