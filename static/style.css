@@ -215,12 +215,11 @@ table {
 
 .table-headers {
     display: grid;
-    grid-template-columns: 0.5fr 0.5fr 0.75fr 1fr 1fr 1fr 0.3fr 0.3fr;
+    grid-template-columns: 0.8fr 0.8fr 0.8fr auto auto auto;
     column-gap: 15px;
     font-family: 'Roboto', sans-serif;
     background-color: rgba(255,255,255,0.3);
     text-transform: uppercase;
-    width: 100%;
 }
 
 .question-headers {
@@ -324,7 +323,6 @@ table {
 
 .profile-form {
     width: 100vw;
-    overflow: hidden;
     padding: 0;
     margin: 0;
 }

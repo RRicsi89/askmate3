@@ -3,79 +3,87 @@
 {% block body %}
 
     <form action="/"><button type="submit" class="previous-button"><img src="/static/icons/previous.png" alt="previous-button"></button></form>
+
     <section class="profile-form">
-        {% for detail in user_details %}
+
+    {% for detail in user_details %}
         {% for additional_detail in additional_user_details %}
-        <section class="profile-stats">
-            <img src="../static/images/no_picture.png" alt="profile-pic">
-            <section class="stats">
-                <h2>{{ detail["username"] }}</h2>
-                <p>Asked questions: {{ additional_detail['question_count'] }}</p>
-                <p>Number of comments: {{ additional_detail['comment_count'] }}</p>
-                <p>Answered questions: {{ additional_detail['answer_count'] }}</p>
-                <p>Registration data: {{ detail["registration_date"].strftime('%Y-%m-%d') }}</p>
-                <p>Reputation: {{ detail["reputation"] }}</p>
+
+            <section class="profile-stats">
+                <img src="../static/images/no_picture.png" alt="profile-pic">
+                <section class="stats">
+                    <h2>{{ detail["username"] }}</h2>
+                    <p>Asked questions: {{ additional_detail['question_count'] }}</p>
+                    <p>Number of comments: {{ additional_detail['comment_count'] }}</p>
+                    <p>Answered questions: {{ additional_detail['answer_count'] }}</p>
+                    <p>Registration data: {{ detail["registration_date"].strftime('%Y-%m-%d') }}</p>
+                    <p>Reputation: {{ detail["reputation"] }}</p>
+                </section>
+
             </section>
-        </section>
 
         <section class="tables-container">
-            <section class="answers-table">
+            <section class="questions-table">
                 <table class="table">
+                    <caption>Questions</caption>
                     <thead class="table-headers">
-                        <tr>
-                            <th colspan="2">Questions</th>
-                        </tr>
+                    <tr>
+                        <th>Title</th>
+                        <th>Message</th>
+                    </tr>
                     </thead>
                     <tbody class="table-content">
-                        {% for question in questions %}
-                            <tr>
-                                <td><a href="{{ url_for('display_question', question_id=question['id']) }}">{{ question['title'] }}</a></td>
-                                <td>{{ question['message'] }}</td>
-                            </tr>
-                        {% endfor %}
+                    {% for question in questions %}
+                        <tr>
+                            <td><a href="{{ url_for('display_question', question_id=question['id']) }}">{{ question['title'] }}</a></td>
+                            <td>{{ question['message'] }}</td>
+                            <td>{{ question['image'] }}</td>
+                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
             </section>
 
             <section class="questions-table">
                 <table class="table">
+                    <caption>Answers</caption>
                     <thead class="table-headers">
-                        <tr>
-                            <th colspan="2">Answers</th>
-                        </tr>
+                    <tr>
+                        <th>Title</th>
+                        <th>Message</th>
+                    </tr>
                     </thead>
                     <tbody class="table-content">
-                        {% for answer in answers %}
-                            <tr>
-                                <td><a href="{{ url_for('display_question', question_id=answer['question_id']) }}">{{ answer['message'] }}</a></td>
-                                <td></td>
-                            </tr>
-                        {% endfor %}
+                    {% for answer in answers %}
+                        <tr>
+                            <td><a href="{{ url_for('display_question', question_id=answer['question_id']) }}">{{ answer['message'] }}</a></td>
+                            <td>{{ answer["message"] }}</td>
+                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
             </section>
 
             <section class="comments-table">
                 <table class="table">
+                    <caption>Comments</caption>
                     <thead class="table-headers">
-                        <tr>
-                            <th colspan="2">Comments</th>
-                        </tr>
+                    <tr>
+                        <th>Message</th>
+                    </tr>
                     </thead>
                     <tbody class="table-content">
-                        {% for comment in comments %}
-                            <tr>
-                                <td>{{ comment['message'] }}</td>
-                                <td></td>
-                            </tr>
-                        {% endfor %}
+                    {% for comment in comments %}
+                        <tr>
+                            <td>{{ comment['message'] }}</td>
+                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
             </section>
-        </section>
-
+        {% endfor %}
+    {% endfor %}
     </section>
-    {% endfor %}
-    {% endfor %}
 
+    {% include "footer.html" %}
 {% endblock %}
