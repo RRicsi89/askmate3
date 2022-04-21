@@ -24,7 +24,7 @@
                     {% for key, value in dict.items() %}
                         {% if loop.last %}
                         {% elif key == "title" %}
-                            <td><a href="/question/{{ dict["id"] }}">{{ value }}</a></td>
+                            <td><a class="nem" href="/question/{{ dict["id"] }}">{{ value }}</a></td>
                         {% else %}
                         <td>{{ value }}</td>
                         {% endif %}
