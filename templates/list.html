@@ -112,13 +112,13 @@
                 {% endfor %}
             {% endfor %}
         </div>
-
+        {% if email %}
         <section class="add-new">
             <a href="/add-question">
                 <button class="plus-button"><img src="/static/icons/plus.png" alt="plus-btn"></button>
             </a>
         </section>
-
+        {% endif %}
     </section>
     <form action="/tags">
         <button id='theme-button' type="submit">Browse Tags</button>

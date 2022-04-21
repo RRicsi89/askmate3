@@ -22,10 +22,11 @@
                 </form>
             </div>
         {% endfor %}
-
+        {% if email %}
         <a id="tag-link" href="{{ url_for('add_tag_to_question', question_id=question_data[0]['id']) }}">
             <button type='submit' class='any-button'>add tag</button>
         </a>
+    {% endif %}
     </div>
     <section class="question">
         {% if question_data[0]["image"] != 'images/no_picture.png' %}
