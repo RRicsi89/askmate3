@@ -143,6 +143,10 @@ table {
     width: 100%;
 }
 
+.slider {
+
+}
+
 #content {
     display: flex;
     flex-direction: column;
@@ -634,7 +638,9 @@ input {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
+  background-image: url("../static/images/istockphoto-1132646272-170667a.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
   -webkit-transition: .4s;
   transition: .4s;
 }
@@ -646,7 +652,7 @@ input {
   width: 26px;
   left: 4px;
   bottom: 4px;
-  background-color: white;
+  background-color: deeppink;
   -webkit-transition: .4s;
   transition: .4s;
 }
