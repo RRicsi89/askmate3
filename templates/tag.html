@@ -1,20 +1,24 @@
 {% extends "layout.html" %}
+{% block title %}Tags{% endblock %}
 {% block body %}
-<section class="table">
-<div class="table-content">
-            <table>
-            <tr>
+    <section class="d-flex justify-content-center">
+        <table>
+            <thead>
+                <tr>
                 {% for head in headers %}
                     <th>{{ head }}</th>
                 {% endfor %}
-            </tr>
-            {% for tag in tags %}
-            <tr>
-                <td>{{ tag['tags'] }}</td>
-                <td>{{ tag['quantity'] }}</td>
-            </tr>
-            {% endfor %}
-            </table>
-</section>
-{% include "footer.html" %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for tag in tags %}
+                    <tr>
+                        <td>{{ tag['tags'] }}</td>
+                        <td>{{ tag['quantity'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+    {% include "footer.html" %}
 {% endblock %}
