@@ -81,13 +81,13 @@
                         {% endif %}
                     {% endfor %}
                     {% if email %}
-                    <div class="short">
-                        <a href="/question/{{ question["id"] }}/edit"><img alt="Edit question button" src="/static/icons/edit.png" class="edit-image"></a></div>
-                    <div class="short">
-                        <a href='/question/{{ question['id'] }}/new-comment'>
-                            <button type='submit' class='comment-button'><img src="../static/icons/comment.png" class="edit-image"></button>
-                        </a>
-                    </div>
+                        <div class="short">
+                            <a href="/question/{{ question["id"] }}/edit"><img alt="Edit question button" src="/static/icons/edit.png" class="edit-image"></a></div>
+                        <div class="short">
+                            <a href='/question/{{ question['id'] }}/new-comment'>
+                                <button type='submit' class='comment-button'><img src="../static/icons/comment.png" class="edit-image"></button>
+                            </a>
+                        </div>
                     {% endif %}
                 </div>
 
@@ -101,16 +101,16 @@
                                 {{ comment.message }}
                             </div>
                             {% if email %}
-                            <div>
-                                <form action="/comment/{{ comment['id'] }}/edit">
-                                    <button type="submit" class="trash-button"><img src="/static/icons/edit.png" alt=""></button>
-                                </form>
-                            </div>
-                            <div>
-                                <form action="/comment/{{ comment['id'] }}/delete">
-                                    <button type="submit" class="trash-button"><img src="/static/icons/trash.png" alt=""></button>
-                                </form>
-                            </div>
+                                <div>
+                                    <form action="/comment/{{ comment['id'] }}/edit">
+                                        <button type="submit" class="trash-button"><img src="/static/icons/edit.png" alt=""></button>
+                                    </form>
+                                </div>
+                                <div>
+                                    <form action="/comment/{{ comment['id'] }}/delete">
+                                        <button type="submit" class="trash-button"><img src="/static/icons/trash.png" alt=""></button>
+                                    </form>
+                                </div>
                             {% endif %}
                         </div>
                     {% endif %}

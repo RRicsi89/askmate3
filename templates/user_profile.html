@@ -23,7 +23,6 @@
             </section>
 
         <section class="tables-container">
-            <section class="questions-table">
                 <table class="table">
                     <caption>Questions</caption>
                     <thead class="table-headers">
@@ -37,14 +36,11 @@
                         <tr>
                             <td><a href="{{ url_for('display_question', question_id=question['id']) }}">{{ question['title'] }}</a></td>
                             <td>{{ question['message'] }}</td>
-                            <td>{{ question['image'] }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
-            </section>
 
-            <section class="questions-table">
                 <table class="table">
                     <caption>Answers</caption>
                     <thead class="table-headers">
@@ -62,9 +58,7 @@
                     {% endfor %}
                     </tbody>
                 </table>
-            </section>
 
-            <section class="comments-table">
                 <table class="table">
                     <caption>Comments</caption>
                     <thead class="table-headers">
@@ -80,10 +74,8 @@
                     {% endfor %}
                     </tbody>
                 </table>
-            </section>
         {% endfor %}
     {% endfor %}
-    </section>
-
+</section>
     {% include "footer.html" %}
 {% endblock %}
