@@ -1,4 +1,3 @@
-
 let checkbox = document.querySelectorAll(".accept-answer");
 let questionUserId = document.querySelector(".info").id;
 let userId = document.querySelector(".userId").id;

@@ -686,3 +686,7 @@ input:checked + .slider:before {
 .form-control {
     border-radius: 20px;
 }
+
+#increase-font-button, #decrease-font-button {
+    width: 20%;
+}

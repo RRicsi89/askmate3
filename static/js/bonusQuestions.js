@@ -8,6 +8,7 @@ function getSortedItems(items, sortField, sortDirection) {
     // if you have not changed the original html uncomment the code below to have an idea of the
     // effect this function has on the table
     //
+
     if (sortDirection === "asc") {
         const firstItem = items.shift()
         if (firstItem) {
@@ -19,8 +20,8 @@ function getSortedItems(items, sortField, sortDirection) {
             items.push(lastItem)
         }
     }
-
     return items
+
 }
 
 // you receive an array of objects which you must filter by all it's keys to have a value matching "filterValue"
@@ -32,16 +33,16 @@ function getFilteredItems(items, filterValue) {
         let filterValueParts = filterValue.split(":");
         if (filterValueParts[0].startsWith("!")) {
             let filterValueString = filterValueParts[1];
-        for (let i=0; i<items.length; i++) {
-        if (items[i]['Description'].indexOf(filterValueString) === -1) {
-            result.push(items[i]);
-        }}
+            for (let i=0; i<items.length; i++) {
+                if (items[i]['Description'].indexOf(filterValueString) === -1) {
+                    result.push(items[i]);
+                }}
         } else {
             let filterValueString = filterValueParts[1];
             for (let i=0; i<items.length; i++) {
-            if (items[i]['Description'].indexOf(filterValueString) !== -1) {
-                result.push(items[i]);
-            }}
+                if (items[i]['Description'].indexOf(filterValueString) !== -1) {
+                    result.push(items[i]);
+                }}
         }
     } else {
         if (filterValue[0] === "!") {
@@ -63,11 +64,11 @@ function getFilteredItems(items, filterValue) {
     // if you have not changed the original html uncomment the code below to have an idea of the
     // effect this function has on the table
     //
-    // for (let i=0; i<filterValue.length; i++) {
-    //     items.pop()
-    // }
-    //
-    // return items
+    for (let i=0; i<filterValue.length; i++) {
+        items.pop()
+    }
+
+    return items
 }
 
 function toggleTheme() {
