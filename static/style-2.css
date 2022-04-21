@@ -292,6 +292,7 @@ table {
     text-align: center;
     padding: 20px;
     font-size: 1.5em;
+    color: #F98600;
 }
 
 .edit-image {
@@ -462,7 +463,10 @@ input {
 }
 
 .previous-button, .previous-button:hover {
-    padding-left: 20px;
+    width: 50px;
+    border-radius: 90px;
+    background-color: #F98600;
+    margin-left: 15px;
 }
 
 .tags {
@@ -476,6 +480,7 @@ input {
 .tag-element {
     max-width: max-content;
     font-weight: bold;
+    color: #F98600;
 }
 
 #tag-link {
@@ -677,4 +682,8 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+.pop {
+    color: #F98600;
 }

@@ -17,7 +17,7 @@
     </div>
     <div class="login-registration-container">
         {% if email %}
-        <p>You are logged in as  <a href="/user/{{ user_id }}">{{ email }}</a>  <br>
+        <p class="pop">You are logged in as  <a href="/user/{{ user_id }}">{{ email }}</a>  <br>
         <a href="/logout">Logout</a></p>
         {% else %}
         <a href="/registration">Register</a>
