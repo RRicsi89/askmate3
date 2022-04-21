@@ -3,14 +3,17 @@
 
 {% block body %}
     <br>
-    <form action="/registration" method="POST">
-    <label for="email" id="email">E-mail</label>
-    <br>
-    <input type="email" name="email" id="email" required>
-    <br>
-    <label for="password" id="password">Enter a password</label>
-    <br>
-    <input type="password" id="password" name="password" required>
-    <button type="submit">Register</button>
+    <form action="/registration" method="POST" class="form-registration">
+        <h1 class="page-title">Sign Up</h1>
+        <div class="form-floating">
+            <input type="email" class="form-control" id="floatingInput" name="username" placeholder="name@example.com">
+            <label for="floatingInput">Email address</label>
+        </div>
+        <br>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">
+            <label for="floatingPassword">Password</label>
+        </div>
+        <button type="submit">Register</button>
     </form>
 {% endblock %}
