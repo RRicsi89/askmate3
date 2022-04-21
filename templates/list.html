@@ -80,6 +80,7 @@
                             <div class="short">{{ question[key] }}</div>
                         {% endif %}
                     {% endfor %}
+                    {% if email %}
                     <div class="short">
                         <a href="/question/{{ question["id"] }}/edit"><img alt="Edit question button" src="/static/icons/edit.png" class="edit-image"></a></div>
                     <div class="short">
@@ -87,6 +88,7 @@
                             <button type='submit' class='comment-button'><img src="../static/icons/comment.png" class="edit-image"></button>
                         </a>
                     </div>
+                    {% endif %}
                 </div>
 
                 {% for comment in comments %}
@@ -98,6 +100,7 @@
                             <div class="comment-message">
                                 {{ comment.message }}
                             </div>
+                            {% if email %}
                             <div>
                                 <form action="/comment/{{ comment['id'] }}/edit">
                                     <button type="submit" class="trash-button"><img src="/static/icons/edit.png" alt=""></button>
@@ -108,6 +111,7 @@
                                     <button type="submit" class="trash-button"><img src="/static/icons/trash.png" alt=""></button>
                                 </form>
                             </div>
+                            {% endif %}
                         </div>
                     {% endif %}
                 {% endfor %}
