@@ -511,6 +511,18 @@ def increase_reputation(cursor, user_id, data):
 
 
 @connections.connection_handler
+def list_questions_by_user_id(cursor, user_id):
+    query = f"""
+        SELECT submission_time, view_number, vote_number, title, message
+        FROM question
+        WHERE question.user_id = '{user_id}'
+    
+    """
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@connections.connection_handler
 def get_user_questions(cursor, user_id):
     query = sql.SQL("""
         SELECT * FROM question
