@@ -3,25 +3,17 @@
 <section class="table">
 <div class="table-content">
             <table>
-            <div class="table-content">
             <tr>
-            <th>
-                <div class="question-row">
-                {% for header in headers %}
-                    <div class="field-with-sort header-message">
-                        {{ header }}
-                    </div>
+                {% for head in headers %}
+                    <th>{{ head }}</th>
                 {% endfor %}
-                </div>
-            </th>
             </tr>
-
-                <div class="table-content">
-                {% for tag in tags %}
-                    <tr><td><div class="short message">{{ tag['tags'] }}</div></td></tr>
-                {% endfor %}
-                </div>
-            </div>
+            {% for tag in tags %}
+            <tr>
+                <td>{{ tag['tags'] }}</td>
+                <td>{{ tag['quantity'] }}</td>
+            </tr>
+            {% endfor %}
             </table>
 </section>
 {% include "footer.html" %}
