@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: askmate
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: askmate
+  template:
+    metadata:
+      labels:
+        app: askmate
+    spec:
+      containers:
+      - name: askmate
+        image: public.ecr.aws/g0w3j7p1/rozsar:3
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "300m"
+        ports:
+        - containerPort: 5000
+        env:
+        - name: PSQL_USER_NAME
+          value: "postgres"
+        - name: PSQL_PASSWORD
+          value: "password"
+        - name: PSQL_HOST
+          value: "db-service.default.svc.cluster.local:5432"
+        - name: PSQL_DB_NAME
+          value: "askmate"
+      imagePullSecrets:
+        - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: askmate-service
+spec:
+  type: NodePort
+  selector:
+    app: askmate
+  ports:
+  - port: 5000
+    targetPort: 5000
+    nodePort: 32000

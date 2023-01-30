@@ -173,3 +173,6 @@ fabric.properties
 **/.DS_Store
 node_modules
 ./data.csv
+
+jenkins
+terraform
