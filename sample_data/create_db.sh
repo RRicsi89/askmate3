@@ -4,7 +4,7 @@ set -e
 
 if [[ "$(ls -A /var/lib/postgresql/data/pgdata)" ]]; then
     printf "Found database"
-    cp -r /var/lib/postgresql/data/pgdata/ /var/lib/postgresql/data
+    cp -r /var/lib/postgresql/data/pgdata/* /var/lib/postgresql/data
 else
 psql -v ON_ERROR_STOP=1 --username "postgres" <<-EOSQL
     CREATE DATABASE askmate;

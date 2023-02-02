@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: psql
-        image: 085155013250.dkr.ecr.eu-central-1.amazonaws.com/rozsar-askmate:3
+        image: 085155013250.dkr.ecr.eu-central-1.amazonaws.com/rozsar-askmate:4
         ports:
         - containerPort: 5432
         env:
