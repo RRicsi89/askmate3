@@ -24,6 +24,7 @@ pipeline {
                     label 'agent-pod'
                     idleMinutes 3
                     yamlFile 'agents/kubernetes.yaml'
+                    defaultContainer 'kubernetes'
                 }
             }
             steps {
