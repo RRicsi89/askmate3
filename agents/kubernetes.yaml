@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+    - name: kubernetes
+      image: dtzar/helm-kubectl:3.7.2
+      command: ["tail", "-f", "/dev/null"]
+      imagePullPolicy: Always
+  # volumes:
+  #   - name: tf
+  #     hostPath:
+  #       path: /terraform

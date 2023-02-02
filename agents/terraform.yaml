@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+    - name: terraform
+      image: hashicorp/terraform:latest
+      command: ["tail", "-f", "/dev/null"]
+      imagePullPolicy: Always
+      # volumeMounts:
+      #   - name: tf
+      #     mountPath: /terraform
