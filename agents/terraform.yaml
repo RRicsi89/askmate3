@@ -6,6 +6,4 @@ spec:
       image: hashicorp/terraform:latest
       command: ["tail", "-f", "/dev/null"]
       imagePullPolicy: Always
-      # volumeMounts:
-      #   - name: tf
-      #     mountPath: /terraform
+
