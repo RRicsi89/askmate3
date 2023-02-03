@@ -63,8 +63,8 @@ pipeline {
                     apk add aws-cli
                 '''
                 sh '''
-                    aws ecr get-login-password --region eu-central-1 | helm registry login --username AWS --password-stdin 085155013250.dkr.ecr.eu-central-1.amazonaws.com
-                    helm push askmate3-0.1.${BUILD_NUMBER}.tgz oci://085155013250.dkr.ecr.eu-central-1.amazonaws.com/
+                    aws ecr get-login-password --region eu-central-1 | helm registry login --username AWS --password-stdin ACCOUNT_ID.dkr.ecr.eu-central-1.amazonaws.com
+                    helm push askmate3-0.1.${BUILD_NUMBER}.tgz oci://ACCOUNT_ID.dkr.ecr.eu-central-1.amazonaws.com/
                 '''
             }
         }
