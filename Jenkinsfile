@@ -42,6 +42,8 @@ pipeline {
             }
             steps {
                 sh '''
+                    apk update
+                    apk add sed
                     sed -i "s|{{VERSION}}|${BUILD_NUMBER}|g" askmate3/templates/app.yaml
                     helm package askmate3 --version 0.1.${BUILD_NUMBER}
                 '''
