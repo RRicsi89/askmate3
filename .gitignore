@@ -175,5 +175,6 @@ node_modules
 ./data.csv
 
 jenkins
-terraform
 documentation.txt
+terraform/aws-storage-setup.sh
+.terraform*
