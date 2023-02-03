@@ -10,7 +10,7 @@ pipeline {
         stage('Build image') {
             agent {
                 kubernetes {
-                    label 'agent-pod'
+                    label 'docker-agent'
                     idleMinutes 3
                     yamlFile 'agents/docker.yaml'
                     defaultContainer 'docker'
@@ -34,7 +34,7 @@ pipeline {
         stage('Build') {
             agent {
                 kubernetes {
-                    label 'agent-pod'
+                    label 'kubernetes-agent'
                     idleMinutes 3
                     yamlFile 'agents/kubernetes.yaml'
                     defaultContainer 'kubernetes'
@@ -52,7 +52,7 @@ pipeline {
         stage('Push') {
             agent {
                 kubernetes {
-                    label 'agent-pod'
+                    label 'kubernetes-agent'
                     idleMinutes 3
                     yamlFile 'agents/kubernetes.yaml'
                     defaultContainer 'kubernetes'
@@ -72,7 +72,7 @@ pipeline {
         stage('Deploy') {
             agent {
                 kubernetes {
-                    label 'agent-pod'
+                    label 'kubernetes-agent'
                     idleMinutes 3
                     yamlFile 'agents/kubernetes.yaml'
                     defaultContainer 'kubernetes'
