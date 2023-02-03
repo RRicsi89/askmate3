@@ -1,9 +1,8 @@
 pipeline {
-    // SG in terraform
     agent none
-    // triggers{ pollSCM('H H(9-16)/2 * * 1-5') }
+    triggers{ pollSCM('H H(9-16)/2 * * 1-5') }
     environment {
-        AWS_CREDS = credentials('AWS')
+        AWS_CREDS = "some-creds"
         HELM_EXPERIMENTAL_OCI = 1
     }
     stages {
