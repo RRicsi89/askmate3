@@ -5,6 +5,7 @@ pipeline {
     environment {
         AWS_CREDS = credentials('AWS')
         HELM_EXPERIMENTAL_OCI = 1
+        DOCKER_TLS_CERTDIR: ""
     }
     stages {
         stage('Build image') {
