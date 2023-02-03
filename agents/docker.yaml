@@ -6,3 +6,5 @@ spec:
       image: docker:23.0.0-dind
       command: ["tail", "-f", "/dev/null"]
       imagePullPolicy: Always
+      securityContext:
+        privileged: true
