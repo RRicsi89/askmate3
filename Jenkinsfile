@@ -25,7 +25,7 @@ pipeline {
                     apk add aws-cli
                 '''
                 sh '''
-                    docker build -t ${IMAGE}:${BUILD_NUMBER}
+                    docker build -t ${IMAGE}:${BUILD_NUMBER} .
                     aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/g0w3j7p1
                     docker push ${IMAGE}:${BUILD_NUMBER}
                 '''
