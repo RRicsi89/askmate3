@@ -5,6 +5,30 @@ pipeline {
         HELM_EXPERIMENTAL_OCI = 1
     }
     stages {
+        stage('Build image') {
+            agent {
+                kubernetes {
+                    label 'agent-pod'
+                    idleMinutes 3
+                    yamlFile 'agents/docker.yaml'
+                    defaultContainer 'docker'
+                }
+            }
+            environment {
+                IMAGE = "public.ecr.aws/g0w3j7p1/rozsar"
+            }
+            steps {
+                sh '''
+                    apk update
+                    apk add aws-cli
+                '''
+                sh '''
+                    docker build -t ${IMAGE}:${BUILD_NUMBER}
+                    aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/g0w3j7p1
+                    docker push ${IMAGE}:${BUILD_NUMBER}
+                '''
+            }
+        }
         stage('Build') {
             agent {
                 kubernetes {
@@ -15,7 +39,10 @@ pipeline {
                 }
             }
             steps {
-                sh 'helm package askmate3 --version 0.1.${BUILD_NUMBER}'
+                sh '''
+                    sed -i "s|{{VERSION}}|${BUILD_NUMBER}|g" askmate3/templates/app.yaml
+                    helm package askmate3 --version 0.1.${BUILD_NUMBER}
+                '''
             }
         }
         stage('Push') {

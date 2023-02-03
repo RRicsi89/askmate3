@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: askmate
-        image: public.ecr.aws/g0w3j7p1/rozsar:3
+        image: public.ecr.aws/g0w3j7p1/rozsar:{{VERSION}}
         resources:
           limits:
             memory: "128Mi"
