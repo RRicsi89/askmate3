@@ -7,6 +7,10 @@ pipeline {
     }
     stages {
         stage('Build image') {
+            when {
+                beforeAgent true
+                branch 'main'
+            }
             agent {
                 kubernetes {
                     label 'docker-agent'
@@ -31,6 +35,10 @@ pipeline {
             }
         }
         stage('Build') {
+            when {
+                beforeAgent true
+                branch 'main'
+            }
             agent {
                 kubernetes {
                     label 'kubernetes-agent'
@@ -49,6 +57,10 @@ pipeline {
             }
         }
         stage('Push') {
+            when {
+                beforeAgent true
+                branch 'main'
+            }
             agent {
                 kubernetes {
                     label 'kubernetes-agent'
@@ -69,6 +81,10 @@ pipeline {
             }
         }
         stage('Deploy') {
+            when {
+                beforeAgent true
+                branch 'main'
+            }
             agent {
                 kubernetes {
                     label 'kubernetes-agent'
